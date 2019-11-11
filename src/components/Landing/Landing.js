@@ -23,13 +23,11 @@ const useStyles = makeStyles(theme => ({
   },
   landingImage: {
     height: "100%",
-    width: "100%",
-    background: `url(${"https://i.imgur.com/IParGP1.jpg"})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover"
+    width: "100%"
   },
   mainHeading: {
-    fontFamily: "Oleo Script"
+    fontFamily: "Oleo Script",
+    padding: theme.spacing(2)
   },
   main: {
     minHeight: "100vh",
@@ -40,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.up("sm")]: {
       backgroundImage:
-        "linear-gradient(90deg, rgba(254,244,225,1) 45%, rgba(255,255,255,1) 50%, rgba(254, 244, 225) 100%)"
+        "linear-gradient(90deg, rgba(254,244,225,1) 20%, rgba(255,255,255,1) 40%, rgba(254, 244, 225) 100%)"
     }
   }
 }));
@@ -58,21 +56,33 @@ function Landing() {
                 container
                 item
                 xs={12}
-                sm={6}
+                sm={4}
                 className={classes.landingGridsItems}
               >
-                <div className={classes.landingImage}></div>
+                <div className={classes.landingImage}>
+                  <img
+                    src="https://i.imgur.com/IParGP1.jpg"
+                    alt="Ron Weasley"
+                    width="100%"
+                    height="100%"
+                  />
+                </div>
               </Grid>
               <Grid
                 container
                 item
                 xs={12}
-                sm={6}
+                sm={8}
                 className={classes.landingGridsItems}
                 alignItems="center"
               >
-                <Typography variant="h2" component="p" className={classes.mainHeading}>
-                  "A website dedicated to the most selfless Harry Potter character."
+                <Typography
+                  variant="h2"
+                  component="p"
+                  className={classes.mainHeading}
+                >
+                  "A website dedicated to the most selfless Harry Potter
+                  character."
                 </Typography>
               </Grid>
             </Grid>
