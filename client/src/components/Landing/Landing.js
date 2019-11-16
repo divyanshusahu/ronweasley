@@ -32,11 +32,11 @@ const useStyles = makeStyles(theme => ({
   main: {
     minHeight: "100vh",
     height: "100%",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("lg")]: {
       backgroundImage:
         "linear-gradient(90deg, rgba(254,244,225,1) 80%, rgba(255,255,255,1) 100%)"
     },
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("lg")]: {
       backgroundImage:
         "linear-gradient(90deg, rgba(254,244,225,1) 20%, rgba(255,255,255,1) 40%, rgba(254, 244, 225) 100%)"
     }
@@ -56,7 +56,7 @@ function Landing() {
                 container
                 item
                 xs={12}
-                sm={4}
+                lg={4}
                 className={classes.landingGridsItems}
               >
                 <div className={classes.landingImage}>
@@ -72,7 +72,7 @@ function Landing() {
                 container
                 item
                 xs={12}
-                sm={8}
+                lg={8}
                 className={classes.landingGridsItems}
                 alignItems="center"
               >
