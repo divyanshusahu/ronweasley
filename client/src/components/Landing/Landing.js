@@ -11,16 +11,39 @@ import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
+import NavigationBar from "../Navigation/NavigationBar";
+
 const useStyles = makeStyles(theme => ({
   root: {
     minHeight: "100vh",
     height: "100%"
   },
-  navigation: {
-    height: "10vh"
+  main: {
+    minHeight: "100vh",
+    height: "100%",
+    /*[theme.breakpoints.down("lg")]: {
+      backgroundImage:
+        "linear-gradient(90deg, rgba(254,244,225,1) 80%, rgba(255,255,255,1) 100%)"
+    },
+    [theme.breakpoints.up("lg")]: {
+      backgroundImage:
+        "linear-gradient(90deg, rgba(254,244,225,1) 20%, rgba(255,255,255,1) 40%, rgba(254, 244, 225) 100%)"
+    }*/
+    backgroundImage: "url('https://i.imgur.com/IParGP1.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain"
+  },
+  main_overlay: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.75)"
   },
   landing: {
-    minHeight: "90vh"
+    minHeight: "90vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   },
   landingGrids: {
     minHeight: "90vh"
@@ -36,24 +59,13 @@ const useStyles = makeStyles(theme => ({
     fontFamily: "Oleo Script",
     padding: theme.spacing(2)
   },
-  main: {
-    minHeight: "100vh",
-    height: "100%",
-    [theme.breakpoints.down("lg")]: {
-      backgroundImage:
-        "linear-gradient(90deg, rgba(254,244,225,1) 80%, rgba(255,255,255,1) 100%)"
-    },
-    [theme.breakpoints.up("lg")]: {
-      backgroundImage:
-        "linear-gradient(90deg, rgba(254,244,225,1) 20%, rgba(255,255,255,1) 40%, rgba(254, 244, 225) 100%)"
-    }
-  },
   landing_content: {
-    minHeight: "600px",
-    backgroundImage: "linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)"
+    padding: "80px 0",
+    minHeight: "100vh",
+    backgroundImage: "linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)"
   },
   landing_content_paper: {
-    minHeight: "600px"
+    minHeight: "100vh"
   },
   toolbar: {
     paddingTop: "32px",
@@ -63,7 +75,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "16px"
   },
   landing_posts: {
-    minHeight: "520px",
+    minHeight: "calc(100vh - 80px)",
     backgroundImage: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)"
   }
 }));
@@ -79,50 +91,26 @@ function Landing() {
   return (
     <div className={classes.root}>
       <div className={classes.main}>
-        <div className={classes.navigation}></div>
-        <div className={classes.landing}>
-          <Container maxWidth="xl">
-            <Grid container className={classes.landingGrids}>
-              <Grid
-                container
-                item
-                xs={12}
-                lg={4}
-                className={classes.landingGridsItems}
-              >
-                <div className={classes.landingImage}>
-                  <img
-                    src="https://i.imgur.com/IParGP1.jpg"
-                    alt="Ron Weasley"
-                    width="100%"
-                    height="100%"
-                  />
-                </div>
-              </Grid>
-              <Grid
-                container
-                item
-                xs={12}
-                lg={8}
-                className={classes.landingGridsItems}
-                alignItems="center"
-              >
-                <Typography
-                  variant="h2"
-                  component="p"
-                  className={classes.mainHeading}
-                >
-                  "A website dedicated to the most selfless Harry Potter
-                  character."
-                </Typography>
-              </Grid>
-            </Grid>
-          </Container>
+        <div className={classes.main_overlay}>
+          <NavigationBar />
+          <div className={classes.landing}>
+            <Typography
+              variant="h3"
+              component="p"
+              color="secondary"
+              gutterBottom
+            >
+              A Website dedicated to the most selfless Harry Potter Character.
+            </Typography>
+            <Typography variant="h6" component="p">
+              Awesome Ron stuffs
+            </Typography>
+          </div>
         </div>
       </div>
       <div className={classes.landing_content}>
         <Container>
-          <Paper className={classes.landing_content_paper}>
+          <Paper className={classes.landing_content_paper} elevation={24}>
             <div className={classes.toolbar}>
               <Grid container>
                 <Grid container item xs={12} lg={8}>
@@ -160,9 +148,7 @@ function Landing() {
                 </Grid>
               </Grid>
             </div>
-            <div className={classes.landing_posts}>
-
-            </div>
+            <div className={classes.landing_posts}></div>
           </Paper>
         </Container>
       </div>
