@@ -39,25 +39,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "rgba(0,0,0,0.75)"
   },
   landing: {
-    minHeight: "90vh",
+    minHeight: "92vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
-  },
-  landingGrids: {
-    minHeight: "90vh"
-  },
-  landingGridsItems: {
-    height: "90vh"
-  },
-  landingImage: {
-    height: "100%",
-    width: "100%"
-  },
-  mainHeading: {
-    fontFamily: "Oleo Script",
-    padding: theme.spacing(2)
   },
   landing_content: {
     padding: "80px 0",
