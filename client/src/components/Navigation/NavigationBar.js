@@ -1,7 +1,8 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
-import Popover from "@material-ui/core/Popover";
+import Popper from "@material-ui/core/Popper";
+import Fade from "@material-ui/core/Fade";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -26,9 +27,11 @@ const useStyles = makeStyles({
     cursor: "pointer",
     width: "180px",
     textAlign: "center",
+    transition: "0.25s",
     "&:hover": {
       color: "#000",
-      backgroundColor: "#fff"
+      backgroundColor: "#fff",
+      borderBottom: "1px solid rgba(100, 100, 100, 0.25)"
     }
   },
   navigation_logo_text: {
@@ -41,23 +44,19 @@ const useStyles = makeStyles({
     fontSize: "16px",
     fontFamily: "Capriola"
   },
-  popover: {
-    pointerEvents: "none"
-  },
-  popover_paper: {
-    borderRadius: "0",
-    borderTop: "1px solid rgba(100,100,100,0.25)"
-  },
-  popover_element: {
+  popper_element: {
     width: "180px",
-    padding: "8px 16px"
+    backgroundColor: "#fff",
+    textAlign: "left"
   },
-  popover_list: {
+  popper_list: {
     listStyle: "none"
   },
-  popover_list_items: {
+  popper_list_items: {
     fontSize: "16px",
-    padding: "4px"
+    padding: "16px",
+    fontFamily: "Capriola",
+    borderBottom: "1px solid rgba(100, 100, 100, 0.25)"
   }
 });
 
@@ -72,9 +71,15 @@ function NavigationBar() {
     setFriendshipElement(null);
   };
   const friendship = Boolean(friendshipElement);
-  const check = () => {
-    console.log("check");
-  }
+
+  const [fanonshipElement, setFanonshipElement] = React.useState(null);
+  const handleFanonshipOpen = event => {
+    setFanonshipElement(event.currentTarget);
+  };
+  const handleFanonshipClose = () => {
+    setFanonshipElement(null);
+  };
+  const fanonship = Boolean(fanonshipElement);
 
   return (
     <div className={classes.navigation}>
@@ -85,56 +90,81 @@ function NavigationBar() {
           </div>
           <Hidden mdDown>
             <ul className={classes.navigation_links}>
-              <li className={classes.navigation_items}>
-                <p
-                  className={classes.navigation_text}
-                  aria-owns={friendship ? "friendship-popover" : undefined}
-                  aria-haspopup="true"
-                  //onMouseEnter={handleFriendshipOpen}
-                  //onMouseLeave={handleFriendshipClose}
-                  onClick={handleFriendshipOpen}
-                >
-                  Friendships
-                </p>
-                <Popover
-                  id="friendship-popover"
-                  className={classes.popover}
-                  classes={{
-                    paper: classes.popover_paper
-                  }}
+              <li
+                className={classes.navigation_items}
+                aria-owns={friendship ? "friendship-popper" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handleFriendshipOpen}
+                onMouseLeave={handleFriendshipClose}
+              >
+                <p className={classes.navigation_text}>Friendships</p>
+                <Popper
+                  id="friendship-popper"
                   open={friendship}
                   anchorEl={friendshipElement}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left"
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left"
-                  }}
-                  onClose={handleFriendshipClose}
-                  elevation={0}
-                  disableRestoreFocus
+                  disablePortal={true}
+                  placement="bottom-start"
+                  transition
                 >
-                  <div className={classes.popover_element}>
-                    <ul className={classes.popover_list}>
-                      <li className={classes.popover_list_items}>
-                        Golden Trio
-                      </li>
-                      <li className={classes.popover_list_items}>Ron-Harry</li>
-                      <li className={classes.popover_list_items}>Ron-Luna</li>
-                      <li className={classes.popover_list_items}>
-                        Weasley Family
-                      </li>
-                    </ul>
-                  </div>
-                </Popover>
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={250}>
+                      <div className={classes.popper_element}>
+                        <ul className={classes.popper_list}>
+                          <li className={classes.popper_list_items}>
+                            Golden Trio
+                          </li>
+                          <li className={classes.popper_list_items}>
+                            Ron-Harry
+                          </li>
+                          <li className={classes.popper_list_items}>
+                            Ron-Luna
+                          </li>
+                          <li className={classes.popper_list_items}>
+                            Weasley Family
+                          </li>
+                        </ul>
+                      </div>
+                    </Fade>
+                  )}
+                </Popper>
               </li>
               <li className={classes.navigation_items}>
                 <p className={classes.navigation_text}>Romione</p>
               </li>
-              <li className={classes.navigation_items}>
+              <li
+                className={classes.navigation_items}
+                aria-owns={fanonship ? "fanonship-popper" : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handleFanonshipOpen}
+                onMouseLeave={handleFanonshipClose}
+              >
                 <p className={classes.navigation_text}>Fanon Ships</p>
+                <Popper
+                  id="fanonship-popper"
+                  open={fanonship}
+                  anchorEl={fanonshipElement}
+                  disablePortal={true}
+                  placement="bottom-start"
+                  transition
+                >
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={250}>
+                      <div className={classes.popper_element}>
+                        <ul className={classes.popper_list}>
+                          <li className={classes.popper_list_items}>
+                            <span>Ron-Lavender</span>
+                          </li>
+                          <li className={classes.popper_list_items}>
+                            <span>Ron-Harry</span>
+                          </li>
+                          <li className={classes.popper_list_items}>
+                            <span>Ron-Luna</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </Fade>
+                  )}
+                </Popper>
               </li>
               <li className={classes.navigation_items}>
                 <p className={classes.navigation_text}>Feedbacks</p>
