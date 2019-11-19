@@ -2,6 +2,7 @@ import React from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -9,9 +10,14 @@ import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/core/styles";
 
 import NavigationBar from "../Navigation/NavigationBar";
+import PostEditor from "../Utils/PostEditor";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,14 +27,6 @@ const useStyles = makeStyles(theme => ({
   main: {
     minHeight: "100vh",
     height: "100%",
-    /*[theme.breakpoints.down("lg")]: {
-      backgroundImage:
-        "linear-gradient(90deg, rgba(254,244,225,1) 80%, rgba(255,255,255,1) 100%)"
-    },
-    [theme.breakpoints.up("lg")]: {
-      backgroundImage:
-        "linear-gradient(90deg, rgba(254,244,225,1) 20%, rgba(255,255,255,1) 40%, rgba(254, 244, 225) 100%)"
-    }*/
     backgroundImage: "url('https://i.imgur.com/IParGP1.jpg')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain"
@@ -44,6 +42,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
+  },
+  landing_big_heading: {
+    color: "#fff",
+    fontFamily: "Oleo Script"
+  },
+  landing_about: {
+    color: "#efefef",
+    marginBottom: "80px"
   },
   landing_content: {
     padding: "80px 0",
@@ -69,9 +75,29 @@ const useStyles = makeStyles(theme => ({
 function Landing() {
   const classes = useStyles();
 
+  const [selectedTab, setSelectedTab] = React.useState("Appericiation");
   const [tab_value, setTabValue] = React.useState(0);
   const tab_handlechange = (event, value) => {
     setTabValue(value);
+    if (value === 0) {
+      setSelectedTab("Appericiation");
+    } else if (value === 1) {
+      setSelectedTab("Defense");
+    } else if (value === 2) {
+      setSelectedTab("Fanart");
+    } else if (value === 3) {
+      setSelectedTab("Fanfiction");
+    }
+  };
+
+  const [createPost, setCreatePost] = React.useState(false);
+  const handleCreatePostOpen = () => {
+    if (tab_value === 0 || tab_value === 1) {
+      setCreatePost(true);
+    }
+  };
+  const handleCreatePostClose = () => {
+    setCreatePost(false);
   };
 
   return (
@@ -83,14 +109,21 @@ function Landing() {
             <Typography
               variant="h3"
               component="p"
-              color="secondary"
               gutterBottom
+              className={classes.landing_big_heading}
             >
               A Website dedicated to the most selfless Harry Potter Character.
             </Typography>
-            <Typography variant="h6" component="p">
+            <Typography
+              variant="h6"
+              component="p"
+              className={classes.landing_about}
+            >
               Awesome Ron stuffs
             </Typography>
+            <Fab>
+              <Icon>keyboard_arrow_down</Icon>
+            </Fab>
           </div>
         </div>
       </div>
@@ -109,7 +142,7 @@ function Landing() {
                     scrollButtons="auto"
                   >
                     <Tab label="Appericiation"></Tab>
-                    <Tab label="Defence"></Tab>
+                    <Tab label="Defense"></Tab>
                     <Tab label="Fanart"></Tab>
                     <Tab label="Fanfiction"></Tab>
                   </Tabs>
@@ -128,6 +161,7 @@ function Landing() {
                     color="primary"
                     size="small"
                     className={classes.new_button}
+                    onClick={handleCreatePostOpen}
                   >
                     New
                   </Button>
@@ -138,6 +172,20 @@ function Landing() {
           </Paper>
         </Container>
       </div>
+      <Dialog open={createPost} onClose={handleCreatePostClose}>
+        <DialogTitle>{`New Ron Weasley ${selectedTab} Post`}</DialogTitle>
+        <DialogContent>
+          <PostEditor />
+        </DialogContent>
+        <DialogActions>
+          <Button color="default" onClick={handleCreatePostClose}>
+            Cancel
+          </Button>
+          <Button color="primary" variant="contained" autoFocus>
+            Post
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
