@@ -1,6 +1,6 @@
 import React from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
-//import "draft-js/dist/Draft.css";
+//import Editor from "draft-js-plugins-editor";
 
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
@@ -28,6 +28,7 @@ const useStyles = new makeStyles(theme => ({
   toolbar: {
     marginBottom: theme.spacing(2),
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between"
   },
   editor: {
@@ -82,7 +83,6 @@ function PostEditor() {
   };
 
   const handleULClick = () => {
-    console.log(editorState.getCurrentContent().getBlockMap().first().getType());
     setEditorState(
       RichUtils.toggleBlockType(editorState, "unordered-list-item")
     );
@@ -94,6 +94,35 @@ function PostEditor() {
 
   const handleBlockqouteClick = () => {
     setEditorState(RichUtils.toggleBlockType(editorState, "blockquote"));
+  };
+
+  const mediaBlockRenderer = block => {
+    if (block.getType() === "atomic") {
+      return {
+        component: Media,
+        editable: false
+      };
+    }
+    return null;
+  };
+
+  const Link = props => <a href={props.href}>{props.text}</a>;
+
+  const Image = props => <img src={props.src} alt="An error occurred" />;
+
+  const Media = props => {
+    const entity = props.contentState.getEntity(props.block.getEntityAt(0));
+    const d = entity.getData();
+    const type = entity.getType();
+
+    let media;
+    if (type === "link") {
+      media = <Link href={d.href} text={d.text} />;
+    } else if (type === "image") {
+      media = <Image src={d.src} />;
+    }
+
+    return media;
   };
 
   return (
@@ -126,6 +155,12 @@ function PostEditor() {
           <Button variant="outlined" onClick={handleBlockqouteClick}>
             <Icon>format_quote</Icon>
           </Button>
+          <Button variant="outlined">
+            <Icon>insert_link</Icon>
+          </Button>
+          <Button variant="outlined">
+            <Icon>image</Icon>
+          </Button>
         </div>
         <div>
           <Button variant="outlined">
@@ -137,9 +172,6 @@ function PostEditor() {
           <Button variant="outlined">
             <strong>H3</strong>
           </Button>
-          <Button variant="outlined">
-            <strong>H4</strong>
-          </Button>
         </div>
       </div>
       <div className={classes.editor}>
@@ -148,6 +180,7 @@ function PostEditor() {
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
+          blockRendererFn={mediaBlockRenderer}
         />
       </div>
     </div>
