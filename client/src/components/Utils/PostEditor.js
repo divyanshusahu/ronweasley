@@ -1,9 +1,11 @@
 import React from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
-//import Editor from "draft-js-plugins-editor";
 
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
+import Popover from "@material-ui/core/Popover";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = new makeStyles(theme => ({
@@ -36,6 +38,9 @@ const useStyles = new makeStyles(theme => ({
     height: "250px",
     padding: theme.spacing(1),
     overflow: "auto"
+  },
+  popover_paper: {
+    padding: theme.spacing(2)
   }
 }));
 
@@ -96,6 +101,15 @@ function PostEditor() {
     setEditorState(RichUtils.toggleBlockType(editorState, "blockquote"));
   };
 
+  const [linkPopover, setLinkPopover] = React.useState(null);
+  const handleInsertLinkClick = event => {
+    setLinkPopover(linkPopover ? null : event.currentTarget);
+  };
+  const handleInsertLinkClose = () => {
+    setLinkPopover(null);
+  };
+  const linkPopoverOpen = Boolean(linkPopover);
+
   const mediaBlockRenderer = block => {
     if (block.getType() === "atomic") {
       return {
@@ -155,12 +169,31 @@ function PostEditor() {
           <Button variant="outlined" onClick={handleBlockqouteClick}>
             <Icon>format_quote</Icon>
           </Button>
-          <Button variant="outlined">
+          <Button
+            variant="outlined"
+            aria-owns={linkPopoverOpen ? "link-Popover" : undefined}
+            aria-haspopup={true}
+            onClick={handleInsertLinkClick}
+          >
             <Icon>insert_link</Icon>
           </Button>
           <Button variant="outlined">
             <Icon>image</Icon>
           </Button>
+          <Popover
+            id="link-Popover"
+            open={linkPopoverOpen}
+            anchorEl={linkPopover}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            onClose={handleInsertLinkClose}
+            className={classes.popover_div}
+          >
+            <div className={classes.popover_paper}>
+              <TextField label="Paste Link" size="small" />
+              <Button color="primary" variant="outlined" style={{height: "45px"}}>Confirm</Button>
+            </div>
+          </Popover>
         </div>
         <div>
           <Button variant="outlined">
