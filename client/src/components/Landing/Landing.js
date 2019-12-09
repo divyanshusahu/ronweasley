@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   landing_content: {
     padding: "80px 0",
     minHeight: "100vh",
-    backgroundImage: "linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)"
+    backgroundImage: "linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%)"
   },
   landing_content_paper: {
     minHeight: "100vh"
@@ -119,7 +119,7 @@ function Landing() {
               component="p"
               className={classes.landing_about}
             >
-              Awesome Ron stuffs
+              Some lines best describing Ron.
             </Typography>
             <Fab>
               <Icon>keyboard_arrow_down</Icon>
@@ -172,7 +172,7 @@ function Landing() {
           </Paper>
         </Container>
       </div>
-      <Dialog open={createPost} onClose={handleCreatePostClose}>
+      <Dialog open={createPost} maxWidth="md" fullWidth={true}>
         <DialogTitle>{`New Ron Weasley ${selectedTab} Post`}</DialogTitle>
         <DialogContent>
           <PostEditor />
