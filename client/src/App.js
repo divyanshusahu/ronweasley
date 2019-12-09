@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import "./global.css";
 import Landing from "./components/Landing/Landing";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Landing} />
         </Switch>
+        <Footer />
       </React.Fragment>
     </Router>
   );
