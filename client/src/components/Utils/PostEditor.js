@@ -125,6 +125,16 @@ function PostEditor() {
     setEditorState(RichUtils.toggleBlockType(editorState, "blockquote"));
   };
 
+  const handleHeaderClick = type => {
+    if (type === "one") {
+      setEditorState(RichUtils.toggleBlockType(editorState, "header-one"));
+    } else if (type === "two") {
+      setEditorState(RichUtils.toggleBlockType(editorState, "header-two"));
+    } else if (type === "normal") {
+      setEditorState(RichUtils.toggleBlockType(editorState, "unstyled"));
+    }
+  };
+
   const [linkPopover, setLinkPopover] = React.useState(null);
   const handleInsertLinkClick = event => {
     setLinkPopover(linkPopover ? null : event.currentTarget);
@@ -309,14 +319,14 @@ function PostEditor() {
           </Popover>
         </div>
         <div>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={() => handleHeaderClick("one")}>
             <strong>H1</strong>
           </Button>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={() => handleHeaderClick("two")}>
             <strong>H2</strong>
           </Button>
-          <Button variant="outlined">
-            <strong>H3</strong>
+          <Button variant="outlined" onClick={() => handleHeaderClick("normal")}>
+            <strong>N</strong>
           </Button>
         </div>
       </div>
