@@ -2,7 +2,6 @@ import React from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Fab from "@material-ui/core/Fab";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -16,8 +15,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { Link, Element } from "react-scroll";
+
 import NavigationBar from "../Navigation/NavigationBar";
 import PostEditor from "../Utils/PostEditor";
+import ScrollAnimation from "../Utils/ScrollAnimation";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,11 +55,11 @@ const useStyles = makeStyles(theme => ({
   },
   landing_content: {
     padding: "80px 0",
-    minHeight: "100vh",
-    backgroundImage: "linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%)"
+    backgroundImage:
+      "linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%)"
   },
   landing_content_paper: {
-    minHeight: "100vh"
+    minHeight: "150vh"
   },
   toolbar: {
     paddingTop: "32px",
@@ -67,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "16px"
   },
   landing_posts: {
-    minHeight: "calc(100vh - 80px)",
+    minHeight: "calc(150vh - 80px)",
     backgroundImage: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)"
   }
 }));
@@ -121,57 +123,59 @@ function Landing() {
             >
               Some lines best describing Ron.
             </Typography>
-            <Fab>
-              <Icon>keyboard_arrow_down</Icon>
-            </Fab>
+            <Link to="landingContent" spy={true} smooth={true} duration={500}>
+              <ScrollAnimation />
+            </Link>
           </div>
         </div>
       </div>
-      <div className={classes.landing_content}>
-        <Container>
-          <Paper className={classes.landing_content_paper} elevation={24}>
-            <div className={classes.toolbar}>
-              <Grid container>
-                <Grid container item xs={12} lg={8}>
-                  <Tabs
-                    value={tab_value}
-                    onChange={tab_handlechange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                  >
-                    <Tab label="Appericiation"></Tab>
-                    <Tab label="Defense"></Tab>
-                    <Tab label="Fanart"></Tab>
-                    <Tab label="Fanfiction"></Tab>
-                  </Tabs>
+      <Element name="landingContent">
+        <div className={classes.landing_content}>
+          <Container>
+            <Paper className={classes.landing_content_paper} elevation={24}>
+              <div className={classes.toolbar}>
+                <Grid container>
+                  <Grid container item xs={12} lg={8}>
+                    <Tabs
+                      value={tab_value}
+                      onChange={tab_handlechange}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      variant="scrollable"
+                      scrollButtons="auto"
+                    >
+                      <Tab label="Appericiation"></Tab>
+                      <Tab label="Defense"></Tab>
+                      <Tab label="Fanart"></Tab>
+                      <Tab label="Fanfiction"></Tab>
+                    </Tabs>
+                  </Grid>
+                  <Grid container item xs={12} lg={4}>
+                    <Input
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <Icon>search</Icon>
+                        </InputAdornment>
+                      }
+                      placeholder="Search"
+                    />
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      className={classes.new_button}
+                      onClick={handleCreatePostOpen}
+                    >
+                      New
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid container item xs={12} lg={4}>
-                  <Input
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <Icon>search</Icon>
-                      </InputAdornment>
-                    }
-                    placeholder="Search"
-                  />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    className={classes.new_button}
-                    onClick={handleCreatePostOpen}
-                  >
-                    New
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-            <div className={classes.landing_posts}></div>
-          </Paper>
-        </Container>
-      </div>
+              </div>
+              <div className={classes.landing_posts}></div>
+            </Paper>
+          </Container>
+        </div>
+      </Element>
       <Dialog open={createPost} maxWidth="md" fullWidth={true}>
         <DialogTitle>{`New Ron Weasley ${selectedTab} Post`}</DialogTitle>
         <DialogContent>

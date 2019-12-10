@@ -325,7 +325,10 @@ function PostEditor() {
           <Button variant="outlined" onClick={() => handleHeaderClick("two")}>
             <strong>H2</strong>
           </Button>
-          <Button variant="outlined" onClick={() => handleHeaderClick("normal")}>
+          <Button
+            variant="outlined"
+            onClick={() => handleHeaderClick("normal")}
+          >
             <strong>N</strong>
           </Button>
         </div>
