@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
+import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -86,7 +87,9 @@ function NavigationBar() {
       <Container maxWidth="xl">
         <div className={classes.navigation}>
           <div className={classes.navigation_logo}>
-            <p className={classes.navigation_logo_text}>King Weasley</p>
+            <Link href="/" color="inherit" underline="none">
+              <p className={classes.navigation_logo_text}>King Weasley</p>
+            </Link>
           </div>
           <Hidden mdDown>
             <ul className={classes.navigation_links}>
@@ -129,7 +132,9 @@ function NavigationBar() {
                 </Popper>
               </li>
               <li className={classes.navigation_items}>
-                <p className={classes.navigation_text}>Romione</p>
+                <Link href="/romione" color="inherit" underline="none">
+                  <p className={classes.navigation_text}>Romione</p>
+                </Link>
               </li>
               <li
                 className={classes.navigation_items}

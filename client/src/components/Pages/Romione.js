@@ -17,6 +17,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Link, Element } from "react-scroll";
 
+import { Helmet } from "react-helmet";
+
 import NavigationBar from "../Navigation/NavigationBar";
 import ScrollAnimation from "../Utils/ScrollAnimation";
 
@@ -39,27 +41,27 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     backgroundColor: "rgba(0,0,0,0.75)"
   },
-  landing: {
+  page: {
     minHeight: "92vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
   },
-  landing_big_heading: {
+  page_big_heading: {
     color: "#fff",
     fontFamily: "Oleo Script"
   },
-  landing_about: {
+  page_about: {
     color: "#efefef",
     marginBottom: "80px"
   },
-  landing_content: {
+  page_content: {
     padding: "80px 0",
     backgroundImage:
       "linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%)"
   },
-  landing_content_paper: {
+  page_content_paper: {
     minHeight: "150vh"
   },
   toolbar: {
@@ -69,33 +71,23 @@ const useStyles = makeStyles(theme => ({
   new_button: {
     marginLeft: "16px"
   },
-  landing_posts: {
+  page_posts: {
     minHeight: "calc(150vh - 80px)",
     backgroundImage: "linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)"
   }
 }));
 
-function Landing() {
+function Romione() {
   const classes = useStyles();
 
-  const [selectedTab, setSelectedTab] = React.useState("Appericiation");
   const [tab_value, setTabValue] = React.useState(0);
   const tab_handlechange = (event, value) => {
     setTabValue(value);
-    if (value === 0) {
-      setSelectedTab("Appreciation");
-    } else if (value === 1) {
-      setSelectedTab("Defense");
-    } else if (value === 2) {
-      setSelectedTab("Fanart");
-    } else if (value === 3) {
-      setSelectedTab("Fanfiction");
-    }
   };
 
   const [createPost, setCreatePost] = React.useState(false);
   const handleCreatePostOpen = () => {
-    if (tab_value === 0 || tab_value === 1) {
+    if (tab_value === 0) {
       setCreatePost(true);
     }
   };
@@ -105,35 +97,38 @@ function Landing() {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Romione</title>
+      </Helmet>
       <div className={classes.main}>
         <div className={classes.main_overlay}>
           <NavigationBar />
-          <div className={classes.landing}>
+          <div className={classes.page}>
             <Typography
               variant="h3"
               component="p"
               gutterBottom
-              className={classes.landing_big_heading}
+              className={classes.page_big_heading}
             >
-              A Website dedicated to the most selfless Harry Potter Character.
+              Most celebrated Harry Potter canon couples.
             </Typography>
             <Typography
               variant="h6"
               component="p"
-              className={classes.landing_about}
+              className={classes.page_about}
             >
-              Some lines best describing Ron.
+              Some lines best describing Romione.
             </Typography>
-            <Link to="landingContent" spy={true} smooth={true} duration={500}>
+            <Link to="pageContent" spy={true} smooth={true} duration={500}>
               <ScrollAnimation />
             </Link>
           </div>
         </div>
       </div>
-      <Element name="landingContent">
-        <div className={classes.landing_content}>
+      <Element name="pageContent">
+        <div className={classes.page_content}>
           <Container>
-            <Paper className={classes.landing_content_paper} elevation={24}>
+            <Paper className={classes.page_content_paper} elevation={24}>
               <div className={classes.toolbar}>
                 <Grid container>
                   <Grid container item xs={12} lg={8}>
@@ -145,8 +140,7 @@ function Landing() {
                       variant="scrollable"
                       scrollButtons="auto"
                     >
-                      <Tab label="Appreciation"></Tab>
-                      <Tab label="Defense"></Tab>
+                      <Tab label="Appericiation"></Tab>
                       <Tab label="Fanart"></Tab>
                       <Tab label="Fanfiction"></Tab>
                     </Tabs>
@@ -172,13 +166,13 @@ function Landing() {
                   </Grid>
                 </Grid>
               </div>
-              <div className={classes.landing_posts}></div>
+              <div className={classes.page_posts}></div>
             </Paper>
           </Container>
         </div>
       </Element>
       <Dialog open={createPost} maxWidth="md" fullWidth={true}>
-        <DialogTitle>{`New Ron Weasley ${selectedTab} Post`}</DialogTitle>
+        <DialogTitle>{`New Romione Appreciation Post`}</DialogTitle>
         <DialogContent>
           <Suspense fallback={<div></div>}>
             <PostEditor />
@@ -197,4 +191,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Romione;
