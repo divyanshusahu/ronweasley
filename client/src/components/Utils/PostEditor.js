@@ -1,10 +1,15 @@
 import React from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  AtomicBlockUtils,
+  CompositeDecorator
+} from "draft-js";
 
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
-import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -47,8 +52,27 @@ const useStyles = new makeStyles(theme => ({
 function PostEditor() {
   const classes = useStyles();
 
+  const findLinkEntities = (contentBlock, callback, contentState) => {
+    contentBlock.findEntityRanges(character => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === "LINK"
+      );
+    }, callback);
+  };
+
+  const Link = props => {
+    const { url } = props.contentState.getEntity(props.entityKey).getData();
+    return <a href={url}>{props.children}</a>;
+  };
+
+  const decorator = new CompositeDecorator([
+    { strategy: findLinkEntities, component: Link }
+  ]);
+
   const [editorState, setEditorState] = React.useState(
-    EditorState.createEmpty()
+    EditorState.createEmpty(decorator)
   );
 
   const styleMap = {
@@ -105,10 +129,39 @@ function PostEditor() {
   const handleInsertLinkClick = event => {
     setLinkPopover(linkPopover ? null : event.currentTarget);
   };
+
+  const confirm_link = () => {
+    let es = editorState;
+    let contentState = es.getCurrentContent();
+    let contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", {
+      url: document.getElementById("link-url-field").value
+    });
+    let entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    let newEditorState = EditorState.set(es, {
+      currentContent: contentStateWithEntity
+    });
+    setEditorState(
+      RichUtils.toggleLink(
+        newEditorState,
+        newEditorState.getSelection(),
+        entityKey
+      )
+    );
+  };
+
   const handleInsertLinkClose = () => {
     setLinkPopover(null);
   };
   const linkPopoverOpen = Boolean(linkPopover);
+
+  const [imagePopover, setImagePopover] = React.useState(null);
+  const handleInsertImageClick = event => {
+    setImagePopover(imagePopover ? null : event.currentTarget);
+  };
+  const handleInsertImageClose = () => {
+    setImagePopover(null);
+  };
+  const imagePopoverOpen = Boolean(imagePopover);
 
   const mediaBlockRenderer = block => {
     if (block.getType() === "atomic") {
@@ -120,23 +173,46 @@ function PostEditor() {
     return null;
   };
 
-  const Link = props => <a href={props.href}>{props.text}</a>;
-
-  const Image = props => <img src={props.src} alt="An error occurred" />;
+  const Image = props => (
+    <img src={props.src} alt="An error occurred" width="200px" />
+  );
 
   const Media = props => {
     const entity = props.contentState.getEntity(props.block.getEntityAt(0));
-    const d = entity.getData();
+    let d;
+    try {
+      d = entity.getData();
+    } catch {
+      // this can be empty
+    }
     const type = entity.getType();
 
     let media;
-    if (type === "link") {
-      media = <Link href={d.href} text={d.text} />;
-    } else if (type === "image") {
+    if (type === "IMAGE") {
       media = <Image src={d.src} />;
     }
 
     return media;
+  };
+
+  const confirm_media = () => {
+    let es = editorState;
+    let contentState = es.getCurrentContent();
+    let urlValue = document.getElementById("image-url-field").value;
+    let contentStateWithEntity = contentState.createEntity(
+      "IMAGE",
+      "IMMUTABLE",
+      {
+        src: urlValue
+      }
+    );
+    let entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    let newEditorState = EditorState.set(es, {
+      currentContent: contentStateWithEntity
+    });
+    setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
+    );
   };
 
   return (
@@ -177,7 +253,12 @@ function PostEditor() {
           >
             <Icon>insert_link</Icon>
           </Button>
-          <Button variant="outlined">
+          <Button
+            variant="outlined"
+            aria-owns={imagePopoverOpen ? "image-Popover" : undefined}
+            aria-haspopup={true}
+            onClick={handleInsertImageClick}
+          >
             <Icon>image</Icon>
           </Button>
           <Popover
@@ -190,8 +271,40 @@ function PostEditor() {
             className={classes.popover_div}
           >
             <div className={classes.popover_paper}>
-              <TextField label="Paste Link" size="small" />
-              <Button color="primary" variant="outlined" style={{height: "45px"}}>Confirm</Button>
+              <TextField label="Paste Link" size="small" id="link-url-field" />
+              <Button
+                color="primary"
+                variant="outlined"
+                style={{ height: "45px" }}
+                onClick={confirm_link}
+              >
+                Confirm
+              </Button>
+            </div>
+          </Popover>
+          <Popover
+            id="image-Popover"
+            open={imagePopoverOpen}
+            anchorEl={imagePopover}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            onClose={handleInsertImageClose}
+            className={classes.popover_div}
+          >
+            <div className={classes.popover_paper}>
+              <TextField
+                label="Insert Image Link"
+                size="small"
+                id="image-url-field"
+              />
+              <Button
+                color="primary"
+                variant="outlined"
+                style={{ height: "45px" }}
+                onClick={confirm_media}
+              >
+                Confirm
+              </Button>
             </div>
           </Popover>
         </div>
