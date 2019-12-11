@@ -2,7 +2,6 @@ import Head from "next/head";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -67,17 +66,12 @@ function Index() {
           <div className="main_overlay">
             <NavigationBar />
             <div className="landing">
-              <Typography
-                variant="h3"
-                component="p"
-                gutterBottom
-                className="landing_big_heading"
-              >
+              <p className="landing_big_heading">
                 A Website dedicated to the most selfless Harry Potter Character.
-              </Typography>
-              <Typography variant="h6" component="p" className="landing_about">
+              </p>
+              <p className="landing_about">
                 Some lines best describing Ron.
-              </Typography>
+              </p>
               <Link to="landingContent" spy={true} smooth={true} duration={500}>
                 <ScrollAnimation />
               </Link>
@@ -155,14 +149,14 @@ function Index() {
           .main {
             min-height: 100vh;
             height: 100%;
-            background-image: url('https://i.imgur.com/IParGP1.jpg');
+            background-image: url("https://i.imgur.com/IParGP1.jpg");
             background-repeat: no-repeat;
             background-size: contain;
           }
           .main_overlay {
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.75);
+            background-color: rgba(0, 0, 0, 0.75);
           }
           .landing {
             min-height: 92vh;
@@ -174,14 +168,28 @@ function Index() {
           .landing_big_heading {
             color: #fff;
             font-family: "Oleo Script";
+            font-size: 3rem;
+            margin-bottom: 0.35em;
+            font-weight: 400;
           }
           .landing_about {
             color: #efefef;
             margin-bottom: 80px;
+            font-size: 1.25rem;
+            font-family: "Roboto";
+            font-weight: 500;
+            line-height: 1.6;
           }
           .landing_content {
             padding: 80px 0;
-            background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #eeeeec 31%, #efeeec 75%, #e9e9e7 100%);
+            background-image: linear-gradient(
+              to top,
+              #d5d4d0 0%,
+              #d5d4d0 1%,
+              #eeeeec 31%,
+              #efeeec 75%,
+              #e9e9e7 100%
+            );
           }
           .landing_content_paper {
             min-height: 150vh;

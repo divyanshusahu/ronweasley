@@ -1,14 +1,13 @@
 import Head from "next/head";
 
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 
 function Footer() {
   return (
     <footer>
       <Head>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Ron Weasley" />
         <link
@@ -41,14 +40,21 @@ function Footer() {
             position: relative;
             top: 5px;
           }
+          .footer_text {
+            text-align: center;
+            font-size: 1rem;
+            font-family: "Roboto";
+            font-weight: 400;
+            line-height: 1.5;
+          }
         `}
       </style>
       <Container maxWidth="sm">
-        <Typography variant="body1" component="p" align="center">
+        <p className="footer_text">
           Made with{" "}
-          <Icon color="error" fontSize="small" className="icon">
+          <span className="icon"><Icon color="error" fontSize="small">
             favorite
-          </Icon>{" "}
+          </Icon></span>{" "}
           by{" "}
           <a
             href="https://github.com/divyanshusahu"
@@ -58,7 +64,7 @@ function Footer() {
             Divyanshu
           </a>
           .
-        </Typography>
+        </p>
       </Container>
     </footer>
   );

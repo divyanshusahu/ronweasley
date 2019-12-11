@@ -10,47 +10,8 @@ import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = new makeStyles(theme => ({
-  "@global": {
-    blockquote: {
-      padding: theme.spacing(2),
-      backgroundColor: "#fff",
-      color: "#888",
-      borderLeft: "2px solid #888"
-    },
-    ul: {
-      padding: theme.spacing(2)
-    },
-    ol: {
-      padding: theme.spacing(2)
-    }
-  },
-  root: {
-    border: "1px solid #cfcfcf",
-    padding: theme.spacing(2)
-  },
-  toolbar: {
-    marginBottom: theme.spacing(2),
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between"
-  },
-  editor: {
-    backgroundColor: "#f6f6f6",
-    height: "250px",
-    padding: theme.spacing(1),
-    overflow: "auto"
-  },
-  popover_paper: {
-    padding: theme.spacing(2)
-  }
-}));
 
 function PostEditor() {
-  const classes = useStyles();
-
   const findLinkEntities = (contentBlock, callback, contentState) => {
     contentBlock.findEntityRanges(character => {
       const entityKey = character.getEntity();
@@ -225,8 +186,8 @@ function PostEditor() {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.toolbar}>
+    <div className="root">
+      <div className="toolbar">
         <div>
           <Button variant="outlined" onClick={handleBoldClick}>
             <Icon>format_bold</Icon>
@@ -277,9 +238,9 @@ function PostEditor() {
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
             onClose={handleInsertLinkClose}
-            className={classes.popover_div}
+            className="popover_div"
           >
-            <div className={classes.popover_paper}>
+            <div className="popover_paper">
               <TextField label="Paste Link" size="small" id="link-url-field" />
               <Button
                 color="primary"
@@ -298,9 +259,9 @@ function PostEditor() {
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
             onClose={handleInsertImageClose}
-            className={classes.popover_div}
+            className="popover_div"
           >
-            <div className={classes.popover_paper}>
+            <div className="popover_paper">
               <TextField
                 label="Insert Image Link"
                 size="small"
@@ -332,7 +293,7 @@ function PostEditor() {
           </Button>
         </div>
       </div>
-      <div className={classes.editor}>
+      <div className="editor">
         <Editor
           editorState={editorState}
           onChange={setEditorState}
@@ -341,6 +302,41 @@ function PostEditor() {
           blockRendererFn={mediaBlockRenderer}
         />
       </div>
+      <style jsx>
+        {`
+          blockquote {
+            padding: 16px;
+            background-color: #fff;
+            color: #888;
+            border-left: 2px solid #888;
+          }
+          ul: {
+            padding: 16px;
+          }
+          ol: {
+            padding: 16px;
+          }
+          .root {
+            border: 1px solid #cfcfcf;
+            padding: 16px;
+          }
+          .toolbar {
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+          }
+          .editor {
+            background-color: #f6f6f6;
+            height: 250px;
+            padding: 8px;
+            overflow: auto;
+          }
+          .popover_paper: {
+            padding: 16px;
+          }
+        `}
+      </style>
     </div>
   );
 }
