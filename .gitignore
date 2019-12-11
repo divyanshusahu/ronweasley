@@ -31,6 +31,10 @@ images
 
 # Serverless directories
 .serverless
+.serverless_nextjs
 
 # next directory
 .next
+
+# env variables
+secrets.json
