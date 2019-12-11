@@ -31,3 +31,6 @@ images
 
 # Serverless directories
 .serverless
+
+# next directory
+.next
