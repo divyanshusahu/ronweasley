@@ -51,10 +51,6 @@ function Index() {
     <div>
       <Head>
         <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-        <link
           href="https://fonts.googleapis.com/css?family=Oleo+Script"
           rel="stylesheet"
           type="text/css"

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
@@ -39,7 +40,9 @@ function NavigationBar() {
       <Container maxWidth="xl">
         <div className="navigation">
           <div className="navigation_logo">
-            <p className="navigation_logo_text">King Weasley</p>
+            <Link href="/">
+              <p className="navigation_logo_text">King Weasley</p>
+            </Link>
           </div>
           <Hidden mdDown>
             <ul className="navigation_links">
@@ -82,7 +85,9 @@ function NavigationBar() {
                 </Popper>
               </li>
               <li className="navigation_items">
-                <p className="navigation_text">Romione</p>
+                <Link href="/romione">
+                  <p className="navigation_text">Romione</p>
+                </Link>
               </li>
               <li
                 className="navigation_items"

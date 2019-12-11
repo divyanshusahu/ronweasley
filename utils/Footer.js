@@ -14,6 +14,10 @@ function Footer() {
           rel="stylesheet"
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
       </Head>
       <style jsx global>
         {`
@@ -52,9 +56,11 @@ function Footer() {
       <Container maxWidth="sm">
         <p className="footer_text">
           Made with{" "}
-          <span className="icon"><Icon color="error" fontSize="small">
-            favorite
-          </Icon></span>{" "}
+          <span className="icon">
+            <Icon color="error" fontSize="small">
+              favorite
+            </Icon>
+          </span>{" "}
           by{" "}
           <a
             href="https://github.com/divyanshusahu"
