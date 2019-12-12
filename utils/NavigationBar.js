@@ -1,10 +1,14 @@
 import Head from "next/head";
 import Link from "next/link";
 
+import clsx from "clsx";
+
 import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
+import Icon from "@material-ui/core/Icon";
+import Drawer from "@material-ui/core/Drawer";
 
 function NavigationBar() {
   const [friendshipElement, setFriendshipElement] = React.useState(null);
@@ -24,6 +28,25 @@ function NavigationBar() {
     setFanonshipElement(null);
   };
   const fanonship = Boolean(fanonshipElement);
+
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const [nestedFriendships, setNestedFriendships] = React.useState(true);
+  const [nestedFanonShips, setNestedFanonShips] = React.useState(true);
+
+  const handleNestedFunction = type => {
+    if (type === "fs") {
+      setNestedFriendships(!nestedFriendships);
+    } else if (type === "fss") {
+      setNestedFanonShips(!nestedFanonShips);
+    }
+  };
 
   return (
     <div className="navigation">
@@ -66,18 +89,8 @@ function NavigationBar() {
                     <Fade {...TransitionProps} timeout={250}>
                       <div className="popper_element">
                         <ul className="popper_list">
-                          <li className="popper_list_items">
-                            Golden Trio
-                          </li>
-                          <li className="popper_list_items">
-                            Ron-Harry
-                          </li>
-                          <li className="popper_list_items">
-                            Ron-Luna
-                          </li>
-                          <li className="popper_list_items">
-                            Weasley Family
-                          </li>
+                          <li className="popper_list_items">Golden Trio</li>
+                          <li className="popper_list_items">Weasley Family</li>
                         </ul>
                       </div>
                     </Fade>
@@ -131,6 +144,69 @@ function NavigationBar() {
                 <p className="navigation_text">Credits</p>
               </li>
             </ul>
+          </Hidden>
+          <Hidden lgUp>
+            <Icon fontSize="large" onClick={handleDrawerOpen}>
+              menu
+            </Icon>
+            <Drawer open={drawerOpen} onClose={handleDrawerClose}>
+              <div className="drawer">
+                <div className="drawer_main">
+                  <Link href="/">
+                    <p className="drawer_heading">King Weasley</p>
+                  </Link>
+                  <Icon onClick={handleDrawerClose}>close</Icon>
+                </div>
+                <ul>
+                  <li
+                    onClick={() => handleNestedFunction("fs")}
+                    className="drawer_list_items nested_list"
+                  >
+                    <span>Friendships</span>
+                    {nestedFriendships ? (
+                      <Icon>expand_more</Icon>
+                    ) : (
+                      <Icon>expand_less</Icon>
+                    )}
+                  </li>
+                  <ul className={clsx({ hidden_class: nestedFriendships })}>
+                    <li className="drawer_list_items nested_list_items">
+                      Golden Trio
+                    </li>
+                    <li className="drawer_list_items nested_list_items">
+                      Weasley Family
+                    </li>
+                  </ul>
+                  <Link href="/romione">
+                    <li className="drawer_list_items">Romione</li>
+                  </Link>
+                  <li
+                    onClick={() => handleNestedFunction("fss")}
+                    className="drawer_list_items nested_list"
+                  >
+                    <span>Fanon Ships</span>
+                    {nestedFanonShips ? (
+                      <Icon>expand_more</Icon>
+                    ) : (
+                      <Icon>expand_less</Icon>
+                    )}
+                  </li>
+                  <ul className={clsx({ hidden_class: nestedFanonShips })}>
+                    <li className="drawer_list_items nested_list_items">
+                      Ron-Lavender
+                    </li>
+                    <li className="drawer_list_items nested_list_items">
+                      Ron-Harry
+                    </li>
+                    <li className="drawer_list_items nested_list_items">
+                      Ron-Lavender
+                    </li>
+                  </ul>
+                  <li className="drawer_list_items">Feedbacks</li>
+                  <li className="drawer_list_items">Credits</li>
+                </ul>
+              </div>
+            </Drawer>
           </Hidden>
         </div>
       </Container>
@@ -187,6 +263,39 @@ function NavigationBar() {
             padding: 16px;
             font-family: "Capriola";
             border-bottom: 1px solid rgba(100, 100, 100, 0.25);
+          }
+          .drawer {
+            width: 80vw;
+            min-height: 100%;
+            background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+            text-transform: uppercase;
+            font-family: "Capriola";
+          }
+          .hidden_class {
+            display: none;
+          }
+          .drawer_main {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8px;
+            border-bottom: 1px solid rgba(100, 100, 100, 0.25);
+          }
+          .drawer_heading {
+            font-size: 24px;
+          }
+          .drawer_list_items {
+            padding: 12px;
+          }
+          .nested_list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .nested_list_items {
+            padding-left: 36px;
           }
         `}
       </style>
