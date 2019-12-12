@@ -189,7 +189,7 @@ function PostEditor() {
     <div className="root">
       <div className="toolbar">
         <div>
-          <Button variant="outlined" onClick={handleBoldClick}>
+          <Button variant="outlined" onClick={handleBoldClick} title="Bold">
             <Icon>format_bold</Icon>
           </Button>
           <Button variant="outlined" onClick={handleItalicClick}>
@@ -316,21 +316,19 @@ function PostEditor() {
           ol: {
             padding: 16px;
           }
-          .root {
-            border: 1px solid #cfcfcf;
-            padding: 16px;
-          }
           .toolbar {
             margin-bottom: 16px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            border: 1px solid #cfcfcf;
+            padding: 8px;
           }
           .editor {
-            background-color: #f6f6f6;
-            height: 250px;
+            height: 400px;
             padding: 8px;
             overflow: auto;
+            border: 1px solid #cfcfcf;
           }
           .popover_paper: {
             padding: 16px;
