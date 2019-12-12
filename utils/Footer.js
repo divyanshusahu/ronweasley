@@ -16,7 +16,8 @@ function Footer() {
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          href="https://fonts.googleapis.com/css?family=Roboto"
+          type="text/css"
         />
       </Head>
       <style jsx global>
@@ -54,6 +55,7 @@ function Footer() {
         `}
       </style>
       <Container maxWidth="sm">
+        <p className="footer_text">This Website is dedicated to Ron Lovers.</p>
         <p className="footer_text">
           Made with{" "}
           <span className="icon">

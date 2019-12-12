@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "deploy": "next build && sls deploy"
+    "deploy": "next build && serverless"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.7.2",
+    "clsx": "^1.0.4",
     "draft-js": "^0.11.3",
     "next": "^9.1.5",
     "react": "^16.12.0",

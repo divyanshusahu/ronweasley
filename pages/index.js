@@ -1,27 +1,22 @@
 import Head from "next/head";
+import Link from "next/link";
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
 import Hidden from "@material-ui/core/Hidden";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Link, Element } from "react-scroll";
+import { Link as RSLink, Element } from "react-scroll";
 
 import NavigationBar from "../utils/NavigationBar";
 import ScrollAnimation from "../utils/ScrollAnimation";
 import Footer from "../utils/Footer";
-import PostEditor from "../utils/PostEditor";
 
 const useStyles = new makeStyles(theme => ({
   select: {
@@ -33,41 +28,31 @@ const useStyles = new makeStyles(theme => ({
 function Index() {
   const classes = useStyles();
 
-  const [selectedTab, setSelectedTab] = React.useState("Appericiation");
+  const [selectedTab, setSelectedTab] = React.useState("appericiation");
   const [tab_value, setTabValue] = React.useState(0);
   const tab_handlechange = (event, value) => {
     setTabValue(value);
     if (value === 0) {
-      setSelectedTab("Appreciation");
+      setSelectedTab("appreciation");
     } else if (value === 1) {
-      setSelectedTab("Defense");
+      setSelectedTab("defense");
     } else if (value === 2) {
-      setSelectedTab("Fanart");
+      setSelectedTab("fanart");
     } else if (value === 3) {
-      setSelectedTab("Fanfiction");
+      setSelectedTab("fanfiction");
     }
   };
   const handleSelectTabChange = event => {
     setTabValue(event.target.value);
     if (event.target.value === 0) {
-      setSelectedTab("Appreciation");
+      setSelectedTab("appreciation");
     } else if (event.target.value === 1) {
-      setSelectedTab("Defense");
+      setSelectedTab("defense");
     } else if (event.target.value === 2) {
-      setSelectedTab("Fanart");
+      setSelectedTab("fanart");
     } else if (event.target.value === 3) {
-      setSelectedTab("Fanfiction");
+      setSelectedTab("fanfiction");
     }
-  };
-
-  const [createPost, setCreatePost] = React.useState(false);
-  const handleCreatePostOpen = () => {
-    if (tab_value === 0 || tab_value === 1) {
-      setCreatePost(true);
-    }
-  };
-  const handleCreatePostClose = () => {
-    setCreatePost(false);
   };
 
   return (
@@ -89,9 +74,14 @@ function Index() {
                 A Website dedicated to the most selfless Harry Potter Character.
               </p>
               <p className="landing_about">Some lines best describing Ron.</p>
-              <Link to="landingContent" spy={true} smooth={true} duration={500}>
+              <RSLink
+                to="landingContent"
+                spy={true}
+                smooth={true}
+                duration={500}
+              >
                 <ScrollAnimation />
-              </Link>
+              </RSLink>
             </div>
           </div>
         </div>
@@ -135,12 +125,16 @@ function Index() {
                       </Hidden>
                     </Grid>
                     <Grid container item xs={3} lg={2}>
-                      <button
-                        onClick={handleCreatePostOpen}
-                        className="new_button"
-                      >
-                        NEW
-                      </button>
+                      {tab_value === 0 || tab_value === 1 ? (
+                        <Link
+                          href="/new_post/[type]"
+                          as={`new_post/ron-weasley-${selectedTab}`}
+                        >
+                          <button className="new_button">NEW POST</button>
+                        </Link>
+                      ) : (
+                        <button className="new_button">NEW POST</button>
+                      )}
                     </Grid>
                   </Grid>
                 </div>
@@ -149,20 +143,6 @@ function Index() {
             </Container>
           </div>
         </Element>
-        <Dialog open={createPost} maxWidth="md" fullWidth={true}>
-          <DialogTitle>{`New Ron Weasley ${selectedTab} Post`}</DialogTitle>
-          <DialogContent>
-            <PostEditor />
-          </DialogContent>
-          <DialogActions>
-            <Button color="default" onClick={handleCreatePostClose}>
-              Cancel
-            </Button>
-            <Button color="primary" variant="contained" autoFocus>
-              Post
-            </Button>
-          </DialogActions>
-        </Dialog>
       </div>
       <style jsx>
         {`
