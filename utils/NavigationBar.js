@@ -10,7 +10,7 @@ import Fade from "@material-ui/core/Fade";
 import Icon from "@material-ui/core/Icon";
 import Drawer from "@material-ui/core/Drawer";
 
-function NavigationBar() {
+function NavigationBar(props) {
   const [friendshipElement, setFriendshipElement] = React.useState(null);
   const handleFriendshipOpen = event => {
     setFriendshipElement(event.currentTarget);
@@ -49,7 +49,7 @@ function NavigationBar() {
   };
 
   return (
-    <div className="navigation">
+    <div className={clsx({ root: props.dark })}>
       <Head>
         <link
           href="https://fonts.googleapis.com/css?family=Capriola"
@@ -89,8 +89,22 @@ function NavigationBar() {
                     <Fade {...TransitionProps} timeout={250}>
                       <div className="popper_element">
                         <ul className="popper_list">
-                          <li className="popper_list_items">Golden Trio</li>
-                          <li className="popper_list_items">Weasley Family</li>
+                          <li
+                            className={clsx({
+                              popper_list_items: true,
+                              custom_borders: props.dark
+                            })}
+                          >
+                            Golden Trio
+                          </li>
+                          <li
+                            className={clsx({
+                              popper_list_items: true,
+                              custom_borders: props.dark
+                            })}
+                          >
+                            Weasley Family
+                          </li>
                         </ul>
                       </div>
                     </Fade>
@@ -122,13 +136,28 @@ function NavigationBar() {
                     <Fade {...TransitionProps} timeout={250}>
                       <div className="popper_element">
                         <ul className="popper_list">
-                          <li className="popper_list_items">
+                          <li
+                            className={clsx({
+                              popper_list_items: true,
+                              custom_borders: props.dark
+                            })}
+                          >
                             <span>Ron-Lavender</span>
                           </li>
-                          <li className="popper_list_items">
+                          <li
+                            className={clsx({
+                              popper_list_items: true,
+                              custom_borders: props.dark
+                            })}
+                          >
                             <span>Ron-Harry</span>
                           </li>
-                          <li className="popper_list_items">
+                          <li
+                            className={clsx({
+                              popper_list_items: true,
+                              custom_borders: props.dark
+                            })}
+                          >
                             <span>Ron-Luna</span>
                           </li>
                         </ul>
@@ -212,6 +241,9 @@ function NavigationBar() {
       </Container>
       <style jsx>
         {`
+          .root {
+            background-color: rgba(0, 0, 0, 0.75);
+          }
           .navigation {
             height: 8vh;
             color: #ffffff;
@@ -263,6 +295,10 @@ function NavigationBar() {
             padding: 16px;
             font-family: "Capriola";
             border-bottom: 1px solid rgba(100, 100, 100, 0.25);
+          }
+          .custom_borders {
+            border-left: 1px solid rgba(100, 100, 100, 0.25);
+            border-right: 1px solid rgba(100, 100, 100, 0.25);
           }
           .drawer {
             width: 80vw;
