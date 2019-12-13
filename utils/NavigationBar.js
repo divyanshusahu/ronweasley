@@ -84,6 +84,7 @@ function NavigationBar(props) {
                   disablePortal={true}
                   placement="bottom-start"
                   transition
+                  style={{zIndex: "1300"}}
                 >
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={250}>
@@ -131,6 +132,7 @@ function NavigationBar(props) {
                   disablePortal={true}
                   placement="bottom-start"
                   transition
+                  style={{zIndex: "1300"}}
                 >
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={250}>
