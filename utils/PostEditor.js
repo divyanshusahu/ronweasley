@@ -6,6 +6,8 @@ import {
   CompositeDecorator
 } from "draft-js";
 
+import Head from "next/head";
+
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
@@ -82,7 +84,11 @@ function PostEditor() {
   };
 
   const handleBlockqouteClick = () => {
-    setEditorState(RichUtils.toggleBlockType(editorState, "blockquote"));
+    //setEditorState(RichUtils.toggleCode(editorState, "blockquote"));
+  };
+
+  const handleCodeblockClick = () => {
+    setEditorState(RichUtils.toggleCode(editorState, "code-block"));
   };
 
   const handleHeaderClick = type => {
@@ -144,7 +150,7 @@ function PostEditor() {
   };
 
   const Image = props => (
-    <img src={props.src} alt="An error occurred" width="200px" />
+    <img src={props.src} alt="An error occurred" width="300px" />
   );
 
   const Media = props => {
@@ -187,39 +193,95 @@ function PostEditor() {
 
   return (
     <div className="root">
+      <Head>
+        <link
+          href="https://cdn.jsdelivr.net/npm/draft-js@0.11.3/dist/Draft.css"
+          rel="stylesheet"
+        />
+      </Head>
       <div className="toolbar">
         <div>
-          <Button variant="outlined" onClick={handleBoldClick} title="Bold">
+          <Button
+            variant="outlined"
+            onClick={handleBoldClick}
+            title="Bold"
+            size="small"
+          >
             <Icon>format_bold</Icon>
           </Button>
-          <Button variant="outlined" onClick={handleItalicClick}>
+          <Button
+            variant="outlined"
+            onClick={handleItalicClick}
+            title="Italic"
+            size="small"
+          >
             <Icon>format_italic</Icon>
           </Button>
-          <Button variant="outlined" onClick={handleStrikeClick}>
+          <Button
+            variant="outlined"
+            onClick={handleStrikeClick}
+            title="Strikethrough"
+            size="small"
+          >
             <Icon>format_strikethrough</Icon>
           </Button>
-          <Button variant="outlined" onClick={handleUnderlineClick}>
+          <Button
+            variant="outlined"
+            onClick={handleUnderlineClick}
+            title="Underline"
+            size="small"
+          >
             <Icon>format_underlined</Icon>
           </Button>
-          <Button variant="outlined" onClick={handleHighlightClick}>
+          <Button
+            variant="outlined"
+            onClick={handleHighlightClick}
+            title="Highlight"
+            size="small"
+          >
             <Icon>highlight</Icon>
           </Button>
         </div>
         <div>
-          <Button variant="outlined" onClick={handleULClick}>
+          <Button
+            variant="outlined"
+            onClick={handleULClick}
+            title="Bullet List"
+            size="small"
+          >
             <Icon>format_list_bulleted</Icon>
           </Button>
-          <Button variant="outlined" onClick={handleOLClick}>
+          <Button
+            variant="outlined"
+            onClick={handleOLClick}
+            title="Numbered List"
+            size="small"
+          >
             <Icon>format_list_numbered</Icon>
           </Button>
-          <Button variant="outlined" onClick={handleBlockqouteClick}>
+          <Button
+            variant="outlined"
+            onClick={handleBlockqouteClick}
+            title="Blockquote"
+            size="small"
+          >
             <Icon>format_quote</Icon>
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleCodeblockClick}
+            title="Code Block"
+            size="small"
+          >
+            <Icon>code</Icon>
           </Button>
           <Button
             variant="outlined"
             aria-owns={linkPopoverOpen ? "link-Popover" : undefined}
             aria-haspopup={true}
             onClick={handleInsertLinkClick}
+            title="Insert Link"
+            size="small"
           >
             <Icon>insert_link</Icon>
           </Button>
@@ -228,6 +290,8 @@ function PostEditor() {
             aria-owns={imagePopoverOpen ? "image-Popover" : undefined}
             aria-haspopup={true}
             onClick={handleInsertImageClick}
+            title="Insert Image"
+            size="small"
           >
             <Icon>image</Icon>
           </Button>
@@ -279,17 +343,29 @@ function PostEditor() {
           </Popover>
         </div>
         <div>
-          <Button variant="outlined" onClick={() => handleHeaderClick("one")}>
-            <strong>H1</strong>
+          <Button
+            variant="outlined"
+            onClick={() => handleHeaderClick("one")}
+            title="Heading 1"
+            size="small"
+          >
+            <strong style={{ fontSize: "14px" }}>H1</strong>
           </Button>
-          <Button variant="outlined" onClick={() => handleHeaderClick("two")}>
-            <strong>H2</strong>
+          <Button
+            variant="outlined"
+            onClick={() => handleHeaderClick("two")}
+            title="Heading 2"
+            size="small"
+          >
+            <strong style={{ fontSize: "14px" }}>H2</strong>
           </Button>
           <Button
             variant="outlined"
             onClick={() => handleHeaderClick("normal")}
+            title="Normal"
+            size="small"
           >
-            <strong>N</strong>
+            <strong style={{ fontSize: "14px" }}>N</strong>
           </Button>
         </div>
       </div>
@@ -300,29 +376,20 @@ function PostEditor() {
           handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
           blockRendererFn={mediaBlockRenderer}
+          placeholder="Begin typing here"
         />
       </div>
       <style jsx>
         {`
-          blockquote {
-            padding: 16px;
-            background-color: #fff;
-            color: #888;
-            border-left: 2px solid #888;
-          }
-          ul: {
-            padding: 16px;
-          }
-          ol: {
-            padding: 16px;
-          }
           .toolbar {
             margin-bottom: 16px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            border: 1px solid #cfcfcf;
             padding: 8px;
+            border: 1px solid #cfcfcf;
+            max-height: 104px;
+            overflow: auto;
           }
           .editor {
             height: 400px;
