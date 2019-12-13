@@ -163,14 +163,7 @@ function Romione() {
           }
           .page_content {
             padding: 80px 0;
-            background-image: linear-gradient(
-              to top,
-              #d5d4d0 0%,
-              #d5d4d0 1%,
-              #eeeeec 31%,
-              #efeeec 75%,
-              #e9e9e7 100%
-            );
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
           }
           .page_content_paper {
             min-height: 150vh;
@@ -184,7 +177,17 @@ function Romione() {
           }
           .page_posts {
             min-height: calc(150vh - 80px);
-            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            background-image: radial-gradient(
+                73% 147%,
+                #eadfdf 59%,
+                #ece2df 100%
+              ),
+              radial-gradient(
+                91% 146%,
+                rgba(255, 255, 255, 0.5) 47%,
+                rgba(0, 0, 0, 0.5) 100%
+              );
+            background-blend-mode: screen;
           }
         `}
       </style>

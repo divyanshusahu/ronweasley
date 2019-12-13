@@ -19,7 +19,7 @@ const useStyles = new makeStyles(theme => ({
 }));
 
 function Post() {
-  //const title = window.location.pathname.substr(10).replace(/-/g, " ").toUpperCase();
+  const title = location.pathname.substr(10).replace(/-/g, " ").toUpperCase();
   const classes = useStyles();
 
   return (
@@ -32,7 +32,7 @@ function Post() {
         <Container>
           <Paper square={true} elevation={12} className={classes.paper_root}>
             <Typography variant="h4" component="p" gutterBottom>
-              NEW POST
+              {`NEW ${title} POST`}
             </Typography>
             <TextField
               variant="outlined"
@@ -41,6 +41,7 @@ function Post() {
               margin="dense"
               required
             />
+            <FormHelperText margin="dense">*required</FormHelperText>
             <TextField
               variant="outlined"
               placeholder="Author's Name"
@@ -58,13 +59,13 @@ function Post() {
               required
             />
             <FormHelperText margin="dense">
-              Remember this post secret. Secret is required for editing and
+              *required. Remember this post secret. Secret is required for editing and
               deleting the post.
             </FormHelperText>
             <div className="editor_pos">
               <PostEditor />
             </div>
-            <div>
+            <div className="paper_action">
               <Button variant="outlined">Post</Button>
             </div>
           </Paper>
@@ -75,12 +76,19 @@ function Post() {
         {`
           .root {
             min-height: 100vh;
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
           }
           .section {
             margin: 40px 0 80px 0;
           }
           .editor_pos {
             margin-top: 16px;
+          }
+          .paper_action {
+            width: 100%;
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
           }
         `}
       </style>

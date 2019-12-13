@@ -39,7 +39,7 @@ function Footer() {
         {`
           footer {
             padding: 16px;
-            background-color: #eaeaea;
+            background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
           }
           .icon {
             position: relative;
