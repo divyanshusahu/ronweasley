@@ -19,7 +19,14 @@ const useStyles = new makeStyles(theme => ({
 }));
 
 function Post() {
-  const title = location.pathname.substr(10).replace(/-/g, " ").toUpperCase();
+  const isBrowser = typeof window !== "undefined";
+  let title = "";
+  if (isBrowser) {
+    title = location.pathname
+      .substr(10)
+      .replace(/-/g, " ")
+      .toUpperCase();
+  }
   const classes = useStyles();
 
   return (
@@ -59,8 +66,8 @@ function Post() {
               required
             />
             <FormHelperText margin="dense">
-              *required. Remember this post secret. Secret is required for editing and
-              deleting the post.
+              *required. Remember this post secret. Secret is required for
+              editing and deleting the post.
             </FormHelperText>
             <div className="editor_pos">
               <PostEditor />
