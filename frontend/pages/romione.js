@@ -130,9 +130,9 @@ function Romione() {
           .main {
             min-height: 100vh;
             height: 100%;
-            background-image: url("https://i.imgur.com/9bPrnMJ.jpg");
+            background-image: url("https://i.imgur.com/G30MPi7.jpg");
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: 100% 100%;
           }
           .main_overlay {
             width: 100%;

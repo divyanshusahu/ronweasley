@@ -230,7 +230,7 @@ function NavigationBar(props) {
                       Ron-Harry
                     </li>
                     <li className="drawer_list_items nested_list_items">
-                      Ron-Lavender
+                      Ron-Luna
                     </li>
                   </ul>
                   <li className="drawer_list_items">Feedbacks</li>

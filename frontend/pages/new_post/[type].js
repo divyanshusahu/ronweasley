@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Error from "next/error";
+import { useRouter } from "next/router";
 
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -19,6 +21,19 @@ const useStyles = new makeStyles(theme => ({
 }));
 
 function Post() {
+  const allowedQuery = [
+    "ron-weasley-appericiation",
+    "ron-weasley-defense",
+    "romione-appericiation"
+  ];
+
+  const router = useRouter();
+  const query = router.query.type;
+
+  if (allowedQuery.findIndex(q => q == query) === -1) {
+    return <Error statusCode={404} />;
+  }
+
   const isBrowser = typeof window !== "undefined";
   let title = "";
   if (isBrowser) {
@@ -38,7 +53,7 @@ function Post() {
       <div className="section">
         <Container>
           <Paper square={true} elevation={12} className={classes.paper_root}>
-            <Typography variant="h4" component="p" gutterBottom>
+            <Typography variant="h5" component="p" gutterBottom>
               {`NEW ${title} POST`}
             </Typography>
             <TextField
