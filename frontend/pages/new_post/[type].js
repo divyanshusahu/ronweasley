@@ -8,23 +8,16 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 
 import NavigationBar from "../../utils/NavigationBar";
 import Footer from "../../utils/Footer";
 import PostEditor from "../../utils/PostEditor";
 
-const useStyles = new makeStyles(theme => ({
-  paper_root: {
-    padding: theme.spacing(4)
-  }
-}));
-
 function Post() {
   const allowedQuery = [
-    "ron-weasley-appericiation",
+    "ron-weasley-appreciation",
     "ron-weasley-defense",
-    "romione-appericiation"
+    "romione-appreciation"
   ];
 
   const router = useRouter();
@@ -42,7 +35,6 @@ function Post() {
       .replace(/-/g, " ")
       .toUpperCase();
   }
-  const classes = useStyles();
 
   return (
     <div className="root">
@@ -52,43 +44,54 @@ function Post() {
       <NavigationBar dark={true} />
       <div className="section">
         <Container>
-          <Paper square={true} elevation={12} className={classes.paper_root}>
-            <Typography variant="h5" component="p" gutterBottom>
-              {`NEW ${title} POST`}
-            </Typography>
-            <TextField
-              variant="outlined"
-              placeholder="Post Title"
-              fullWidth
-              margin="dense"
-              required
-            />
-            <FormHelperText margin="dense">*required</FormHelperText>
-            <TextField
-              variant="outlined"
-              placeholder="Author's Name"
-              fullWidth
-              margin="dense"
-            />
-            <FormHelperText disabled margin="dense">
-              optional
-            </FormHelperText>
-            <TextField
-              variant="outlined"
-              placeholder="Post Secret"
-              fullWidth
-              margin="dense"
-              required
-            />
-            <FormHelperText margin="dense">
-              *required. Remember this post secret. Secret is required for
-              editing and deleting the post.
-            </FormHelperText>
-            <div className="editor_pos">
-              <PostEditor />
-            </div>
-            <div className="paper_action">
-              <Button variant="outlined">Post</Button>
+          <Paper square={true} elevation={12}>
+            <div className="paper_root">
+              <Typography variant="h5" component="p" gutterBottom>
+                {`NEW ${title} POST`}
+              </Typography>
+              <TextField
+                variant="outlined"
+                placeholder="Post Title"
+                fullWidth
+                margin="dense"
+                required
+              />
+              <FormHelperText margin="dense">*required</FormHelperText>
+              <TextField
+                variant="outlined"
+                placeholder="Author's Name"
+                fullWidth
+                margin="dense"
+              />
+              <FormHelperText disabled margin="dense">
+                optional
+              </FormHelperText>
+              <TextField
+                variant="outlined"
+                placeholder="Author's Social Profile Link"
+                fullWidth
+                margin="dense"
+              />
+              <FormHelperText disabled margin="dense">
+                optional
+              </FormHelperText>
+              <TextField
+                variant="outlined"
+                placeholder="Post Secret"
+                fullWidth
+                margin="dense"
+                required
+              />
+              <FormHelperText margin="dense">
+                *required. Remember this post secret. Secret is required for
+                editing and deleting the post.
+              </FormHelperText>
+              <div className="editor_pos">
+                <PostEditor />
+              </div>
+              <div className="paper_action">
+                <Button variant="outlined">Post</Button>
+              </div>
             </div>
           </Paper>
         </Container>
@@ -103,6 +106,9 @@ function Post() {
           .section {
             margin: 40px 0 80px 0;
           }
+          .paper_root {
+            padding: 16px;
+          }
           .editor_pos {
             margin-top: 16px;
           }
@@ -111,6 +117,11 @@ function Post() {
             padding: 16px;
             display: flex;
             justify-content: flex-end;
+          }
+          @media screen and (min-width: 600px) {
+            .paper_root {
+              padding: 32px;
+            }
           }
         `}
       </style>

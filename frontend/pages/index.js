@@ -2,7 +2,6 @@ import Head from "next/head";
 import Link from "next/link";
 
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -10,7 +9,6 @@ import Hidden from "@material-ui/core/Hidden";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { Link as RSLink, Element } from "react-scroll";
 
@@ -18,17 +16,8 @@ import NavigationBar from "../utils/NavigationBar";
 import ScrollAnimation from "../utils/ScrollAnimation";
 import Footer from "../utils/Footer";
 
-const useStyles = new makeStyles(theme => ({
-  select: {
-    marginLeft: theme.spacing(2),
-    width: "200px"
-  }
-}));
-
 function Index() {
-  const classes = useStyles();
-
-  const [selectedTab, setSelectedTab] = React.useState("appericiation");
+  const [selectedTab, setSelectedTab] = React.useState("appreciation");
   const [tab_value, setTabValue] = React.useState(0);
   const tab_handlechange = (event, value) => {
     setTabValue(value);
@@ -90,53 +79,50 @@ function Index() {
             <Container>
               <Paper elevation={24}>
                 <div className="toolbar">
-                  <Grid container>
-                    <Grid container item xs={9} lg={10}>
-                      <Hidden mdDown>
-                        <Tabs
+                  <div>
+                    <Hidden smDown>
+                      <Tabs
+                        value={tab_value}
+                        onChange={tab_handlechange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="scrollable"
+                        scrollButtons="auto"
+                      >
+                        <Tab label="Appreciation"></Tab>
+                        <Tab label="Defense"></Tab>
+                        <Tab label="Fanart"></Tab>
+                        <Tab label="Fanfiction"></Tab>
+                      </Tabs>
+                    </Hidden>
+                    <Hidden mdUp>
+                      <FormControl variant="outlined">
+                        <Select
                           value={tab_value}
-                          onChange={tab_handlechange}
-                          indicatorColor="primary"
-                          textColor="primary"
-                          variant="scrollable"
-                          scrollButtons="auto"
+                          onChange={handleSelectTabChange}
                         >
-                          <Tab label="Appreciation"></Tab>
-                          <Tab label="Defense"></Tab>
-                          <Tab label="Fanart"></Tab>
-                          <Tab label="Fanfiction"></Tab>
-                        </Tabs>
-                      </Hidden>
-                      <Hidden lgUp>
-                        <FormControl
-                          variant="outlined"
-                          className={classes.select}
-                        >
-                          <Select
-                            value={tab_value}
-                            onChange={handleSelectTabChange}
-                          >
-                            <MenuItem value={0}>Appereciation</MenuItem>
-                            <MenuItem value={1}>Defense</MenuItem>
-                            <MenuItem value={2}>Fanart</MenuItem>
-                            <MenuItem value={3}>Fanfiction</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Hidden>
-                    </Grid>
-                    <Grid container item xs={3} lg={2}>
-                      {tab_value === 0 || tab_value === 1 ? (
-                        <Link
-                          href="/new_post/[type]"
-                          as={`new_post/ron-weasley-${selectedTab}`}
-                        >
+                          <MenuItem value={0}>Appreciation</MenuItem>
+                          <MenuItem value={1}>Defense</MenuItem>
+                          <MenuItem value={2}>Fanart</MenuItem>
+                          <MenuItem value={3}>Fanfiction</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Hidden>
+                  </div>
+                  <div>
+                    {tab_value === 0 || tab_value === 1 ? (
+                      <Link
+                        href="/new_post/[type]"
+                        as={`new_post/ron-weasley-${selectedTab}`}
+                      >
+                        <a>
                           <button className="new_button">NEW POST</button>
-                        </Link>
-                      ) : (
-                        <button className="new_button">NEW POST</button>
-                      )}
-                    </Grid>
-                  </Grid>
+                        </a>
+                      </Link>
+                    ) : (
+                      <button className="new_button">NEW POST</button>
+                    )}
+                  </div>
                 </div>
                 <div className="landing_posts"></div>
               </Paper>
@@ -153,9 +139,9 @@ function Index() {
           .main {
             min-height: 100vh;
             height: 100%;
-            background-image: url("https://i.imgur.com/IParGP1.jpg");
+            background-image: url("https://i.imgur.com/c1m5irF.png");
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: 100% 100%;
           }
           .main_overlay {
             width: 100%;
@@ -179,7 +165,6 @@ function Index() {
           }
           .landing_about {
             color: #efefef;
-            margin-bottom: 80px;
             font-size: 1.25rem;
             font-family: "Roboto";
             font-weight: 500;
@@ -191,8 +176,11 @@ function Index() {
             background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
           }
           .toolbar {
-            padding-top: 32px;
+            padding: 32px 16px 0 16px;
             min-height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
           }
           .new_button {
             margin-left: 16px;
@@ -220,6 +208,13 @@ function Index() {
                 rgba(0, 0, 0, 0.5) 100%
               );
             background-blend-mode: screen;
+          }
+          @media only screen and (orientation: portrait) {
+            .main {
+              background-image: url("https://i.imgur.com/q7O1vkh.png");
+              background-repeat: no-repeat;
+              background-size: 100% 100%;
+            }
           }
         `}
       </style>

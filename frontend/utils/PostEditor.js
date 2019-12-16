@@ -302,12 +302,10 @@ function PostEditor() {
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
             onClose={handleInsertLinkClose}
-            className="popover_div"
           >
-            <div className="popover_paper">
+            <div style={{ padding: "8px" }}>
               <TextField label="Paste Link" size="small" id="link-url-field" />
               <Button
-                color="primary"
                 variant="outlined"
                 style={{ height: "45px" }}
                 onClick={confirm_link}
@@ -323,16 +321,14 @@ function PostEditor() {
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
             onClose={handleInsertImageClose}
-            className="popover_div"
           >
-            <div className="popover_paper">
+            <div style={{ padding: "8px" }}>
               <TextField
                 label="Insert Image Link"
                 size="small"
                 id="image-url-field"
               />
               <Button
-                color="primary"
                 variant="outlined"
                 style={{ height: "45px" }}
                 onClick={confirm_media}
@@ -396,9 +392,6 @@ function PostEditor() {
             padding: 8px;
             overflow: auto;
             border: 1px solid #cfcfcf;
-          }
-          .popover_paper: {
-            padding: 16px;
           }
         `}
       </style>

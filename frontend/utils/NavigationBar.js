@@ -64,7 +64,7 @@ function NavigationBar(props) {
         <div className="navigation">
           <div className="navigation_logo">
             <Link href="/">
-              <p className="navigation_logo_text">King Weasley</p>
+              <a><p className="navigation_logo_text">King Weasley</p></a>
             </Link>
           </div>
           <Hidden mdDown>
@@ -114,7 +114,7 @@ function NavigationBar(props) {
               </li>
               <li className="navigation_items">
                 <Link href="/romione">
-                  <p className="navigation_text">Romione</p>
+                  <a><p className="navigation_text">Romione</p></a>
                 </Link>
               </li>
               <li
@@ -184,7 +184,7 @@ function NavigationBar(props) {
               <div className="drawer">
                 <div className="drawer_main">
                   <Link href="/">
-                    <p className="drawer_heading">King Weasley</p>
+                    <a><p className="drawer_heading">King Weasley</p></a>
                   </Link>
                   <Icon onClick={handleDrawerClose}>close</Icon>
                 </div>
@@ -209,7 +209,7 @@ function NavigationBar(props) {
                     </li>
                   </ul>
                   <Link href="/romione">
-                    <li className="drawer_list_items">Romione</li>
+                    <a><li className="drawer_list_items">Romione</li></a>
                   </Link>
                   <li
                     onClick={() => handleNestedFunction("fss")}
@@ -243,6 +243,10 @@ function NavigationBar(props) {
       </Container>
       <style jsx>
         {`
+          a {
+            color: inherit;
+            text-decoration: none;
+          }
           .root {
             background-color: rgba(0, 0, 0, 0.75);
           }
