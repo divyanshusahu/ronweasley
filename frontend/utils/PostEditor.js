@@ -5,6 +5,7 @@ import {
   AtomicBlockUtils,
   CompositeDecorator
 } from "draft-js";
+import { stateToHTML } from "draft-js-export-html";
 
 import Head from "next/head";
 
@@ -13,7 +14,9 @@ import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
 import TextField from "@material-ui/core/TextField";
 
-function PostEditor() {
+import handlePost from "../utility_func/handlePost";
+
+function PostEditor(props) {
   const findLinkEntities = (contentBlock, callback, contentState) => {
     contentBlock.findEntityRanges(character => {
       const entityKey = character.getEntity();
@@ -190,6 +193,20 @@ function PostEditor() {
       AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
     );
   };
+
+  if (props.isPost) {
+    let options = {
+      inlineStyles: {
+        HIGHLIGHT: {
+          style: {
+            background: "#ff0"
+          }
+        }
+      }
+    };
+    const htmlContent = stateToHTML(editorState.getCurrentContent(), options);
+    console.log(handlePost(props.query, htmlContent));
+  }
 
   return (
     <div className="root">

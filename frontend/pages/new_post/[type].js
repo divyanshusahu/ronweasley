@@ -36,6 +36,11 @@ function Post() {
       .toUpperCase();
   }
 
+  const [post, setPost] = React.useState(false);
+  const handlePost = () => {
+    setPost(true);
+  };
+
   return (
     <div className="root">
       <Head>
@@ -87,10 +92,12 @@ function Post() {
                 editing and deleting the post.
               </FormHelperText>
               <div className="editor_pos">
-                <PostEditor />
+                <PostEditor isPost={post} query={query} />
               </div>
               <div className="paper_action">
-                <Button variant="outlined">Post</Button>
+                <Button variant="outlined" onClick={handlePost}>
+                  Post
+                </Button>
               </div>
             </div>
           </Paper>
