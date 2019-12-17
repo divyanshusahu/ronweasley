@@ -15,9 +15,9 @@ import PostEditor from "../../utils/PostEditor";
 
 function Post() {
   const allowedQuery = [
-    "ron-weasley-appreciation",
-    "ron-weasley-defense",
-    "romione-appreciation"
+    "ron_weasley_appreciation",
+    "ron_weasley_defense",
+    "romione_appreciation"
   ];
 
   const router = useRouter();
@@ -32,12 +32,20 @@ function Post() {
   if (isBrowser) {
     title = location.pathname
       .substr(10)
-      .replace(/-/g, " ")
+      .replace(/_/g, " ")
       .toUpperCase();
   }
 
   const [post, setPost] = React.useState(false);
+  const [postData, setPostData] = React.useState(null);
   const handlePost = () => {
+    let pd = {};
+    pd["title"] = document.getElementById("post_title").value;
+    pd["author"] = document.getElementById("post_author_name").value;
+    pd["author_link"] = document.getElementById("post_author_link").value;
+    pd["secret"] = document.getElementById("post_secret").value;
+    pd["type"] = query;
+    setPostData(pd);
     setPost(true);
   };
 
@@ -57,6 +65,7 @@ function Post() {
               <TextField
                 variant="outlined"
                 placeholder="Post Title"
+                id="post_title"
                 fullWidth
                 margin="dense"
                 required
@@ -65,6 +74,7 @@ function Post() {
               <TextField
                 variant="outlined"
                 placeholder="Author's Name"
+                id="post_author_name"
                 fullWidth
                 margin="dense"
               />
@@ -74,6 +84,7 @@ function Post() {
               <TextField
                 variant="outlined"
                 placeholder="Author's Social Profile Link"
+                id="post_author_link"
                 fullWidth
                 margin="dense"
               />
@@ -83,6 +94,7 @@ function Post() {
               <TextField
                 variant="outlined"
                 placeholder="Post Secret"
+                id="post_secret"
                 fullWidth
                 margin="dense"
                 required
@@ -92,7 +104,7 @@ function Post() {
                 editing and deleting the post.
               </FormHelperText>
               <div className="editor_pos">
-                <PostEditor isPost={post} query={query} />
+                <PostEditor isPost={post} data={postData} />
               </div>
               <div className="paper_action">
                 <Button variant="outlined" onClick={handlePost}>

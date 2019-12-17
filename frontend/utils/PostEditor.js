@@ -194,6 +194,7 @@ function PostEditor(props) {
     );
   };
 
+  // handle form post
   if (props.isPost) {
     let options = {
       inlineStyles: {
@@ -205,7 +206,7 @@ function PostEditor(props) {
       }
     };
     const htmlContent = stateToHTML(editorState.getCurrentContent(), options);
-    console.log(handlePost(props.query, htmlContent));
+    handlePost(props.data, htmlContent);
   }
 
   return (

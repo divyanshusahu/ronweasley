@@ -113,7 +113,7 @@ function Index() {
                     {tab_value === 0 || tab_value === 1 ? (
                       <Link
                         href="/new_post/[type]"
-                        as={`new_post/ron-weasley-${selectedTab}`}
+                        as={`new_post/ron_weasley_${selectedTab}`}
                       >
                         <a>
                           <button className="new_button">NEW POST</button>

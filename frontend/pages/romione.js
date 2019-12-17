@@ -88,7 +88,7 @@ function Romione() {
                     {tab_value === 0 ? (
                       <Link
                         href="/new_post/[type]"
-                        as={`new_post/romione-appreciation`}
+                        as={`new_post/romione_appreciation`}
                       >
                         <a>
                           <button className="new_button">NEW POST</button>
