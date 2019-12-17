@@ -5,19 +5,16 @@ const BASE_URL =
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function handlePost(data, content) {
-  console.log(data);
+async function handlePost(data) {
   const url = BASE_URL + "/posts/new/" + data.type;
   const post_data = {
     title: data.title,
     author: data.author,
     author_link: data.author_link,
     secret: data.secret,
-    content: content
+    content: data.content
   };
-  axios.post(url, post_data).then(res => {
-    console.log(res);
-  });
+  return axios.post(url, post_data);
 }
 
 export default handlePost;

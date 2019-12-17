@@ -8,6 +8,12 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import fetch from "isomorphic-unfetch";
+import isEmpty from "is-empty";
+import { ToastContainer, toast } from "react-toastify";
 
 import NavigationBar from "../../utils/NavigationBar";
 import Footer from "../../utils/Footer";
@@ -36,26 +42,85 @@ function Post() {
       .toUpperCase();
   }
 
-  const [post, setPost] = React.useState(false);
-  const [postData, setPostData] = React.useState(null);
-  const handlePost = () => {
-    let pd = {};
-    pd["title"] = document.getElementById("post_title").value;
-    pd["author"] = document.getElementById("post_author_name").value;
-    pd["author_link"] = document.getElementById("post_author_link").value;
-    pd["secret"] = document.getElementById("post_secret").value;
-    pd["type"] = query;
-    setPostData(pd);
-    setPost(true);
+  const [editorContent, setEditorContent] = React.useState("");
+  const handleEditorContent = content => {
+    setEditorContent(content);
   };
+
+  const [postResult, setPostResult] = React.useState(null);
+  const [backdropOpen, setBackdropOpen] = React.useState(false);
+
+  const handlePost = post_data => {
+    const BASE_URL =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:5000"
+        : "https://api.ronweasley.co";
+
+    fetch(BASE_URL + "/posts/new/" + post_data.type, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post_data)
+    })
+      .then(r => r.json())
+      .then(data => {
+        setPostResult(data);
+      });
+  };
+
+  const handlePostClick = () => {
+    setBackdropOpen(true);
+    let post_data = {};
+    post_data["title"] = document.getElementById("post_title").value;
+    post_data["author"] = document.getElementById("post_author_name").value;
+    post_data["author_link"] = document.getElementById(
+      "post_author_link"
+    ).value;
+    post_data["secret"] = document.getElementById("post_secret").value;
+    post_data["type"] = query;
+    post_data["content"] = editorContent;
+    post_data["reported"] = false;
+    handlePost(post_data);
+  };
+
+  React.useEffect(() => {
+    if (!isEmpty(postResult)) {
+      setBackdropOpen(false);
+      if (isEmpty(postResult["error"])) {
+        if (!postResult["success"]) {
+          toast.error(postResult["message"]);
+        } else {
+          toast.success(postResult["message"]);
+        }
+      } else {
+        toast.error("Invalid Input Fields");
+      }
+    }
+  }, [postResult]);
 
   return (
     <div className="root">
       <Head>
         <title>New Post</title>
+        <link
+          href="https://cdn.jsdelivr.net/npm/react-toastify@5.4.1/dist/ReactToastify.min.css"
+          rel="stylesheet"
+        />
       </Head>
       <NavigationBar dark={true} />
       <div className="section">
+        <Backdrop open={backdropOpen} style={{ zIndex: 1301 }}>
+          <CircularProgress />
+        </Backdrop>
+        <ToastContainer
+          position="bottom-left"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnHover
+          draggable
+        />
         <Container>
           <Paper square={true} elevation={12}>
             <div className="paper_root">
@@ -71,6 +136,11 @@ function Post() {
                 required
               />
               <FormHelperText margin="dense">*required</FormHelperText>
+              <FormHelperText margin="dense" error>
+                {!isEmpty(postResult) && !isEmpty(postResult["error"])
+                  ? postResult["error"]["title"]
+                  : ""}
+              </FormHelperText>
               <TextField
                 variant="outlined"
                 placeholder="Author's Name"
@@ -81,6 +151,7 @@ function Post() {
               <FormHelperText disabled margin="dense">
                 optional
               </FormHelperText>
+              <FormHelperText margin="dense" error></FormHelperText>
               <TextField
                 variant="outlined"
                 placeholder="Author's Social Profile Link"
@@ -90,6 +161,11 @@ function Post() {
               />
               <FormHelperText disabled margin="dense">
                 optional
+              </FormHelperText>
+              <FormHelperText margin="dense" error>
+                {!isEmpty(postResult) && !isEmpty(postResult["error"])
+                  ? postResult["error"]["author_link"]
+                  : ""}
               </FormHelperText>
               <TextField
                 variant="outlined"
@@ -103,11 +179,16 @@ function Post() {
                 *required. Remember this post secret. Secret is required for
                 editing and deleting the post.
               </FormHelperText>
+              <FormHelperText margin="dense" error>
+                {!isEmpty(postResult) && !isEmpty(postResult["error"])
+                  ? postResult["error"]["secret"]
+                  : ""}
+              </FormHelperText>
               <div className="editor_pos">
-                <PostEditor isPost={post} data={postData} />
+                <PostEditor handleEditorContent={handleEditorContent} />
               </div>
               <div className="paper_action">
-                <Button variant="outlined" onClick={handlePost}>
+                <Button variant="outlined" onClick={handlePostClick}>
                   Post
                 </Button>
               </div>

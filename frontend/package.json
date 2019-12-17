@@ -24,10 +24,13 @@
     "clsx": "^1.0.4",
     "draft-js": "^0.11.3",
     "draft-js-export-html": "^1.4.1",
+    "is-empty": "^1.2.0",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^9.1.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scroll": "^1.7.14"
+    "react-scroll": "^1.7.14",
+    "react-toastify": "^5.4.1"
   },
   "devDependencies": {
     "serverless-next.js": "^1.7.0"

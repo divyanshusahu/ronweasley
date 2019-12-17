@@ -14,8 +14,6 @@ import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
 import TextField from "@material-ui/core/TextField";
 
-import handlePost from "../utility_func/handlePost";
-
 function PostEditor(props) {
   const findLinkEntities = (contentBlock, callback, contentState) => {
     contentBlock.findEntityRanges(character => {
@@ -194,8 +192,7 @@ function PostEditor(props) {
     );
   };
 
-  // handle form post
-  if (props.isPost) {
+  if (true) {
     let options = {
       inlineStyles: {
         HIGHLIGHT: {
@@ -206,7 +203,7 @@ function PostEditor(props) {
       }
     };
     const htmlContent = stateToHTML(editorState.getCurrentContent(), options);
-    handlePost(props.data, htmlContent);
+    props.handleEditorContent(htmlContent);
   }
 
   return (
