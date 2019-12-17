@@ -28,7 +28,7 @@ def valid_inputs(post_data):
         error["error"] = True
         error["title"] = "Title must be three characters long"
 
-    if validators.url(post_data["author_link"], public=True) != True:
+    if len(post_data["author_link"]) and validators.url(post_data["author_link"], public=True) != True:
         error["error"] = True
         error["author_link"] = "Url must be valid"
 
@@ -36,20 +36,31 @@ def valid_inputs(post_data):
         error["error"] = True
         error["secret"] = "Secret must be six characters long"
 
+    if validators.length(post_data["content"], min=1) != True:
+        error["error"] = True
+        error["content"] = "Content must not be empty"
+
     return error
 
 
 @posts.route("/<post_type>", methods=["GET"])
 def get_posts(post_type):
     if post_type not in allowed_types:
-        return jsonify({"success": False, "error_message": "Invalid post type"}), 400
-    return jsonify({"success": True, "type": type})
+        return jsonify({"success": False, "message": "Invalid post type"}), 400
+
+    result = db.query(TableName=os.getenv("POST_TABLE"),
+                      IndexName="PostTypeIndex",
+                      Select="ALL_ATTRIBUTES",
+                      KeyConditionExpression="post_type = :post_value",
+                      ExpressionAttributeValues={":post_value": {"S": post_type}})
+
+    return jsonify({"success": True, "posts": result["Items"]})
 
 
 @posts.route("/new/<post_type>", methods=["POST"])
 def insert_post(post_type):
     if post_type not in allowed_types:
-        return jsonify({"success": False, "error_message": "Invalid post type"}), 400
+        return jsonify({"success": False, "message": "Invalid post type"}), 400
 
     post_data = json.loads(request.data.decode("utf-8"))
     error = valid_inputs(post_data)
@@ -59,61 +70,66 @@ def insert_post(post_type):
 
     tables = db.list_tables()["TableNames"]
     if os.getenv("POST_TABLE") not in tables:
-        db.create_table(AttributeDefinations=[
+        db.create_table(AttributeDefinitions=[
             {"AttributeName": "post_id", "AttributeType": "S"},
-            {"AttributeName": "title",
-             "AttributeType": "S"},
-            {"AttributeName": "author",
-             "AttributeType": "S"},
-            {"AttributeName": "author_link",
-             "AttributeType": "S"},
-            {"AttributeName": "type", "AttributeType": "S"},
-            {"AttributeName": "content",
-             "AttributeType": "S"},
-            {"AttributeName": "secret",
-             "AttributeType": "S"},
-            {"AttributeName": "date", "AttributeType": "S"},
-            {"AttributeName": "reported",
-             "AttributeType": "B"}
-        ],
+            {"AttributeName": "post_date", "AttributeType": "S"},
+            {"AttributeName": "post_type", "AttributeType": "S"}],
             TableName=os.getenv("POST_TABLE"),
             KeySchema=[
-            {"AttributeName": "id", "KeyType": "HASH"},
-            {"AttributeName": "date",
-             "KeyType": "RANGE"}
-        ])
+            {"AttributeName": "post_id", "KeyType": "HASH"},
+            {"AttributeName": "post_date", "KeyType": "RANGE"}],
+            BillingMode="PAY_PER_REQUEST",
+            GlobalSecondaryIndexes=[
+            {
+                "IndexName": "PostTypeIndex",
+                "KeySchema": [{"AttributeName": "post_type", "KeyType": "HASH"}],
+                "Projection": {"ProjectionType": "KEYS_ONLY"}
+            }])
+
         post_id = uuid.uuid1().hex
         date = datetime.now().isoformat()
+        if len(post_data["author"]) == 0:
+            post_data["author"] = "Anonymous"
+        if len(post_data["author_link"]) == 0:
+            post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
+
         try:
             db.put_item(TableName=os.getenv("POST_TABLE"), Item={
                 "post_id": {"S": post_id},
                 "title": {"S": post_data["title"]},
                 "author": {"S": post_data["author"]},
                 "author_link": {"S": post_data["author_link"]},
-                "type": {"S": post_type},
+                "post_type": {"S": post_type},
                 "content": {"S": post_data["content"]},
                 "secret": {"S": post_data["secret"]},
-                "date": {"S": date},
-                "reported": {"B": False}
+                "post_date": {"S": date},
+                "reported": {"BOOL": False}
             })
             return jsonify({"success": True, "message": "New Post Created"}), 200
         except:
-            return jsonify({"success": False, "error_message": "An error occurred"}), 400
+            return jsonify({"success": False, "message": "An error occurred"}), 400
     else:
         try:
+            post_id = uuid.uuid1().hex
+            date = datetime.now().isoformat()
+            if len(post_data["author"]) == 0:
+                post_data["author"] = "Anonymous"
+            if len(post_data["author_link"]) == 0:
+                post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
+
             db.put_item(TableName=os.getenv("POST_TABLE"), Item={
                 "post_id": {"S": post_id},
                 "title": {"S": post_data["title"]},
                 "author": {"S": post_data["author"]},
                 "author_link": {"S": post_data["author_link"]},
-                "type": {"S": post_type},
+                "post_type": {"S": post_type},
                 "content": {"S": post_data["content"]},
                 "secret": {"S": post_data["secret"]},
-                "date": {"S": date},
-                "reported": {"B": False}
+                "post_date": {"S": date},
+                "reported": {"BOOL": False}
             })
             return jsonify({"success": True, "message": "New Post Created"}), 200
         except:
-            return jsonify({"success": False, "error_message": "An error occurred"}), 400
+            return jsonify({"success": False, "message": "An error occurred"}), 400
 
-    return jsonify({"success": False, "error_message": "An error occurred"}), 400
+    return jsonify({"success": False, "message": "An error occurred"}), 400

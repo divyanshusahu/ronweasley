@@ -40,3 +40,4 @@ images
 
 # env variables
 .flaskenv
+.env
