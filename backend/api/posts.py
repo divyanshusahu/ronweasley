@@ -5,6 +5,7 @@ import uuid
 import json
 from datetime import datetime
 import validators
+import hashlib
 
 posts = Blueprint("posts", __name__, url_prefix="/posts")
 
@@ -43,7 +44,7 @@ def valid_inputs(post_data):
     return error
 
 
-@posts.route("/<post_type>", methods=["GET"])
+@posts.route("/post_type/<post_type>", methods=["GET"])
 def get_posts(post_type):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid post type"}), 400
@@ -54,7 +55,25 @@ def get_posts(post_type):
                       KeyConditionExpression="post_type = :post_value",
                       ExpressionAttributeValues={":post_value": {"S": post_type}})
 
-    return jsonify({"success": True, "posts": result["Items"]})
+    send_result = []
+    for p in result["Items"]:
+        temp = p
+        del temp["secret"]
+        send_result.append(temp)
+
+    return jsonify({"success": True, "posts": send_result})
+
+
+@posts.route("/pid/<post_id>", methods=["GET"])
+def get_posts_by_id(post_id):
+    result = db.query(TableName=os.getenv("POST_TABLE"),
+                      Select="ALL_ATTRIBUTES",
+                      KeyConditionExpression="post_id = :pid",
+                      ExpressionAttributeValues={":pid": {"S": post_id}})
+
+    del result["Items"][0]["secret"]
+
+    return jsonify({"success": True, "post": result["Items"]})
 
 
 @posts.route("/new/<post_type>", methods=["POST"])
@@ -93,6 +112,9 @@ def insert_post(post_type):
         if len(post_data["author_link"]) == 0:
             post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
 
+        post_data["secret"] = hashlib.sha256(
+            post_data["secret"].encode()).hexdigest()
+
         try:
             db.put_item(TableName=os.getenv("POST_TABLE"), Item={
                 "post_id": {"S": post_id},
@@ -116,6 +138,9 @@ def insert_post(post_type):
                 post_data["author"] = "Anonymous"
             if len(post_data["author_link"]) == 0:
                 post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
+
+            post_data["secret"] = hashlib.sha256(
+                post_data["secret"].encode()).hexdigest()
 
             db.put_item(TableName=os.getenv("POST_TABLE"), Item={
                 "post_id": {"S": post_id},
