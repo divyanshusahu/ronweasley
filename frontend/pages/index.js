@@ -139,7 +139,7 @@ function Index() {
           .main {
             min-height: 100vh;
             height: 100%;
-            background-image: url("https://i.imgur.com/c1m5irF.png");
+            background-image: url("https://i.imgur.com/FS2A8uM.jpg");
             background-repeat: no-repeat;
             background-size: 100% 100%;
           }
@@ -211,7 +211,7 @@ function Index() {
           }
           @media only screen and (orientation: portrait) {
             .main {
-              background-image: url("https://i.imgur.com/q7O1vkh.png");
+              background-image: url("https://i.imgur.com/kfXav0X.jpg");
               background-repeat: no-repeat;
               background-size: 100% 100%;
             }

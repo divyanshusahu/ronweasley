@@ -114,7 +114,7 @@ function Romione() {
           .main {
             min-height: 100vh;
             height: 100%;
-            background-image: url("https://i.imgur.com/G30MPi7.jpg");
+            background-image: url("https://i.imgur.com/5XFq6a3.jpg");
             background-repeat: no-repeat;
             background-size: 100% 100%;
           }
@@ -189,7 +189,7 @@ function Romione() {
           }
           @media only screen and (orientation: portrait) {
             .main {
-              background-image: url("https://i.imgur.com/ZON12AZ.png");
+              background-image: url("https://i.imgur.com/AKuRxbB.jpg");
               background-repeat: no-repeat;
               background-size: 100% 100%;
             }
