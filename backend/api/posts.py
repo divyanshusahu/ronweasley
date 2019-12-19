@@ -16,7 +16,7 @@ if os.getenv("ENV") == "development":
     db = boto3.client("dynamodb", region_name="localhost",
                       endpoint_url="http://localhost:8000")
 else:
-    db = boto3.client("dynamodb", region_name=os.getenv("REGION_NAME"))
+    db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
 
 def valid_inputs(post_data):
@@ -49,7 +49,7 @@ def get_posts(post_type):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid post type"}), 400
 
-    result = db.query(TableName=os.getenv("POST_TABLE"),
+    result = db.query(TableName=os.environ["POST_TABLE"],
                       IndexName="PostTypeIndex",
                       Select="ALL_ATTRIBUTES",
                       KeyConditionExpression="post_type = :post_value",
@@ -66,7 +66,7 @@ def get_posts(post_type):
 
 @posts.route("/pid/<post_id>", methods=["GET"])
 def get_posts_by_id(post_id):
-    result = db.query(TableName=os.getenv("POST_TABLE"),
+    result = db.query(TableName=os.environ["POST_TABLE"],
                       Select="ALL_ATTRIBUTES",
                       KeyConditionExpression="post_id = :pid",
                       ExpressionAttributeValues={":pid": {"S": post_id}})
@@ -87,13 +87,22 @@ def insert_post(post_type):
     if error["error"] == True:
         return jsonify({"success": False, "error": error}), 400
 
-    tables = db.list_tables()["TableNames"]
-    if os.getenv("POST_TABLE") not in tables:
+    post_id = uuid.uuid1().hex
+    date = datetime.now().isoformat()
+    if len(post_data["author"]) == 0:
+        post_data["author"] = "Anonymous"
+    if len(post_data["author_link"]) == 0:
+        post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
+
+    post_data["secret"] = hashlib.sha256(
+        post_data["secret"].encode()).hexdigest()
+
+    try:
         db.create_table(AttributeDefinitions=[
             {"AttributeName": "post_id", "AttributeType": "S"},
             {"AttributeName": "post_date", "AttributeType": "S"},
             {"AttributeName": "post_type", "AttributeType": "S"}],
-            TableName=os.getenv("POST_TABLE"),
+            TableName=os.environ["POST_TABLE"],
             KeySchema=[
             {"AttributeName": "post_id", "KeyType": "HASH"},
             {"AttributeName": "post_date", "KeyType": "RANGE"}],
@@ -105,18 +114,8 @@ def insert_post(post_type):
                 "Projection": {"ProjectionType": "KEYS_ONLY"}
             }])
 
-        post_id = uuid.uuid1().hex
-        date = datetime.now().isoformat()
-        if len(post_data["author"]) == 0:
-            post_data["author"] = "Anonymous"
-        if len(post_data["author_link"]) == 0:
-            post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
-
-        post_data["secret"] = hashlib.sha256(
-            post_data["secret"].encode()).hexdigest()
-
         try:
-            db.put_item(TableName=os.getenv("POST_TABLE"), Item={
+            db.put_item(TableName=os.environ["POST_TABLE"], Item={
                 "post_id": {"S": post_id},
                 "title": {"S": post_data["title"]},
                 "author": {"S": post_data["author"]},
@@ -130,19 +129,10 @@ def insert_post(post_type):
             return jsonify({"success": True, "message": "New Post Created"}), 200
         except:
             return jsonify({"success": False, "message": "An error occurred"}), 400
-    else:
+
+    except db.exceptions.ResourceInUseException:
         try:
-            post_id = uuid.uuid1().hex
-            date = datetime.now().isoformat()
-            if len(post_data["author"]) == 0:
-                post_data["author"] = "Anonymous"
-            if len(post_data["author_link"]) == 0:
-                post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
-
-            post_data["secret"] = hashlib.sha256(
-                post_data["secret"].encode()).hexdigest()
-
-            db.put_item(TableName=os.getenv("POST_TABLE"), Item={
+            db.put_item(TableName=os.environ["POST_TABLE"], Item={
                 "post_id": {"S": post_id},
                 "title": {"S": post_data["title"]},
                 "author": {"S": post_data["author"]},

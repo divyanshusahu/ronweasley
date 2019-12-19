@@ -1,3 +1,4 @@
+org: dsahu1997
 service: ronweasley-backend
 
 plugins:
@@ -6,16 +7,33 @@ plugins:
 
 custom:
   wsgi:
-    app: app.app
+app: ronweasley-backend
     packRequirements: false
   pythonRequirements:
     dockerizePip: non-linux
+  config: file(./secret.json)
 
 provider:
   name: aws
   runtime: python3.8
-  stage: dev
-  region: us-east-1
+  stage: prod
+  region: ${${self:custom.config}:REGION_NAME}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:CreateTable
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*/index/*"
+  environment:
+    REGION_NAME: ${${self:custom.config}:REGION_NAME}
+    POST_TABLE: ${${self:custom.config}:POST_TABLE}
 
 functions:
   app:
@@ -27,3 +45,4 @@ functions:
 package:
   exclude:
     - this_project/**
+    - __pycache__/**

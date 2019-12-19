@@ -41,3 +41,4 @@ images
 # env variables
 .flaskenv
 .env
+secret.json
