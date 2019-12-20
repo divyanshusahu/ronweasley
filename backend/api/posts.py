@@ -71,6 +71,9 @@ def get_posts_by_id(post_id):
                       KeyConditionExpression="post_id = :pid",
                       ExpressionAttributeValues={":pid": {"S": post_id}})
 
+    if len(result["Items"]) == 0:
+        return jsonify({"success": False}), 404
+
     del result["Items"][0]["secret"]
 
     return jsonify({"success": True, "post": result["Items"]})
