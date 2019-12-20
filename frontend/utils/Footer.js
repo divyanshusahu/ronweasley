@@ -40,6 +40,7 @@ function Footer() {
           footer {
             padding: 16px;
             background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+            margin-top: auto;
           }
           .icon {
             position: relative;

@@ -33,14 +33,7 @@ function Post() {
     return <Error statusCode={404} />;
   }
 
-  const isBrowser = typeof window !== "undefined";
-  let title = "";
-  if (isBrowser) {
-    title = location.pathname
-      .substr(10)
-      .replace(/_/g, " ")
-      .toUpperCase();
-  }
+  let title = query.replace(/_/g, " ").toUpperCase();
 
   const [editorContent, setEditorContent] = React.useState("");
   const handleEditorContent = content => {

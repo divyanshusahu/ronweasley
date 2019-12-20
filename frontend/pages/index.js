@@ -14,21 +14,29 @@ import { Link as RSLink, Element } from "react-scroll";
 
 import NavigationBar from "../utils/NavigationBar";
 import ScrollAnimation from "../utils/ScrollAnimation";
+import DisplayPosts from "../utils/DisplayPosts";
 import Footer from "../utils/Footer";
 
 function Index() {
+  const [display, setDisplay] = React.useState(
+    <DisplayPosts post_type="ron_weasley_appreciation" />
+  );
   const [selectedTab, setSelectedTab] = React.useState("appreciation");
   const [tab_value, setTabValue] = React.useState(0);
   const tab_handlechange = (event, value) => {
     setTabValue(value);
     if (value === 0) {
       setSelectedTab("appreciation");
+      setDisplay(<DisplayPosts post_type="ron_weasley_appreciation" />);
     } else if (value === 1) {
       setSelectedTab("defense");
+      setDisplay(<DisplayPosts post_type="ron_weasley_defense" />);
     } else if (value === 2) {
       setSelectedTab("fanart");
+      setDisplay(null);
     } else if (value === 3) {
       setSelectedTab("fanfiction");
+      setDisplay(null);
     }
   };
   const handleSelectTabChange = event => {
@@ -124,7 +132,7 @@ function Index() {
                     )}
                   </div>
                 </div>
-                <div className="landing_posts"></div>
+                <div className="landing_posts">{display}</div>
               </Paper>
             </Container>
           </div>

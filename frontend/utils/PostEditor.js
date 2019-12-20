@@ -3,9 +3,9 @@ import {
   EditorState,
   RichUtils,
   AtomicBlockUtils,
-  CompositeDecorator
+  CompositeDecorator,
+  convertToRaw
 } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
 
 import Head from "next/head";
 
@@ -193,17 +193,8 @@ function PostEditor(props) {
   };
 
   if (true) {
-    let options = {
-      inlineStyles: {
-        HIGHLIGHT: {
-          style: {
-            background: "#ff0"
-          }
-        }
-      }
-    };
-    const htmlContent = stateToHTML(editorState.getCurrentContent(), options);
-    props.handleEditorContent(htmlContent);
+    const currentContent = convertToRaw(editorState.getCurrentContent());
+    props.handleEditorContent(JSON.stringify(currentContent));
   }
 
   return (
