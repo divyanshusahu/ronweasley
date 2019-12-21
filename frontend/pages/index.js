@@ -43,8 +43,10 @@ function Index() {
     setTabValue(event.target.value);
     if (event.target.value === 0) {
       setSelectedTab("appreciation");
+      setDisplay(<DisplayPosts post_type="ron_weasley_appreciation" />);
     } else if (event.target.value === 1) {
       setSelectedTab("defense");
+      setDisplay(<DisplayPosts post_type="ron_weasley_defense" />);
     } else if (event.target.value === 2) {
       setSelectedTab("fanart");
     } else if (event.target.value === 3) {
