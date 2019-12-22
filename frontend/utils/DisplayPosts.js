@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
-import Menu from "@material-ui/core/MenuItem";
-import MenuItem from "@material-ui/core/MenuItem";
+import Popover from "@material-ui/core/Popover";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 import fetch from "isomorphic-unfetch";
 
@@ -19,6 +20,14 @@ function DisplayPosts(props) {
       ? "http://localhost:5000"
       : "https://api.ronweasley.co";
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleMenuClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const [posts, setPosts] = React.useState([]);
   React.useEffect(() => {
     let url = BASE_URL + "/posts/post_type/" + props.post_type;
@@ -30,13 +39,6 @@ function DisplayPosts(props) {
         }
       });
   }, [props.post_type]);
-
-  const is_overflow = element => {
-    //return element.scrollHeight > element.clientHeight;
-    const isBrowser = typeof window !== "undefined";
-    console.log(isBrowser);
-    return true;
-  };
 
   return (
     <div>
@@ -67,9 +69,44 @@ function DisplayPosts(props) {
                   </div>
                 </div>
                 <div>
-                  <IconButton>
-                    <Icon>more_vert</Icon>
-                  </IconButton>
+                  <Icon
+                    aria-controls="post-options"
+                    aria-haspopup="true"
+                    onClick={handleMenuClick}
+                    style={{ cursor: "pointer", color: "#aaa" }}
+                  >
+                    more_vert
+                  </Icon>
+                  <Popover
+                    id="post-options"
+                    open={Boolean(anchorEl)}
+                    anchorEl={anchorEl}
+                    onClose={handleMenuClose}
+                    elevation={1}
+                    PaperProps={{ square: true }}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "center"
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "center"
+                    }}
+                  >
+                    <div>
+                      <List dense disablePadding>
+                        <ListItem dense>
+                          <ListItemText primary="Edit" />
+                        </ListItem>
+                        <ListItem dense divider>
+                          <ListItemText primary="Delete" />
+                        </ListItem>
+                        <ListItem dense>
+                          <ListItemText primary="Report" />
+                        </ListItem>
+                      </List>
+                    </div>
+                  </Popover>
                 </div>
               </div>
               <div className="card_content">
@@ -82,7 +119,7 @@ function DisplayPosts(props) {
                 )}
               </div>
               <div className="card_action">
-                <TimeAgo date={p.post_date.S} style={{marginLeft: "auto"}} />
+                <TimeAgo date={p.post_date.S} style={{ marginLeft: "auto" }} />
               </div>
             </div>
           </div>
@@ -119,7 +156,7 @@ function DisplayPosts(props) {
           }
           .card_content {
             overflow: hidden;
-            max-height: 300px;
+            max-height: 200px;
             padding: 20px 0;
           }
           .card_action {
