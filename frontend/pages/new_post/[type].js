@@ -99,7 +99,7 @@ function Post() {
           rel="stylesheet"
         />
       </Head>
-      <NavigationBar dark={true} />
+      <NavigationBar light={true} />
       <div className="section">
         <Backdrop open={backdropOpen} style={{ zIndex: 1301 }}>
           <CircularProgress />
