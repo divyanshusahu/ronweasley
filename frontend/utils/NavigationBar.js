@@ -49,7 +49,14 @@ function NavigationBar(props) {
   };
 
   return (
-    <div className={clsx({ root: props.dark })}>
+    <div
+      className={clsx({
+        dark: props.dark,
+        sticky_navigation: !drawerOpen,
+        initial_navigation: true,
+        light: props.light
+      })}
+    >
       <Head>
         <link
           href="https://fonts.googleapis.com/css?family=Capriola"
@@ -64,7 +71,9 @@ function NavigationBar(props) {
         <div className="navigation">
           <div className="navigation_logo">
             <Link href="/">
-              <a><p className="navigation_logo_text">King Weasley</p></a>
+              <a>
+                <p className="navigation_logo_text">King Weasley</p>
+              </a>
             </Link>
           </div>
           <Hidden mdDown>
@@ -84,7 +93,7 @@ function NavigationBar(props) {
                   disablePortal={true}
                   placement="bottom-start"
                   transition
-                  style={{zIndex: "1300"}}
+                  style={{ zIndex: "1300" }}
                 >
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={250}>
@@ -114,7 +123,9 @@ function NavigationBar(props) {
               </li>
               <li className="navigation_items">
                 <Link href="/romione">
-                  <a><p className="navigation_text">Romione</p></a>
+                  <a>
+                    <p className="navigation_text">Romione</p>
+                  </a>
                 </Link>
               </li>
               <li
@@ -132,7 +143,7 @@ function NavigationBar(props) {
                   disablePortal={true}
                   placement="bottom-start"
                   transition
-                  style={{zIndex: "1300"}}
+                  style={{ zIndex: "1300" }}
                 >
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={250}>
@@ -184,7 +195,9 @@ function NavigationBar(props) {
               <div className="drawer">
                 <div className="drawer_main">
                   <Link href="/">
-                    <a><p className="drawer_heading">King Weasley</p></a>
+                    <a>
+                      <p className="drawer_heading">King Weasley</p>
+                    </a>
                   </Link>
                   <Icon onClick={handleDrawerClose}>close</Icon>
                 </div>
@@ -209,7 +222,9 @@ function NavigationBar(props) {
                     </li>
                   </ul>
                   <Link href="/romione">
-                    <a><li className="drawer_list_items">Romione</li></a>
+                    <a>
+                      <li className="drawer_list_items">Romione</li>
+                    </a>
                   </Link>
                   <li
                     onClick={() => handleNestedFunction("fss")}
@@ -247,12 +262,23 @@ function NavigationBar(props) {
             color: inherit;
             text-decoration: none;
           }
-          .root {
-            background-color: rgba(0, 0, 0, 0.75);
+          .dark {
+            color: #ffffff;
+          }
+          .light {
+            background-color: rgba(255, 255, 255, 1);
+            color: #000000;
+            box-shadow: 0 2px 4px 0 rgba(128, 128, 128, 1);
+          }
+          .initial_navigation {
+            z-index: 10000;
+          }
+          .sticky_navigation {
+            position: sticky;
+            top: 0;
           }
           .navigation {
             height: 8vh;
-            color: #ffffff;
             display: flex;
             justify-content: space-between;
             align-items: center;

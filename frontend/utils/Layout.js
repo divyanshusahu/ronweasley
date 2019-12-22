@@ -10,6 +10,31 @@ import ScrollAnimation from "./ScrollAnimation";
 import Footer from "./Footer";
 
 function Layout(props) {
+  const isBrowser = typeof window !== "undefined";
+  const [dark, setDark] = React.useState(true);
+  const [light, setLight] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isBrowser) {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
+
+  const handleScroll = () => {
+    if (isBrowser) {
+      if (window.scrollY > 200) {
+        setDark(false);
+        setLight(true);
+      } else {
+        setDark(true);
+        setLight(false);
+      }
+    }
+  };
+
   return (
     <div>
       <Head>
@@ -20,8 +45,8 @@ function Layout(props) {
           type="text/css"
         />
       </Head>
-      <div className="root">
-        <NavigationBar />
+      <div className="post_root">
+        <NavigationBar dark={dark} light={light} />
         <div className="main">
           <div className="main_overlay">
             <div className="hero">
@@ -47,7 +72,7 @@ function Layout(props) {
       <Footer />
       <style jsx>
         {`
-          .root {
+          .post_root {
             min-height: 100vh;
             height: 100%;
           }
