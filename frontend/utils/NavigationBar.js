@@ -52,8 +52,8 @@ function NavigationBar(props) {
     <div
       className={clsx({
         dark: props.dark,
-        sticky_navigation: !drawerOpen,
-        initial_navigation: true,
+        sticky_navigation: true,
+        initial_navigation: !drawerOpen,
         light: props.light
       })}
     >
@@ -102,7 +102,7 @@ function NavigationBar(props) {
                           <li
                             className={clsx({
                               popper_list_items: true,
-                              custom_borders: props.dark
+                              custom_borders: props.light
                             })}
                           >
                             Golden Trio
@@ -110,7 +110,7 @@ function NavigationBar(props) {
                           <li
                             className={clsx({
                               popper_list_items: true,
-                              custom_borders: props.dark
+                              custom_borders: props.light
                             })}
                           >
                             Weasley Family
@@ -152,7 +152,7 @@ function NavigationBar(props) {
                           <li
                             className={clsx({
                               popper_list_items: true,
-                              custom_borders: props.dark
+                              custom_borders: props.light
                             })}
                           >
                             <span>Ron-Lavender</span>
@@ -160,7 +160,7 @@ function NavigationBar(props) {
                           <li
                             className={clsx({
                               popper_list_items: true,
-                              custom_borders: props.dark
+                              custom_borders: props.light
                             })}
                           >
                             <span>Ron-Harry</span>
@@ -168,7 +168,7 @@ function NavigationBar(props) {
                           <li
                             className={clsx({
                               popper_list_items: true,
-                              custom_borders: props.dark
+                              custom_borders: props.light
                             })}
                           >
                             <span>Ron-Luna</span>
@@ -180,7 +180,11 @@ function NavigationBar(props) {
                 </Popper>
               </li>
               <li className="navigation_items">
-                <p className="navigation_text">Feedbacks</p>
+                <Link href="suggestions">
+                  <a>
+                    <p className="navigation_text">Suggestions</p>
+                  </a>
+                </Link>
               </li>
               <li className="navigation_items">
                 <p className="navigation_text">Credits</p>
@@ -248,7 +252,11 @@ function NavigationBar(props) {
                       Ron-Luna
                     </li>
                   </ul>
-                  <li className="drawer_list_items">Feedbacks</li>
+                  <Link href="/suggestions">
+                    <a>
+                      <li className="drawer_list_items">Suggestions</li>
+                    </a>
+                  </Link>
                   <li className="drawer_list_items">Credits</li>
                 </ul>
               </div>
@@ -258,10 +266,6 @@ function NavigationBar(props) {
       </Container>
       <style jsx>
         {`
-          a {
-            color: inherit;
-            text-decoration: none;
-          }
           .dark {
             color: #ffffff;
           }

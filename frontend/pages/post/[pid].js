@@ -70,10 +70,6 @@ function ShowPosts(props) {
           .section {
             margin: 40px 0 80px 0;
           }
-          a {
-            text-decoration: none;
-            color: inherit;
-          }
         `}
       </style>
     </div>

@@ -133,10 +133,6 @@ function DisplayPosts(props) {
           .show_post {
             padding: 16px 0px;
           }
-          a {
-            text-decoration: none;
-            color: inherit;
-          }
           .card {
             background-color: #fefefe;
             padding: 16px;
