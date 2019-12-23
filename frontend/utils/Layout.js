@@ -17,6 +17,13 @@ function Layout(props) {
   React.useEffect(() => {
     if (isBrowser) {
       window.addEventListener("scroll", handleScroll);
+      if (window.scrollY > 200) {
+        setDark(false);
+        setLight(true);
+      } else {
+        setDark(true);
+        setLight(false);
+      }
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };

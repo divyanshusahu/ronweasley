@@ -58,6 +58,10 @@ function Footer() {
             font-weight: 400;
             line-height: 1.5;
           }
+          .custom_link {
+            text-decoration: underline;
+            color: rgb(0, 0, 255);
+          }
         `}
       </style>
       <Container maxWidth="sm">
@@ -74,6 +78,7 @@ function Footer() {
             href="https://github.com/divyanshusahu"
             target="_blank"
             rel="noopener noreferrer"
+            className="custom_link"
           >
             Divyanshu
           </a>
