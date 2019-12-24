@@ -8,6 +8,10 @@ function SecondaryLayout(props) {
     <div>
       <Head>
         <title>{props.title}</title>
+        <link
+          href="https://cdn.jsdelivr.net/npm/react-toastify@5.4.1/dist/ReactToastify.min.css"
+          rel="stylesheet"
+        />
       </Head>
       <div className="page_root">
         <NavigationBar light={true} />

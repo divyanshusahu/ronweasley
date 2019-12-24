@@ -1,3 +1,7 @@
+import fetch from "isomorphic-unfetch";
+import { ToastContainer, toast } from "react-toastify";
+import isEmpty from "is-empty";
+
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -10,17 +14,96 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import TextField from "@material-ui/core/TextField";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 
 import SecondaryLayout from "../utils/SecondaryLayout";
 
 function Suggestions() {
+  const BASE_URL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5000"
+      : "https://api.ronweasley.co";
+
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [feedbacks, setFeedbacks] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch(BASE_URL + "/suggestions/get/suggestion")
+      .then(r => r.json())
+      .then(data => {
+        setSuggestions(data["posts"]);
+      });
+    fetch(BASE_URL + "/suggestions/get/feedback")
+      .then(r => r.json())
+      .then(data => {
+        setFeedbacks(data["posts"]);
+      });
+  }, []);
+
+  const updateSuggestions = type => {
+    fetch(BASE_URL + "/suggestions/get/" + type)
+      .then(r => r.json())
+      .then(data => {
+        if (type === "suggestion") {
+          setSuggestions(data["posts"]);
+        } else if (type === "feedback") {
+          setFeedbacks(data["posts"]);
+        }
+      });
+  };
+
+  const [postResult, setPostResult] = React.useState(null);
+  const handlePost = type => {
+    let post_data = {
+      post_type: type,
+      content:
+        type === "suggestion"
+          ? document.getElementById("suggestion_text").value
+          : document.getElementById("feedback_text").value
+    };
+    fetch(BASE_URL + "/suggestions/new", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post_data)
+    })
+      .then(r => r.json())
+      .then(data => {
+        setPostResult(data);
+      });
+  };
+
+  React.useEffect(() => {
+    if (!isEmpty(postResult)) {
+      if (postResult["success"]) {
+        toast.success(postResult["message"]);
+        document.getElementById("suggestion_text").value = "";
+        document.getElementById("feedback_text").value = "";
+        updateSuggestions("suggestion");
+        updateSuggestions("feedback");
+      } else {
+        toast.error(postResult["message"]);
+      }
+    }
+  }, [postResult]);
+
   return (
     <div>
       <SecondaryLayout title="Suggestions">
+        <ToastContainer
+          position="bottom-left"
+          autoClose={2000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnHover
+          draggable
+        />
         <Container maxWidth="xl">
           <div className="work_in_progress">
             <Grid container spacing={8}>
@@ -169,7 +252,33 @@ function Suggestions() {
                     avatar={<Icon>live_help</Icon>}
                   />
                   <div className="card_content">
-                    <CardContent></CardContent>
+                    <CardContent>
+                      {suggestions.map((sug, index) => (
+                        <ExpansionPanel
+                          key={index}
+                          style={{ backgroundColor: "#f5f5f5" }}
+                        >
+                          <ExpansionPanelSummary
+                            expandIcon={<Icon>expand_more</Icon>}
+                          >
+                            <Typography component="p" variant="body1">
+                              {isEmpty(sug.content) ? "" : sug.content.S}
+                            </Typography>
+                          </ExpansionPanelSummary>
+                          <ExpansionPanelDetails>
+                            <Typography
+                              component="p"
+                              variant="caption"
+                              color="textSecondary"
+                            >
+                              {isEmpty(sug.reply)
+                                ? "Admin will replay soon"
+                                : sug.reply.S}
+                            </Typography>
+                          </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                      ))}
+                    </CardContent>
                   </div>
                   <CardActions>
                     <div className="card_action">
@@ -179,12 +288,16 @@ function Suggestions() {
                         rowsMax={2}
                         placeholder="Type your suggestion here"
                         style={{ flex: 1 }}
+                        id="suggestion_text"
                       />
                       <Divider
                         orientation="vertical"
                         style={{ height: 40, margin: 4 }}
                       />
-                      <IconButton title="Send">
+                      <IconButton
+                        title="Send"
+                        onClick={() => handlePost("suggestion")}
+                      >
                         <Icon>send</Icon>
                       </IconButton>
                     </div>
@@ -211,7 +324,33 @@ function Suggestions() {
                     avatar={<Icon>feedback</Icon>}
                   />
                   <div className="card_content">
-                    <CardContent></CardContent>
+                    <CardContent>
+                      {feedbacks.map((fed, index) => (
+                        <ExpansionPanel
+                          key={index}
+                          style={{ backgroundColor: "#f5f5f5" }}
+                        >
+                          <ExpansionPanelSummary
+                            expandIcon={<Icon>expand_more</Icon>}
+                          >
+                            <Typography component="p" variant="body1">
+                              {isEmpty(fed.content) ? "" : fed.content.S}
+                            </Typography>
+                          </ExpansionPanelSummary>
+                          <ExpansionPanelDetails>
+                            <Typography
+                              component="p"
+                              variant="caption"
+                              color="textSecondary"
+                            >
+                              {isEmpty(fed.reply)
+                                ? "Admin will replay soon"
+                                : fed.reply.S}
+                            </Typography>
+                          </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                      ))}
+                    </CardContent>
                   </div>
                   <CardActions>
                     <div className="card_action">
@@ -221,12 +360,16 @@ function Suggestions() {
                         rowsMax={2}
                         placeholder="Type your review here"
                         style={{ flex: 1 }}
+                        id="feedback_text"
                       />
                       <Divider
                         orientation="vertical"
                         style={{ height: 40, margin: 4 }}
                       />
-                      <IconButton title="Send">
+                      <IconButton
+                        title="Send"
+                        onClick={() => handlePost("feedback")}
+                      >
                         <Icon>send</Icon>
                       </IconButton>
                     </div>
