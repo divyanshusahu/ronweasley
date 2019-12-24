@@ -35,6 +35,9 @@ def add_suggestions():
     if len(data["content"]) < 4:
         return jsonify({"success": False, "message": "Content should be atleast four characters long"}), 400
 
+    if data["post_type"] not in ["suggestion", "feedback"]:
+        return jsonify({"success": False, "message": "Invalid Request"}), 400
+
     post_id = uuid.uuid1().hex
     date = datetime.now().isoformat()
 

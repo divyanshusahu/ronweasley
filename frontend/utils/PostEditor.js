@@ -10,6 +10,7 @@ import {
 import Head from "next/head";
 
 import Button from "@material-ui/core/Button";
+import ButtonBase from "@material-ui/core/ButtonBase";
 import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
 import TextField from "@material-ui/core/TextField";
@@ -207,82 +208,72 @@ function PostEditor(props) {
       </Head>
       <div className="toolbar">
         <div>
-          <Button
-            variant="outlined"
+          <ButtonBase
             onClick={handleBoldClick}
             title="Bold"
             size="small"
           >
             <Icon>format_bold</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleItalicClick}
             title="Italic"
             size="small"
           >
             <Icon>format_italic</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleStrikeClick}
             title="Strikethrough"
             size="small"
           >
             <Icon>format_strikethrough</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleUnderlineClick}
             title="Underline"
             size="small"
           >
             <Icon>format_underlined</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleHighlightClick}
             title="Highlight"
             size="small"
           >
             <Icon>highlight</Icon>
-          </Button>
+          </ButtonBase>
         </div>
         <div>
-          <Button
-            variant="outlined"
+          <ButtonBase
             onClick={handleULClick}
             title="Bullet List"
             size="small"
           >
             <Icon>format_list_bulleted</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleOLClick}
             title="Numbered List"
             size="small"
           >
             <Icon>format_list_numbered</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleBlockqouteClick}
             title="Blockquote"
             size="small"
           >
             <Icon>format_quote</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={handleCodeblockClick}
             title="Code Block"
             size="small"
           >
             <Icon>code</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             aria-owns={linkPopoverOpen ? "link-Popover" : undefined}
             aria-haspopup={true}
             onClick={handleInsertLinkClick}
@@ -290,9 +281,8 @@ function PostEditor(props) {
             size="small"
           >
             <Icon>insert_link</Icon>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             aria-owns={imagePopoverOpen ? "image-Popover" : undefined}
             aria-haspopup={true}
             onClick={handleInsertImageClick}
@@ -300,7 +290,7 @@ function PostEditor(props) {
             size="small"
           >
             <Icon>image</Icon>
-          </Button>
+          </ButtonBase>
           <Popover
             id="link-Popover"
             open={linkPopoverOpen}
@@ -345,30 +335,27 @@ function PostEditor(props) {
           </Popover>
         </div>
         <div>
-          <Button
-            variant="outlined"
+          <ButtonBase
             onClick={() => handleHeaderClick("one")}
             title="Heading 1"
             size="small"
           >
             <strong style={{ fontSize: "14px" }}>H1</strong>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={() => handleHeaderClick("two")}
             title="Heading 2"
             size="small"
           >
             <strong style={{ fontSize: "14px" }}>H2</strong>
-          </Button>
-          <Button
-            variant="outlined"
+          </ButtonBase>
+          <ButtonBase
             onClick={() => handleHeaderClick("normal")}
             title="Normal"
             size="small"
           >
             <strong style={{ fontSize: "14px" }}>N</strong>
-          </Button>
+          </ButtonBase>
         </div>
       </div>
       <div className="editor">
@@ -378,16 +365,14 @@ function PostEditor(props) {
           handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
           blockRendererFn={mediaBlockRenderer}
-          placeholder="Begin typing here"
+          placeholder="Begin typing here..."
         />
       </div>
       <style jsx>
         {`
           .toolbar {
-            margin-bottom: 16px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             padding: 8px;
             border: 1px solid #cfcfcf;
             max-height: 104px;
