@@ -1,7 +1,8 @@
 import Head from "next/head";
 
-import Container from "@material-ui/core/Container";
-import Icon from "@material-ui/core/Icon";
+import { Row, Col, Icon, Typography } from "antd";
+
+const { Paragraph } = Typography;
 
 function Footer() {
   return (
@@ -17,6 +18,10 @@ function Footer() {
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/antd@3.26.4/dist/antd.min.css"
           type="text/css"
         />
       </Head>
@@ -27,6 +32,11 @@ function Footer() {
           }
 
           a {
+            text-decoration: none;
+            color: inherit;
+          }
+
+          a:hover {
             text-decoration: none;
             color: inherit;
           }
@@ -43,48 +53,34 @@ function Footer() {
       <style jsx>
         {`
           footer {
-            padding: 16px;
-            background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+            padding: 32px;
+            background-color: #fff;
             margin-top: auto;
-          }
-          .icon {
-            position: relative;
-            top: 5px;
-          }
-          .footer_text {
-            text-align: center;
-            font-size: 1rem;
-            font-family: "Roboto";
-            font-weight: 400;
-            line-height: 1.5;
-          }
-          .custom_link {
-            text-decoration: underline;
-            color: rgb(0, 0, 255);
           }
         `}
       </style>
-      <Container maxWidth="sm">
-        <p className="footer_text">This Website is dedicated to Ron Lovers.</p>
-        <p className="footer_text">
-          Made with{" "}
-          <span className="icon">
-            <Icon color="error" fontSize="small">
-              favorite
-            </Icon>
-          </span>{" "}
-          by{" "}
-          <a
-            href="https://github.com/divyanshusahu"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="custom_link"
+      <Row>
+        <Col sm={12} md={{ span: 8, offset: 8 }}>
+          <Paragraph
+            style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
           >
-            Divyanshu
-          </a>
-          .
-        </p>
-      </Container>
+            This Website is dedicated to Ron Lovers.
+          </Paragraph>
+          <Paragraph
+            style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
+          >
+            Made with{" "}
+            <Icon type="heart" theme="filled" style={{ color: "#f00" }} /> by{" "}
+            <a
+              href="https://github.com/divyanshusahu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Divyanshu
+            </a>
+          </Paragraph>
+        </Col>
+      </Row>
     </footer>
   );
 }
