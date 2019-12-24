@@ -106,7 +106,7 @@ function Suggestions() {
         />
         <Container maxWidth="xl">
           <div className="work_in_progress">
-            <Grid container spacing={8}>
+            <Grid container>
               <Grid item xs={12} md={3}></Grid>
               <Grid item xs={12} md={6}>
                 <Card raised>
