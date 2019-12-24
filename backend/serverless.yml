@@ -34,6 +34,7 @@ provider:
   environment:
     REGION_NAME: ${${self:custom.config}:REGION_NAME}
     POST_TABLE: ${${self:custom.config}:POST_TABLE}
+    SUGGESTION_TABLE: ${${self:custom.config}:SUGGESTION_TABLE}
 
 functions:
   app:
