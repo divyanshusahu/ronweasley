@@ -1,7 +1,13 @@
 import Head from "next/head";
 
+import { Layout as AntLayout } from "antd";
+
 import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
+
+const AntHeader = AntLayout.Header;
+const AntContent = AntLayout.Content;
+const AntFooter = AntLayout.Footer;
 
 function SecondaryLayout(props) {
   return (
@@ -13,21 +19,17 @@ function SecondaryLayout(props) {
           rel="stylesheet"
         />
       </Head>
-      <div className="page_root">
-        <NavigationBar light={true} />
-        <div>{props.children}</div>
-        <Footer />
-      </div>
-      <style jsx>
-        {`
-          .page_root {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-          }
-        `}
-      </style>
+      <AntLayout>
+        <AntHeader
+          style={{ padding: 0, position: "sticky", top: 0, zIndex: 10 }}
+        >
+          <NavigationBar light={true} />
+        </AntHeader>
+        <AntContent>{props.children}</AntContent>
+        <AntFooter style={{ padding: 0 }}>
+          <Footer />
+        </AntFooter>
+      </AntLayout>
     </div>
   );
 }
