@@ -6,7 +6,7 @@ const { Paragraph } = Typography;
 
 function Footer() {
   return (
-    <footer>
+    <div className="page_footer">
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,10 +49,9 @@ function Footer() {
       </style>
       <style jsx>
         {`
-          footer {
-            padding: 32px;
+          .page_footer {
             background-color: #fff;
-            margin-top: auto;
+            padding: 24px;
           }
         `}
       </style>
@@ -78,7 +77,7 @@ function Footer() {
           </Paragraph>
         </Col>
       </Row>
-    </footer>
+    </div>
   );
 }
 
