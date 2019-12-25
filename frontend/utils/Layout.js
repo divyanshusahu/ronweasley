@@ -1,13 +1,16 @@
 import Head from "next/head";
 
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
+import { Row, Col, Card, Layout as AntLayout } from "antd";
 
 import { Link as RSLink, Element } from "react-scroll";
 
 import NavigationBar from "./NavigationBar";
 import ScrollAnimation from "./ScrollAnimation";
 import Footer from "./Footer";
+
+const AntHeader = AntLayout.Header;
+const AntContent = AntLayout.Content;
+const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
   const isBrowser = typeof window !== "undefined";
@@ -52,31 +55,65 @@ function Layout(props) {
           type="text/css"
         />
       </Head>
-      <div className="post_root">
-        <NavigationBar dark={dark} light={light} />
-        <div className="main">
-          <div className="main_overlay">
-            <div className="hero">
-              <p className="hero_big_heading">{props.main_heading}</p>
-              <p className="hero_about_heading">{props.about_heading}</p>
-              <RSLink to="pageContent" spy={true} smooth={true} duration={500}>
-                <ScrollAnimation />
-              </RSLink>
+      <div>
+        <AntLayout>
+          <AntHeader
+            style={{
+              padding: 0,
+              position: "sticky",
+              top: 0,
+              background: "transparent",
+              zIndex: 10
+            }}
+          >
+            <NavigationBar dark={dark} light={light} />
+          </AntHeader>
+          <AntContent>
+            <div className="main">
+              <div className="main_overlay">
+                <div className="hero">
+                  <p className="hero_big_heading">{props.main_heading}</p>
+                  <p className="hero_about_heading">{props.about_heading}</p>
+                  <RSLink
+                    to="pageContent"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                  >
+                    <ScrollAnimation />
+                  </RSLink>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <Element name="pageContent">
-          <div className="page_content">
-            <Container>
-              <Paper elevation={24}>
-                <div className="toolbar">{props.children}</div>
-                <div className="page_posts">{props.display}</div>
-              </Paper>
-            </Container>
-          </div>
-        </Element>
+            <Element name="pageContent">
+              <div className="page_content">
+                <Row>
+                  <Col
+                    xs={{ span: 22, offset: 1 }}
+                    md={{ span: 20, offset: 2 }}
+                    lg={{ span: 18, offset: 3 }}
+                    xl={{ span: 16, offset: 4 }}
+                  >
+                    <Card
+                      tabList={props.tabList}
+                      activeTabKey={props.activeTabKey}
+                      onTabChange={key => {
+                        props.onTabChange(key);
+                      }}
+                      tabBarExtraContent={props.tabBarExtraContent}
+                    >
+                      <div className="page_posts">{props.display}</div>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            </Element>
+          </AntContent>
+          <AntFooter style={{ padding: 0 }}>
+            <Footer />
+          </AntFooter>
+        </AntLayout>
       </div>
-      <Footer />
       <style jsx>
         {`
           .post_root {
@@ -90,7 +127,7 @@ function Layout(props) {
             background-image: url(${props.landscape});
             background-repeat: no-repeat;
             background-size: 100% 100%;
-            margin-top: -8vh;
+            margin-top: -64px;
           }
           .main_overlay {
             width: 100%;
