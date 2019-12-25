@@ -9,13 +9,15 @@ import {
 
 import Head from "next/head";
 
-import Button from "@material-ui/core/Button";
+import { Row, Col, Radio, Button } from "antd";
+
+/*import Button from "@material-ui/core/Button";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Icon from "@material-ui/core/Icon";
 import Popover from "@material-ui/core/Popover";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@material-ui/core/TextField";*/
 
-function PostEditor(props) {
+function DraftJSEditor(props) {
   const findLinkEntities = (contentBlock, callback, contentState) => {
     contentBlock.findEntityRanges(character => {
       const entityKey = character.getEntity();
@@ -93,7 +95,7 @@ function PostEditor(props) {
     setEditorState(RichUtils.toggleCode(editorState, "code-block"));
   };
 
-  const handleHeaderClick = type => {
+  /*const handleHeaderClick = type => {
     if (type === "one") {
       setEditorState(RichUtils.toggleBlockType(editorState, "header-one"));
     } else if (type === "two") {
@@ -101,6 +103,10 @@ function PostEditor(props) {
     } else if (type === "normal") {
       setEditorState(RichUtils.toggleBlockType(editorState, "unstyled"));
     }
+  };*/
+
+  const handleHeaderClick = event => {
+    setEditorState(RichUtils.toggleBlockType(editorState, event.target.value));
   };
 
   const [linkPopover, setLinkPopover] = React.useState(null);
@@ -206,9 +212,9 @@ function PostEditor(props) {
           rel="stylesheet"
         />
       </Head>
-      <div className="toolbar">
+      <div>
         <div>
-          <ButtonBase
+          {/*<ButtonBase
             onClick={handleBoldClick}
             title="Bold"
             size="small"
@@ -242,10 +248,10 @@ function PostEditor(props) {
             size="small"
           >
             <Icon>highlight</Icon>
-          </ButtonBase>
+          </ButtonBase>*/}
         </div>
         <div>
-          <ButtonBase
+          {/*<ButtonBase
             onClick={handleULClick}
             title="Bullet List"
             size="small"
@@ -332,31 +338,35 @@ function PostEditor(props) {
                 Confirm
               </Button>
             </div>
-          </Popover>
+          </Popover>*/}
         </div>
-        <div>
-          <ButtonBase
-            onClick={() => handleHeaderClick("one")}
-            title="Heading 1"
-            size="small"
-          >
-            <strong style={{ fontSize: "14px" }}>H1</strong>
-          </ButtonBase>
-          <ButtonBase
-            onClick={() => handleHeaderClick("two")}
-            title="Heading 2"
-            size="small"
-          >
-            <strong style={{ fontSize: "14px" }}>H2</strong>
-          </ButtonBase>
-          <ButtonBase
-            onClick={() => handleHeaderClick("normal")}
-            title="Normal"
-            size="small"
-          >
-            <strong style={{ fontSize: "14px" }}>N</strong>
-          </ButtonBase>
-        </div>
+      </div>
+      <div className="toolbar">
+        <Row type="flex" justify="start" gutter={[16]}>
+          <Col>
+            <Radio.Group defaultValue="unstyled" onChange={handleHeaderClick}>
+              <Radio.Button value="unstyled">Normal</Radio.Button>
+              <Radio.Button value="header-one">Header</Radio.Button>
+            </Radio.Group>
+          </Col>
+          <Col>
+            <Button icon="bold" />
+            <Button icon="italic" />
+            <Button icon="underline" />
+            <Button icon="strikethrough" />
+            <Button icon="highlight" />
+          </Col>
+          <Col>
+            <Button icon="unordered-list" />
+            <Button icon="ordered-list" />
+            <Button icon="code" />
+            <Button icon="block" />
+          </Col>
+          <Col>
+            <Button icon="link" />
+            <Button icon="file-image" />
+          </Col>
+        </Row>
       </div>
       <div className="editor">
         <Editor
@@ -371,18 +381,14 @@ function PostEditor(props) {
       <style jsx>
         {`
           .toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 8px;
-            border: 1px solid #cfcfcf;
-            max-height: 104px;
-            overflow: auto;
+            border-bottom: 1px solid #e8e8e8;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
           }
           .editor {
-            height: 400px;
-            padding: 8px;
+            height: 200px;
+            padding: 0 8px;
             overflow: auto;
-            border: 1px solid #cfcfcf;
           }
         `}
       </style>
@@ -390,4 +396,4 @@ function PostEditor(props) {
   );
 }
 
-export default PostEditor;
+export default DraftJSEditor;

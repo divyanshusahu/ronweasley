@@ -5,16 +5,9 @@ import isEmpty from "is-empty";
 
 import { Row, Col, Card, Input, Icon, Typography } from "antd";
 
-/*import Container from "@material-ui/core/Container";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import TextField from "@material-ui/core/TextField";
-import FormHelperText from "@material-ui/core/FormHelperText";*/
-
 import SecondaryLayout from "../../utils/SecondaryLayout";
-import PostEditor from "../../utils/PostEditor";
+import DraftJSEditor from "../../utils/DraftJSEditor";
+import MarkdownEditor from "../../utils/MarkdownEditor";
 
 function NewPost() {
   const allowedQuery = [
@@ -37,64 +30,30 @@ function NewPost() {
     { key: "markdown", tab: "Markdown" }
   ];
 
-  const [editorType, setEditorType] = React.useState("normal_editor");
-
   const [editorContent, setEditorContent] = React.useState("");
   const handleEditorContent = content => {
     setEditorContent(content);
   };
 
+  const [currentEditor, setCurrentEditor] = React.useState(
+    <DraftJSEditor handleEditorContent={handleEditorContent} />
+  );
+
+  const [editorType, setEditorType] = React.useState("normal_editor");
+  const handleOnTabChange = key => {
+    setEditorType(key);
+    if (key === "normal_editor") {
+      setCurrentEditor(
+        <DraftJSEditor handleEditorContent={handleEditorContent} />
+      );
+    } else if (key === "markdown") {
+      setCurrentEditor(<MarkdownEditor />);
+    }
+  };
+
   return (
     <div>
       <SecondaryLayout title="New Post">
-        {/*<Container>
-          <div className="new_post_card">
-            <Card raised>
-              <CardHeader title={`NEW ${title} POST`} />
-              <CardContent>
-                <TextField
-                  fullWidth
-                  helperText="*required."
-                  placeholder="Post Title"
-                  size="small"
-                  variant="outlined"
-                  id="post_title"
-                />
-                <FormHelperText margin="dense" error></FormHelperText>
-                <TextField
-                  fullWidth
-                  helperText="optional"
-                  placeholder="Author's Name "
-                  size="small"
-                  variant="outlined"
-                  id="post_author"
-                />
-                <FormHelperText margin="dense" error></FormHelperText>
-                <TextField
-                  fullWidth
-                  helperText="optional"
-                  placeholder="Auhtor's Social Profile Link"
-                  size="small"
-                  variant="outlined"
-                  id="post_title"
-                />
-                <FormHelperText margin="dense" error></FormHelperText>
-                <TextField
-                  fullWidth
-                  helperText="*required. Remember this post secret.
-                  Secret is required for editing and deleting the post"
-                  placeholder="Post Title"
-                  size="small"
-                  variant="outlined"
-                  id="post_title"
-                />
-                <FormHelperText margin="dense" error></FormHelperText>
-                <PostEditor handleEditorContent={handleEditorContent} />
-              </CardContent>
-              <CardActions></CardActions>
-            </Card>
-          </div>
-        </Container>*/}
         <div className="page_root">
           <Row type="flex" justify="center">
             <Col xs={22} md={20} lg={18} xl={16}>
@@ -143,9 +102,11 @@ function NewPost() {
                     tabList={tabList}
                     activeTabKey={editorType}
                     onTabChange={key => {
-                      setEditorType(key);
+                      handleOnTabChange(key);
                     }}
-                  ></Card>
+                  >
+                    {currentEditor}
+                  </Card>
                 </div>
               </Card>
             </Col>
@@ -154,6 +115,9 @@ function NewPost() {
       </SecondaryLayout>
       <style jsx>
         {`
+          h1, h2, h3, h4, h5, h6 {
+            margin-bottom: 0;
+          }
           .page_root {
             margin: 40px 0 80px 0;
           }
