@@ -13,10 +13,6 @@ function Footer() {
         <meta name="description" content="Ron Weasley" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
-        <link
-          rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto"
         />
         <link
@@ -34,6 +30,7 @@ function Footer() {
           a {
             text-decoration: none;
             color: inherit;
+            transition: none;
           }
 
           a:hover {
