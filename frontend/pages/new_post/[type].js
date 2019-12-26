@@ -2,10 +2,10 @@ import Link from "next/link";
 
 import { Button, Row, Col, Card, Input, Icon, Typography } from "antd";
 
-import SecondaryLayout from "../../utils/SecondaryLayout";
-import DraftJSEditor from "../../utils/DraftJSEditor";
-import MarkdownEditor from "../../utils/MarkdownEditor";
-import ErrorLayout from "../../utils/ErrorLayout";
+import SecondaryLayout from "../../components/SecondaryLayout";
+import DraftJSEditor from "../../components/DraftJSEditor";
+import MarkdownEditor from "../../components/MarkdownEditor";
+import ErrorLayout from "../../components/ErrorLayout";
 
 function NewPost({ query }) {
   const allowedQuery = [

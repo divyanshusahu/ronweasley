@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Button } from "antd";
 
-import Layout from "../utils/Layout";
-import DisplayPosts from "../utils/DisplayPosts";
+import Layout from "../components/Layout";
+import DisplayPosts from "../components/DisplayPosts";
 
 function Index() {
   const [display, setDisplay] = React.useState(

@@ -15,9 +15,9 @@ import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import { ToastContainer, toast } from "react-toastify";
 
-import NavigationBar from "../../utils/NavigationBar";
-import Footer from "../../utils/Footer";
-import PostEditor from "../../utils/PostEditor";
+import NavigationBar from "../../components/NavigationBar";
+import Footer from "../../components/Footer";
+import PostEditor from "../../components/PostEditor";
 
 function Post() {
   const allowedQuery = [

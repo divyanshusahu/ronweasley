@@ -8,8 +8,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 
-import Layout from "../utils/Layout";
-import DisplayPosts from "../utils/DisplayPosts";
+import Layout from "../components/Layout";
+import DisplayPosts from "../components/DisplayPosts";
 
 function Romione() {
   const [display, setDisplay] = React.useState(

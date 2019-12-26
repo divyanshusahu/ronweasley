@@ -10,8 +10,8 @@ import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import ReactHtmlParser from "react-html-parser";
 
-import NavigationBar from "../../utils/NavigationBar";
-import Footer from "../../utils/Footer";
+import NavigationBar from "../../components/NavigationBar";
+import Footer from "../../components/Footer";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
