@@ -11,6 +11,8 @@ import Head from "next/head";
 
 import { Row, Col, Radio, Button } from "antd";
 
+import clsx from "clsx";
+
 /*import Button from "@material-ui/core/Button";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Icon from "@material-ui/core/Icon";
@@ -40,6 +42,12 @@ function DraftJSEditor(props) {
   const [editorState, setEditorState] = React.useState(
     EditorState.createEmpty(decorator)
   );
+  const [currentInlineStyles, setCurrentInlineStyles] = React.useState(1); // a hacky way to avoid initial check
+
+  React.useEffect(() => {
+    const inlineStyle = editorState.getCurrentInlineStyle();
+    setCurrentInlineStyles(inlineStyle);
+  }, [editorState]);
 
   const styleMap = {
     STRIKETHROUGH: {
@@ -55,6 +63,14 @@ function DraftJSEditor(props) {
     if (ns) {
       setEditorState(ns);
     }
+  };
+
+  const handleUndoClick = () => {
+    setEditorState(EditorState.undo(editorState));
+  };
+
+  const handleRedoClick = () => {
+    setEditorState(EditorState.redo(editorState));
   };
 
   const handleBoldClick = () => {
@@ -88,7 +104,7 @@ function DraftJSEditor(props) {
   };
 
   const handleBlockqouteClick = () => {
-    //setEditorState(RichUtils.toggleCode(editorState, "blockquote"));
+    setEditorState(RichUtils.toggleCode(editorState, "blockquote"));
   };
 
   const handleCodeblockClick = () => {
@@ -342,23 +358,87 @@ function DraftJSEditor(props) {
         </div>
       </div>
       <div className="toolbar">
-        <Row type="flex" justify="start" gutter={[16]}>
+        <Row type="flex" justify="start" gutter={[16, 16]}>
+          <Col>
+            <Button icon="undo" title="Undo" onClick={handleUndoClick} />
+            <Button icon="redo" title="Redo" onClick={handleRedoClick} />
+          </Col>
           <Col>
             <Radio.Group defaultValue="unstyled" onChange={handleHeaderClick}>
-              <Radio.Button value="unstyled">Normal</Radio.Button>
-              <Radio.Button value="header-one">Header</Radio.Button>
+              <Radio.Button value="unstyled">N</Radio.Button>
+              <Radio.Button value="header-one">H1</Radio.Button>
+              <Radio.Button value="header-three">H2</Radio.Button>
+              <Radio.Button value="header-four">H3</Radio.Button>
             </Radio.Group>
           </Col>
           <Col>
-            <Button icon="bold" />
-            <Button icon="italic" />
-            <Button icon="underline" />
-            <Button icon="strikethrough" />
-            <Button icon="highlight" />
+            <Button
+              icon="bold"
+              title="Bold"
+              onClick={handleBoldClick}
+              className={clsx({
+                "ant-radio-button-wrapper-checked":
+                  typeof currentInlineStyles === "object"
+                    ? currentInlineStyles.has("BOLD")
+                    : false
+              })}
+            />
+            <Button
+              icon="italic"
+              title="Italic"
+              onClick={handleItalicClick}
+              className={clsx({
+                "ant-radio-button-wrapper-checked":
+                  typeof currentInlineStyles === "object"
+                    ? currentInlineStyles.has("ITALIC")
+                    : false
+              })}
+            />
+            <Button
+              icon="underline"
+              title="Underline"
+              onClick={handleUnderlineClick}
+              className={clsx({
+                "ant-radio-button-wrapper-checked":
+                  typeof currentInlineStyles === "object"
+                    ? currentInlineStyles.has("UNDERLINE")
+                    : false
+              })}
+            />
+            <Button
+              icon="strikethrough"
+              title="Strikethrough"
+              onClick={handleStrikeClick}
+              className={clsx({
+                "ant-radio-button-wrapper-checked":
+                  typeof currentInlineStyles === "object"
+                    ? currentInlineStyles.has("STRIKETHROUGH")
+                    : false
+              })}
+            />
+            <Button
+              icon="highlight"
+              title="highlight"
+              onClick={handleHighlightClick}
+              className={clsx({
+                "ant-radio-button-wrapper-checked":
+                  typeof currentInlineStyles === "object"
+                    ? currentInlineStyles.has("HIGHLIGHT")
+                    : false
+              })}
+            />
           </Col>
           <Col>
-            <Button icon="unordered-list" />
-            <Button icon="ordered-list" />
+            <Button
+              icon="unordered-list"
+              title="Unordered List"
+              onClick={handleULClick}
+            />
+            <Button
+              icon="ordered-list"
+              title="Ordered List"
+              onClick={handleOLClick}
+            />
             <Button icon="code" />
             <Button icon="block" />
           </Col>
