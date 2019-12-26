@@ -1,26 +1,34 @@
-import Error from "next/error";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
-import isEmpty from "is-empty";
-
-import { Row, Col, Card, Input, Icon, Typography } from "antd";
+import { Button, Row, Col, Card, Input, Icon, Typography } from "antd";
 
 import SecondaryLayout from "../../utils/SecondaryLayout";
 import DraftJSEditor from "../../utils/DraftJSEditor";
 import MarkdownEditor from "../../utils/MarkdownEditor";
+import ErrorLayout from "../../utils/ErrorLayout";
 
-function NewPost() {
+function NewPost({ query }) {
   const allowedQuery = [
     "ron_weasley_appreciation",
     "ron_weasley_defense",
     "romione_appreciation"
   ];
 
-  const router = useRouter();
-  const query = router.query.type;
-
   if (allowedQuery.findIndex(q => q == query) === -1) {
-    return <Error statusCode={404} />;
+    return (
+      <ErrorLayout
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist."
+        extra={
+          <Link href="/">
+            <a>
+              <Button type="primary">Back Home</Button>
+            </a>
+          </Link>
+        }
+      />
+    );
   }
 
   let title = query.replace(/_/g, " ");
@@ -115,7 +123,12 @@ function NewPost() {
       </SecondaryLayout>
       <style jsx>
         {`
-          h1, h2, h3, h4, h5, h6 {
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
             margin-bottom: 0;
           }
           .page_root {
@@ -129,5 +142,9 @@ function NewPost() {
     </div>
   );
 }
+
+NewPost.getInitialProps = async ({ query }) => {
+  return { query: query.type };
+};
 
 export default NewPost;
