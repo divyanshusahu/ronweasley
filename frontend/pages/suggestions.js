@@ -11,7 +11,8 @@ import {
   Icon,
   Input,
   Comment,
-  Avatar
+  Avatar,
+  Empty
 } from "antd";
 
 import SecondaryLayout from "../components/SecondaryLayout";
@@ -59,8 +60,9 @@ function Suggestions() {
                     </Typography.Text>
                   </span>
                 }
+                extra={<Icon type="warning" style={{ fontSize: 20 }} />}
               >
-                <Collapse bordered={true}>
+                <Collapse bordered={false}>
                   <Collapse.Panel
                     header="Android, IOS App?"
                     key={1}
@@ -100,6 +102,7 @@ function Suggestions() {
                     </Typography.Text>
                   </span>
                 }
+                extra={<Icon type="check-square" style={{ fontSize: 20 }} />}
               ></Card>
             </Col>
           </Row>
@@ -123,7 +126,11 @@ function Suggestions() {
                     addonAfter={<Icon type="enter" />}
                   />
                 ]}
-              ></Card>
+              >
+                <div className="user_feedback_card_content">
+                  {isEmpty(bugs) ? <Empty /> : null}
+                </div>
+              </Card>
             </Col>
             <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 1 }}>
               <Card
@@ -143,34 +150,36 @@ function Suggestions() {
                   />
                 ]}
               >
-                {suggestions.map(sug => (
-                  <Comment
-                    content={sug.content["S"]}
-                    datetime={<TimeAgo date={sug.post_date["S"]} />}
-                    key={sug.post_id["S"]}
-                    author="Anon"
-                    avatar={
-                      <Avatar
-                        icon="user"
-                        style={{ backgroundColor: "#f5222d" }}
-                      />
-                    }
-                  >
-                    {isEmpty(sug.reply) ? null : (
-                      <Comment
-                        content={sug.reply["S"]}
-                        author="Admin"
-                        datetime={sug.reply_time["S"]}
-                        avatar={
-                          <Avatar
-                            icon="user"
-                            style={{ backgroundColor: "#52c41a" }}
-                          />
-                        }
-                      />
-                    )}
-                  </Comment>
-                ))}
+                <div className="user_feedback_card_content">
+                  {suggestions.map(sug => (
+                    <Comment
+                      content={sug.content["S"]}
+                      datetime={<TimeAgo date={sug.post_date["S"]} />}
+                      key={sug.post_id["S"]}
+                      author="Anon"
+                      avatar={
+                        <Avatar
+                          icon="user"
+                          style={{ backgroundColor: "#f5222d" }}
+                        />
+                      }
+                    >
+                      {isEmpty(sug.reply) ? null : (
+                        <Comment
+                          content={sug.reply["S"]}
+                          author="Admin"
+                          datetime={sug.reply_time["S"]}
+                          avatar={
+                            <Avatar
+                              icon="user"
+                              style={{ backgroundColor: "#52c41a" }}
+                            />
+                          }
+                        />
+                      )}
+                    </Comment>
+                  ))}
+                </div>
               </Card>
             </Col>
             <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 1 }}>
@@ -193,15 +202,17 @@ function Suggestions() {
                   />
                 ]}
               >
-                {feedbacks.map(fed => (
-                  <Comment
-                    content={fed.content["S"]}
-                    datetime={<TimeAgo date={fed.post_date["S"]} />}
-                    key={fed.post_id["S"]}
-                    author="Anon"
-                    avatar={<Avatar icon="user" />}
-                  />
-                ))}
+                <div className="user_feedback_card_content">
+                  {feedbacks.map(fed => (
+                    <Comment
+                      content={fed.content["S"]}
+                      datetime={<TimeAgo date={fed.post_date["S"]} />}
+                      key={fed.post_id["S"]}
+                      author="Anon"
+                      avatar={<Avatar icon="user" />}
+                    />
+                  ))}
+                </div>
               </Card>
             </Col>
           </Row>
@@ -215,6 +226,11 @@ function Suggestions() {
           .user_feedback {
             margin-top: 32px;
             margin-bottom: 48px;
+          }
+          .user_feedback_card_content {
+            height: 280px;
+            max-height: 280px;
+            overflow: auto;
           }
         `}
       </style>
