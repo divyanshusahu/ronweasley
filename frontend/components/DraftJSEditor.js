@@ -9,15 +9,9 @@ import {
 
 import Head from "next/head";
 
-import { Row, Col, Radio, Button } from "antd";
+import { Row, Col, Radio, Button, Popover, Input, Icon } from "antd";
 
 import clsx from "clsx";
-
-/*import Button from "@material-ui/core/Button";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Icon from "@material-ui/core/Icon";
-import Popover from "@material-ui/core/Popover";
-import TextField from "@material-ui/core/TextField";*/
 
 function DraftJSEditor(props) {
   const findLinkEntities = (contentBlock, callback, contentState) => {
@@ -42,7 +36,8 @@ function DraftJSEditor(props) {
   const [editorState, setEditorState] = React.useState(
     EditorState.createEmpty(decorator)
   );
-  const [currentInlineStyles, setCurrentInlineStyles] = React.useState(1); // a hacky way to avoid initial check
+  const [currentInlineStyles, setCurrentInlineStyles] = React.useState(1);
+  // a hacky way to avoid initial check
 
   React.useEffect(() => {
     const inlineStyle = editorState.getCurrentInlineStyle();
@@ -111,23 +106,8 @@ function DraftJSEditor(props) {
     setEditorState(RichUtils.toggleCode(editorState, "code-block"));
   };
 
-  /*const handleHeaderClick = type => {
-    if (type === "one") {
-      setEditorState(RichUtils.toggleBlockType(editorState, "header-one"));
-    } else if (type === "two") {
-      setEditorState(RichUtils.toggleBlockType(editorState, "header-two"));
-    } else if (type === "normal") {
-      setEditorState(RichUtils.toggleBlockType(editorState, "unstyled"));
-    }
-  };*/
-
   const handleHeaderClick = event => {
     setEditorState(RichUtils.toggleBlockType(editorState, event.target.value));
-  };
-
-  const [linkPopover, setLinkPopover] = React.useState(null);
-  const handleInsertLinkClick = event => {
-    setLinkPopover(linkPopover ? null : event.currentTarget);
   };
 
   const confirm_link = () => {
@@ -149,20 +129,6 @@ function DraftJSEditor(props) {
     );
   };
 
-  const handleInsertLinkClose = () => {
-    setLinkPopover(null);
-  };
-  const linkPopoverOpen = Boolean(linkPopover);
-
-  const [imagePopover, setImagePopover] = React.useState(null);
-  const handleInsertImageClick = event => {
-    setImagePopover(imagePopover ? null : event.currentTarget);
-  };
-  const handleInsertImageClose = () => {
-    setImagePopover(null);
-  };
-  const imagePopoverOpen = Boolean(imagePopover);
-
   const mediaBlockRenderer = block => {
     if (block.getType() === "atomic") {
       return {
@@ -174,7 +140,11 @@ function DraftJSEditor(props) {
   };
 
   const Image = props => (
-    <img src={props.src} alt="An error occurred" width="300px" />
+    <img
+      src={props.src}
+      alt="An error occurred"
+      style={{ width: "300px", maxWidth: "90%" }}
+    />
   );
 
   const Media = props => {
@@ -228,135 +198,6 @@ function DraftJSEditor(props) {
           rel="stylesheet"
         />
       </Head>
-      <div>
-        <div>
-          {/*<ButtonBase
-            onClick={handleBoldClick}
-            title="Bold"
-            size="small"
-          >
-            <Icon>format_bold</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleItalicClick}
-            title="Italic"
-            size="small"
-          >
-            <Icon>format_italic</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleStrikeClick}
-            title="Strikethrough"
-            size="small"
-          >
-            <Icon>format_strikethrough</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleUnderlineClick}
-            title="Underline"
-            size="small"
-          >
-            <Icon>format_underlined</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleHighlightClick}
-            title="Highlight"
-            size="small"
-          >
-            <Icon>highlight</Icon>
-          </ButtonBase>*/}
-        </div>
-        <div>
-          {/*<ButtonBase
-            onClick={handleULClick}
-            title="Bullet List"
-            size="small"
-          >
-            <Icon>format_list_bulleted</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleOLClick}
-            title="Numbered List"
-            size="small"
-          >
-            <Icon>format_list_numbered</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleBlockqouteClick}
-            title="Blockquote"
-            size="small"
-          >
-            <Icon>format_quote</Icon>
-          </ButtonBase>
-          <ButtonBase
-            onClick={handleCodeblockClick}
-            title="Code Block"
-            size="small"
-          >
-            <Icon>code</Icon>
-          </ButtonBase>
-          <ButtonBase
-            aria-owns={linkPopoverOpen ? "link-Popover" : undefined}
-            aria-haspopup={true}
-            onClick={handleInsertLinkClick}
-            title="Insert Link"
-            size="small"
-          >
-            <Icon>insert_link</Icon>
-          </ButtonBase>
-          <ButtonBase
-            aria-owns={imagePopoverOpen ? "image-Popover" : undefined}
-            aria-haspopup={true}
-            onClick={handleInsertImageClick}
-            title="Insert Image"
-            size="small"
-          >
-            <Icon>image</Icon>
-          </ButtonBase>
-          <Popover
-            id="link-Popover"
-            open={linkPopoverOpen}
-            anchorEl={linkPopover}
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            transformOrigin={{ vertical: "top", horizontal: "left" }}
-            onClose={handleInsertLinkClose}
-          >
-            <div style={{ padding: "8px" }}>
-              <TextField label="Paste Link" size="small" id="link-url-field" />
-              <Button
-                variant="outlined"
-                style={{ height: "45px" }}
-                onClick={confirm_link}
-              >
-                Confirm
-              </Button>
-            </div>
-          </Popover>
-          <Popover
-            id="image-Popover"
-            open={imagePopoverOpen}
-            anchorEl={imagePopover}
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            transformOrigin={{ vertical: "top", horizontal: "left" }}
-            onClose={handleInsertImageClose}
-          >
-            <div style={{ padding: "8px" }}>
-              <TextField
-                label="Insert Image Link"
-                size="small"
-                id="image-url-field"
-              />
-              <Button
-                variant="outlined"
-                style={{ height: "45px" }}
-                onClick={confirm_media}
-              >
-                Confirm
-              </Button>
-            </div>
-          </Popover>*/}
-        </div>
-      </div>
       <div className="toolbar">
         <Row type="flex" justify="start" gutter={[16, 16]}>
           <Col>
@@ -443,8 +284,38 @@ function DraftJSEditor(props) {
             <Button icon="block" />
           </Col>
           <Col>
-            <Button icon="link" />
-            <Button icon="file-image" />
+            <Popover
+              trigger="click"
+              placement="top"
+              content={
+                <Input
+                  id="link-url-field"
+                  placeholder="Insert Link"
+                  prefix={<Icon type="link" />}
+                  addonAfter={<Icon type="enter" onClick={confirm_link} />}
+                  size="small"
+                  onPressEnter={confirm_link}
+                />
+              }
+            >
+              <Button icon="link" title="Insert Link" />
+            </Popover>
+            <Popover
+              trigger="click"
+              placement="top"
+              content={
+                <Input
+                  id="image-url-field"
+                  placeholder="Insert Image Link"
+                  prefix={<Icon type="file-image" />}
+                  addonAfter={<Icon type="enter" onClick={confirm_media} />}
+                  size="small"
+                  onPressEnter={confirm_media}
+                />
+              }
+            >
+              <Button icon="file-image" title="Insert Image" />
+            </Popover>
           </Col>
         </Row>
       </div>
@@ -466,7 +337,8 @@ function DraftJSEditor(props) {
             margin-bottom: 8px;
           }
           .editor {
-            height: 200px;
+            min-height: 200px;
+            max-height: 600px;
             padding: 0 8px;
             overflow: auto;
           }
