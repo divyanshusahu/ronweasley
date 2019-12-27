@@ -241,6 +241,15 @@ function NavigationBar(props) {
               display: block;
             }
           }
+          a {
+            text-decoration: none;
+            color: inherit;
+            transition: none;
+          }
+          a:hover {
+            text-decoration: none;
+            color: inherit;
+          }
           .dark {
             color: #ffffff;
           }
