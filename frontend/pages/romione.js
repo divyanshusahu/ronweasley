@@ -1,89 +1,57 @@
 import Link from "next/link";
 
-import Hidden from "@material-ui/core/Hidden";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
+import { Button } from "antd";
 
 import Layout from "../components/Layout";
 import DisplayPosts from "../components/DisplayPosts";
 
-function Romione() {
+function Index() {
   const [display, setDisplay] = React.useState(
     <DisplayPosts post_type="romione_appreciation" />
   );
-  const [tab_value, setTabValue] = React.useState(0);
-  const tab_handlechange = (event, value) => {
-    setTabValue(value);
-    if (value === 0) {
+  const [selectedTab, setSelectedTab] = React.useState("appreciation");
+
+  const tabList = [
+    { key: "1", tab: "Appreciation" },
+    { key: "2", tab: "Fanart" },
+    { key: "3", tab: "Fanfiction" }
+  ];
+
+  const [activeTabKey, setActiveTabKey] = React.useState("1");
+  const handleOnTabChange = key => {
+    setActiveTabKey(key);
+    if (key === "1") {
+      setSelectedTab("appreciation");
       setDisplay(<DisplayPosts post_type="romione_appreciation" />);
-    } else if (value === 1) {
-      setDisplay(null);
-    } else if (value === 2) {
-      setDisplay(null);
+    } else if (key === "2") {
+      setSelectedTab("fanart");
+    } else if (key === "3") {
+      setSelectedTab("fanfiction");
     }
   };
-  const handleSelectTabChange = event => {
-    setTabValue(event.target.value);
-    if (event.target.value === 0) {
-      setDisplay(<DisplayPosts post_type="romione_appreciation" />);
-    } else if (event.target.value === 1) {
-      setDisplay(null);
-    } else if (event.target.value === 2) {
-      setDisplay(null);
-    }
-  };
+
+  const tabBarExtraContent = (
+    <Link href="/new_post/[type]" as={`new_post/romione_${selectedTab}`}>
+      <a>
+        <Button>New</Button>
+      </a>
+    </Link>
+  );
 
   return (
     <Layout
       title="Romione"
-      main_heading="Most celebrated Harry Potter canon couples."
-      about_heading="Some lines best describing Romione"
+      main_heading="Most Celebrated Harry Potter canon couple."
+      about_heading="Some lines best describing Romione."
       landscape="https://i.imgur.com/5XFq6a3.jpg"
       portrait="https://i.imgur.com/AKuRxbB.jpg"
+      tabList={tabList}
       display={display}
-    >
-      <div>
-        <Hidden smDown>
-          <Tabs
-            value={tab_value}
-            onChange={tab_handlechange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="scrollable"
-            scrollButtons="auto"
-          >
-            <Tab label="Appreciation"></Tab>
-            <Tab label="Fanart"></Tab>
-            <Tab label="Fanfiction"></Tab>
-          </Tabs>
-        </Hidden>
-        <Hidden mdUp>
-          <FormControl variant="outlined">
-            <Select value={tab_value} onChange={handleSelectTabChange}>
-              <MenuItem value={0}>Appreciation</MenuItem>
-              <MenuItem value={2}>Fanart</MenuItem>
-              <MenuItem value={3}>Fanfiction</MenuItem>
-            </Select>
-          </FormControl>
-        </Hidden>
-      </div>
-      <div>
-        {tab_value === 0 ? (
-          <Link href="/new_post/[type]" as={`new_post/romione_appreciation`}>
-            <a>
-              <Button variant="outlined">NEW POST</Button>
-            </a>
-          </Link>
-        ) : (
-          <Button variant="outlined">NEW POST</Button>
-        )}
-      </div>
-    </Layout>
+      activeTabKey={activeTabKey}
+      onTabChange={handleOnTabChange}
+      tabBarExtraContent={tabBarExtraContent}
+    />
   );
 }
 
-export default Romione;
+export default Index;
