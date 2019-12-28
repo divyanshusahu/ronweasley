@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Router from "next/router";
 
 import { Button, Row, Col, Card, Input, Icon, Typography, message } from "antd";
 
@@ -66,9 +67,9 @@ function NewPost({ query }) {
     })
       .then(r => r.json())
       .then(data => {
-        console.log(data);
         if (data.success) {
           message.success({ content: data.message, key: "newPostLoading" });
+          Router.push(`/post/${query}/${data.post_id}`);
         } else {
           message.error({ content: data.message, key: "newPostLoading" });
         }

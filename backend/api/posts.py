@@ -76,7 +76,7 @@ def get_posts_by_id(post_type, post_id):
     except:
         return jsonify({"success": False, "message": "No post found"}), 404
 
-    return jsonify({"success": True, "post": result}), 200
+    return jsonify({"success": True, "post": result["Item"]}), 200
 
 
 @posts.route("/new/<post_type>", methods=["POST"])
@@ -95,7 +95,7 @@ def insert_post(post_type):
     if len(post_data["post_author"]) == 0:
         post_data["post_author"] = "Anonymous"
     if len(post_data["post_author_link"]) == 0:
-        post_data["post_author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
+        post_data["post_author_link"] = "/anonymous/anon.jpg"
 
     post_data["post_secret"] = hashlib.sha256(
         post_data["post_secret"].encode()).hexdigest()
@@ -122,7 +122,7 @@ def insert_post(post_type):
                 "post_secret": {"S": post_data["post_secret"]},
                 "post_date": {"S": date}
             })
-            return jsonify({"success": True, "message": "New Post Created"}), 200
+            return jsonify({"success": True, "message": "New Post Created", "post_id": post_id}), 200
         except:
             return jsonify({"success": False, "message": "An error occurred"}), 500
 
@@ -138,7 +138,7 @@ def insert_post(post_type):
                 "post_secret": {"S": post_data["post_secret"]},
                 "post_date": {"S": date},
             })
-            return jsonify({"success": True, "message": "New Post Created"}), 200
+            return jsonify({"success": True, "message": "New Post Created", "post_id": post_id}), 200
         except:
             return jsonify({"success": False, "message": "An error occurred"}), 500
 
