@@ -21,16 +21,13 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
-        - dynamodb:CreateTable
+        - dynamodb:Query
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
-    - Effect: "Allow"
-      Action:
-        - dynamodb:Query
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*/index/*"
+      Resource:
+        - { "Fn::GetAtt": ["PostTable", "Arn"] }
   environment:
     REGION_NAME: ${${self:custom.config}:REGION_NAME}
     POST_TABLE: ${${self:custom.config}:POST_TABLE}
@@ -49,9 +46,10 @@ package:
 
 resources:
   Resources:
-    POSTTABLE:
+    PostTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
+        TableName: ${${self:custom.config}:POST_TABLE}
         AttributeDefinitions:
           - AttributeName: post_type
             AttributeType: S
