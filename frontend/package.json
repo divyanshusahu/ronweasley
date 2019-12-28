@@ -19,7 +19,6 @@
     "url": "https://github.com/divyanshusahu/ronweasley/issues"
   },
   "dependencies": {
-    "@material-ui/core": "^4.8.0",
     "antd": "^3.26.4",
     "clsx": "^1.0.4",
     "draft-js": "^0.11.3",
@@ -31,8 +30,7 @@
     "react-dom": "^16.12.0",
     "react-html-parser": "^2.0.2",
     "react-scroll": "^1.7.14",
-    "react-timeago": "^4.4.0",
-    "react-toastify": "^5.4.1"
+    "react-timeago": "^4.4.0"
   },
   "devDependencies": {
     "serverless-next.js": "^1.7.0"
