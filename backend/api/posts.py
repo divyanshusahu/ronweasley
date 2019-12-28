@@ -29,7 +29,7 @@ def valid_inputs(post_data):
         error["error"] = True
         error["post_title"] = "Title must be three characters long"
 
-    if len(post_data["post_author_link"]) and validators.url(post_data["author_link"], public=True) != True:
+    if len(post_data["post_author_link"]) and validators.url(post_data["post_author_link"], public=True) != True:
         error["error"] = True
         error["post_author_link"] = "Url must be valid"
 
@@ -44,13 +44,12 @@ def valid_inputs(post_data):
     return error
 
 
-@posts.route("/post_type/<post_type>", methods=["GET"])
+@posts.route("/<post_type>", methods=["GET"])
 def get_posts(post_type):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid post type"}), 400
 
     result = db.query(TableName=os.environ["POST_TABLE"],
-                      IndexName="PostTypeIndex",
                       Select="ALL_ATTRIBUTES",
                       KeyConditionExpression="post_type = :post_value",
                       ExpressionAttributeValues={":post_value": {"S": post_type}})
@@ -58,25 +57,26 @@ def get_posts(post_type):
     send_result = []
     for p in result["Items"]:
         temp = p
-        del temp["secret"]
+        del temp["post_secret"]
         send_result.append(temp)
 
     return jsonify({"success": True, "posts": send_result})
 
 
-@posts.route("/pid/<post_id>", methods=["GET"])
-def get_posts_by_id(post_id):
-    result = db.query(TableName=os.environ["POST_TABLE"],
-                      Select="ALL_ATTRIBUTES",
-                      KeyConditionExpression="post_id = :pid",
-                      ExpressionAttributeValues={":pid": {"S": post_id}})
+@posts.route("/<post_type>/<post_id>", methods=["GET"])
+def get_posts_by_id(post_type, post_id):
+    if post_type not in allowed_types:
+        return jsonify({"success": False, "message": "Invalid post type"}), 400
 
-    if len(result["Items"]) == 0:
-        return jsonify({"success": False}), 404
+    result = db.get_item(TableName=os.environ["POST_TABLE"], Key={
+                         "post_type": {"S": post_type}, "post_id": {"S": post_id}})
 
-    del result["Items"][0]["secret"]
+    try:
+        del result["Item"]["post_secret"]
+    except:
+        return jsonify({"success": False, "message": "No post found"}), 404
 
-    return jsonify({"success": True, "post": result["Items"]})
+    return jsonify({"success": True, "post": result}), 200
 
 
 @posts.route("/new/<post_type>", methods=["POST"])
@@ -92,13 +92,13 @@ def insert_post(post_type):
 
     post_id = uuid.uuid1().hex
     date = datetime.now().isoformat()
-    if len(post_data["author"]) == 0:
-        post_data["author"] = "Anonymous"
-    if len(post_data["author_link"]) == 0:
-        post_data["author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
+    if len(post_data["post_author"]) == 0:
+        post_data["post_author"] = "Anonymous"
+    if len(post_data["post_author_link"]) == 0:
+        post_data["post_author_link"] = "https://i.imgur.com/MfX7hkj.jpg"
 
-    post_data["secret"] = hashlib.sha256(
-        post_data["secret"].encode()).hexdigest()
+    post_data["post_secret"] = hashlib.sha256(
+        post_data["post_secret"].encode()).hexdigest()
 
     try:
         db.create_table(AttributeDefinitions=[
@@ -106,9 +106,9 @@ def insert_post(post_type):
             {"AttributeName": "post_type", "AttributeType": "S"}],
             TableName=os.environ["POST_TABLE"],
             KeySchema=[
-            {"AttributeName": "post_id", "KeyType": "RANGE"},
-            {"AttributeName": "post_date", "KeyType": "HASH"}],
-            BillingMode="PAY_PER_REQUEST",
+            {"AttributeName": "post_type", "KeyType": "HASH"},
+            {"AttributeName": "post_id", "KeyType": "RANGE"}],
+            BillingMode="PAY_PER_REQUEST"
         )
 
         try:
