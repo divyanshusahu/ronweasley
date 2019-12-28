@@ -1,10 +1,11 @@
 import Link from "next/link";
 
-import { Button, Row, Col, Card, Input, Icon, Typography } from "antd";
+import { Button, Row, Col, Card, Input, Icon, Typography, message } from "antd";
+
+import fetch from "isomorphic-unfetch";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 import DraftJSEditor from "../../components/DraftJSEditor";
-import MarkdownEditor from "../../components/MarkdownEditor";
 import ErrorLayout from "../../components/ErrorLayout";
 
 function NewPost({ query }) {
@@ -13,6 +14,11 @@ function NewPost({ query }) {
     "ron_weasley_defense",
     "romione_appreciation"
   ];
+
+  const BASE_URL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:5000"
+      : "https://api.ronweasley.co";
 
   if (allowedQuery.findIndex(q => q == query) === -1) {
     return (
@@ -33,30 +39,40 @@ function NewPost({ query }) {
 
   let title = query.replace(/_/g, " ");
 
-  const tabList = [
-    { key: "normal_editor", tab: "Noraml Editor" },
-    { key: "markdown", tab: "Markdown" }
-  ];
-
   const [editorContent, setEditorContent] = React.useState("");
   const handleEditorContent = content => {
     setEditorContent(content);
   };
 
-  const [currentEditor, setCurrentEditor] = React.useState(
-    <DraftJSEditor handleEditorContent={handleEditorContent} />
-  );
-
-  const [editorType, setEditorType] = React.useState("normal_editor");
-  const handleOnTabChange = key => {
-    setEditorType(key);
-    if (key === "normal_editor") {
-      setCurrentEditor(
-        <DraftJSEditor handleEditorContent={handleEditorContent} />
-      );
-    } else if (key === "markdown") {
-      setCurrentEditor(<MarkdownEditor />);
-    }
+  const add_new_post = () => {
+    let post_data = {
+      post_type: query,
+      post_title: document.getElementById("post_title").value,
+      post_author: document.getElementById("post_author").value,
+      post_author_link: document.getElementById("post_author_link").value,
+      post_secret: document.getElementById("post_secret").value,
+      post_content: editorContent
+    };
+    message.loading({
+      content: "Action in progress...",
+      key: "newPostLoading"
+    });
+    fetch(BASE_URL + "/posts/new/" + query, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(post_data)
+    })
+      .then(r => r.json())
+      .then(data => {
+        console.log(data);
+        if (data.success) {
+          message.success({ content: data.message, key: "newPostLoading" });
+        } else {
+          message.error({ content: data.message, key: "newPostLoading" });
+        }
+      });
   };
 
   return (
@@ -74,7 +90,7 @@ function NewPost({ query }) {
                       suffix={<Icon type="solution" />}
                     />
                     <Typography.Text type="secondary">
-                      *required
+                      *required. (min length = 3)
                     </Typography.Text>
                   </Col>
                   <Col xs={24} lg={12}>
@@ -99,21 +115,22 @@ function NewPost({ query }) {
                       placeholder="Post Secret"
                     />
                     <Typography.Text type="secondary">
-                      *required. Remember this post secret. You cannot edit or
-                      delete the post without post secret.
+                      *required. (min length = 6). Remember this post secret.
+                      You cannot edit or delete the post without post secret.
                     </Typography.Text>
                   </Col>
                 </Row>
                 <div className="editor_area">
                   <Card
                     type="inner"
-                    tabList={tabList}
-                    activeTabKey={editorType}
-                    onTabChange={key => {
-                      handleOnTabChange(key);
-                    }}
+                    extra={
+                      <Button onClick={add_new_post}>
+                        <Icon type="save" />
+                        Create Post
+                      </Button>
+                    }
                   >
-                    {currentEditor}
+                    <DraftJSEditor handleEditorContent={handleEditorContent} />
                   </Card>
                 </div>
               </Card>

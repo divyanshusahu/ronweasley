@@ -22,24 +22,24 @@ else:
 def valid_inputs(post_data):
     error = {"error": False}
 
-    if len(post_data["title"]) == 0:
+    if len(post_data["post_title"]) == 0:
         error["error"] = True
-        error["title"] = "Title must not be empty"
-    elif validators.length(post_data["title"], min=3) != True:
+        error["post_title"] = "Title must not be empty"
+    elif validators.length(post_data["post_title"], min=3) != True:
         error["error"] = True
-        error["title"] = "Title must be three characters long"
+        error["post_title"] = "Title must be three characters long"
 
-    if len(post_data["author_link"]) and validators.url(post_data["author_link"], public=True) != True:
+    if len(post_data["post_author_link"]) and validators.url(post_data["author_link"], public=True) != True:
         error["error"] = True
-        error["author_link"] = "Url must be valid"
+        error["post_author_link"] = "Url must be valid"
 
-    if validators.length(post_data["secret"], min=6) != True:
+    if validators.length(post_data["post_secret"], min=6) != True:
         error["error"] = True
-        error["secret"] = "Secret must be six characters long"
+        error["post_secret"] = "Secret must be six characters long"
 
-    if validators.length(post_data["content"], min=1) != True:
+    if validators.length(post_data["post_content"], min=1) != True:
         error["error"] = True
-        error["content"] = "Content must not be empty"
+        error["post_content"] = "Content must not be empty"
 
     return error
 
@@ -88,7 +88,7 @@ def insert_post(post_type):
     error = valid_inputs(post_data)
 
     if error["error"] == True:
-        return jsonify({"success": False, "error": error}), 400
+        return jsonify({"success": False, "message": "Invalid Input Fields"}), 400
 
     post_id = uuid.uuid1().hex
     date = datetime.now().isoformat()
@@ -103,51 +103,43 @@ def insert_post(post_type):
     try:
         db.create_table(AttributeDefinitions=[
             {"AttributeName": "post_id", "AttributeType": "S"},
-            {"AttributeName": "post_date", "AttributeType": "S"},
             {"AttributeName": "post_type", "AttributeType": "S"}],
             TableName=os.environ["POST_TABLE"],
             KeySchema=[
-            {"AttributeName": "post_id", "KeyType": "HASH"},
-            {"AttributeName": "post_date", "KeyType": "RANGE"}],
+            {"AttributeName": "post_id", "KeyType": "RANGE"},
+            {"AttributeName": "post_date", "KeyType": "HASH"}],
             BillingMode="PAY_PER_REQUEST",
-            GlobalSecondaryIndexes=[
-            {
-                "IndexName": "PostTypeIndex",
-                "KeySchema": [{"AttributeName": "post_type", "KeyType": "HASH"}],
-                "Projection": {"ProjectionType": "KEYS_ONLY"}
-            }])
+        )
 
         try:
             db.put_item(TableName=os.environ["POST_TABLE"], Item={
                 "post_id": {"S": post_id},
-                "title": {"S": post_data["title"]},
-                "author": {"S": post_data["author"]},
-                "author_link": {"S": post_data["author_link"]},
+                "post_title": {"S": post_data["post_title"]},
+                "post_author": {"S": post_data["post_author"]},
+                "post_author_link": {"S": post_data["post_author_link"]},
                 "post_type": {"S": post_type},
-                "content": {"S": post_data["content"]},
-                "secret": {"S": post_data["secret"]},
-                "post_date": {"S": date},
-                "reported": {"BOOL": False}
+                "post_content": {"S": post_data["post_content"]},
+                "post_secret": {"S": post_data["post_secret"]},
+                "post_date": {"S": date}
             })
             return jsonify({"success": True, "message": "New Post Created"}), 200
         except:
-            return jsonify({"success": False, "message": "An error occurred"}), 400
+            return jsonify({"success": False, "message": "An error occurred"}), 500
 
     except db.exceptions.ResourceInUseException:
         try:
             db.put_item(TableName=os.environ["POST_TABLE"], Item={
                 "post_id": {"S": post_id},
-                "title": {"S": post_data["title"]},
-                "author": {"S": post_data["author"]},
-                "author_link": {"S": post_data["author_link"]},
+                "post_title": {"S": post_data["post_title"]},
+                "post_author": {"S": post_data["post_author"]},
+                "post_author_link": {"S": post_data["post_author_link"]},
                 "post_type": {"S": post_type},
-                "content": {"S": post_data["content"]},
-                "secret": {"S": post_data["secret"]},
+                "post_content": {"S": post_data["post_content"]},
+                "post_secret": {"S": post_data["post_secret"]},
                 "post_date": {"S": date},
-                "reported": {"BOOL": False}
             })
             return jsonify({"success": True, "message": "New Post Created"}), 200
         except:
-            return jsonify({"success": False, "message": "An error occurred"}), 400
+            return jsonify({"success": False, "message": "An error occurred"}), 500
 
-    return jsonify({"success": False, "message": "An error occurred"}), 400
+    return jsonify({"success": False, "message": "Bad Request"}), 400
