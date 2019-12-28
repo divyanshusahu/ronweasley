@@ -53,7 +53,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
 
   const post_user_feedback = type => {
     let post_data = {
-      content: document.getElementById(`input-${type}`).value
+      post_content: document.getElementById(`input-${type}`).value
     };
     message.loading({
       content: "Action in progress...",
@@ -178,17 +178,17 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                   ) : (
                     bugs.map(b => (
                       <Comment
-                        content={b.content["S"]}
+                        content={b.post_content["S"]}
                         datetime={<TimeAgo date={b.post_date["S"]} />}
                         key={b.post_id["S"]}
                         author="Anon"
                         avatar={<Avatar icon="bug" />}
                       >
-                        {isEmpty(b.reply) ? null : (
+                        {isEmpty(b.post_reply) ? null : (
                           <Comment
-                            content={b.reply["S"]}
+                            content={b.post_reply["S"]}
                             author="Admin"
-                            datetime={b.reply_time["S"]}
+                            datetime={b.post_reply_time["S"]}
                             avatar={
                               <Avatar
                                 icon="user"
@@ -236,7 +236,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                   ) : (
                     suggestions.map(sug => (
                       <Comment
-                        content={sug.content["S"]}
+                        content={sug.post_content["S"]}
                         datetime={<TimeAgo date={sug.post_date["S"]} />}
                         key={sug.post_id["S"]}
                         author="Anon"
@@ -247,11 +247,11 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                           />
                         }
                       >
-                        {isEmpty(sug.reply) ? null : (
+                        {isEmpty(sug.post_reply) ? null : (
                           <Comment
-                            content={sug.reply["S"]}
+                            content={sug.post_reply["S"]}
                             author="Admin"
-                            datetime={sug.reply_time["S"]}
+                            datetime={sug.post_reply_time["S"]}
                             avatar={
                               <Avatar
                                 icon="user"
@@ -301,7 +301,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                   ) : (
                     feedbacks.map(fed => (
                       <Comment
-                        content={fed.content["S"]}
+                        content={fed.post_content["S"]}
                         datetime={<TimeAgo date={fed.post_date["S"]} />}
                         key={fed.post_id["S"]}
                         author="Anon"

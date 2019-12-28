@@ -3,7 +3,7 @@ import boto3
 import os
 import uuid
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 import validators
 import hashlib
 
@@ -56,7 +56,7 @@ def insert_post(post_type):
         return jsonify({"success": False, "message": "Invalid Input Fields"}), 400
 
     post_id = uuid.uuid1().hex
-    date = datetime.now().isoformat()
+    date = datetime.now(timezone.utc).isoformat()
     if len(post_data["post_author"]) == 0:
         post_data["post_author"] = "Anonymous"
     if len(post_data["post_author_link"]) == 0:
