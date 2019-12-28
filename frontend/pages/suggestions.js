@@ -33,7 +33,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
   const [feedbackInputValue, setFeedbackInputValue] = React.useState("");
 
   const refreshFeed = type => {
-    fetch(BASE_URL + "/suggestions/get/" + type)
+    fetch(BASE_URL + "/get/" + type)
       .then(r => r.json())
       .then(data => {
         if (data.success) {
@@ -53,14 +53,13 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
 
   const post_user_feedback = type => {
     let post_data = {
-      post_type: type,
       content: document.getElementById(`input-${type}`).value
     };
     message.loading({
       content: "Action in progress...",
       key: "handlePostLoading"
     });
-    fetch(BASE_URL + "/suggestions/new", {
+    fetch(BASE_URL + "/new_suggestion/" + type, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(post_data)
@@ -342,19 +341,19 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
 }
 
 Suggestions.getInitialProps = async () => {
-  const r1 = await fetch(BASE_URL + "/suggestions/get/bug");
+  const r1 = await fetch(BASE_URL + "/get/bug");
   let pageLoadBugs = await r1.json();
   if (pageLoadBugs.success) {
     pageLoadBugs = pageLoadBugs.posts;
   }
 
-  const r2 = await fetch(BASE_URL + "/suggestions/get/suggestion");
+  const r2 = await fetch(BASE_URL + "/get/suggestion");
   let pageLoadSuggestions = await r2.json();
   if (pageLoadSuggestions.success) {
     pageLoadSuggestions = pageLoadSuggestions.posts;
   }
 
-  const r3 = await fetch(BASE_URL + "/suggestions/get/feedback");
+  const r3 = await fetch(BASE_URL + "/get/feedback");
   let pageLoadFeedbacks = await r3.json();
   if (pageLoadFeedbacks.success) {
     pageLoadFeedbacks = pageLoadFeedbacks.posts;

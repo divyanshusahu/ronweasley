@@ -58,7 +58,7 @@ function NewPost({ query }) {
       content: "Action in progress...",
       key: "newPostLoading"
     });
-    fetch(BASE_URL + "/posts/new/" + query, {
+    fetch(BASE_URL + "/new_post/" + query, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

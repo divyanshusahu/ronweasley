@@ -97,7 +97,7 @@ function Posts({ data }) {
 Posts.getInitialProps = async ({ query }) => {
   const post_type = query.post_type;
   const post_id = query.pid;
-  const r = await fetch(`${BASE_URL}/posts/${post_type}/${post_id}`);
+  const r = await fetch(`${BASE_URL}/get/${post_type}/${post_id}`);
   const data = await r.json();
   return { data: data };
 };
