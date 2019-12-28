@@ -47,8 +47,8 @@ function Index() {
       title="Ron Weasley"
       main_heading="A Website dedicated to the most selfless Harry Potter Character."
       about_heading="Some lines best describing Ron."
-      landscape="https://i.imgur.com/FS2A8uM.jpg"
-      portrait="https://i.imgur.com/kfXav0X.jpg"
+      landscape="/ron_weasley/landscape.jpg"
+      portrait="/ron_weasley/portrait.jpg"
       tabList={tabList}
       display={display}
       activeTabKey={activeTabKey}

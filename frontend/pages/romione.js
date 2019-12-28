@@ -43,8 +43,8 @@ function Index() {
       title="Romione"
       main_heading="Most Celebrated Harry Potter canon couple."
       about_heading="Some lines best describing Romione."
-      landscape="https://i.imgur.com/5XFq6a3.jpg"
-      portrait="https://i.imgur.com/AKuRxbB.jpg"
+      landscape="/romione/landscape.jpg"
+      portrait="/romione/portrait.jpg"
       tabList={tabList}
       display={display}
       activeTabKey={activeTabKey}
