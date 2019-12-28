@@ -7,7 +7,7 @@ plugins:
 
 custom:
   wsgi:
-app: ronweasley-backend
+    app: app.app
     packRequirements: false
   pythonRequirements:
     dockerizePip: non-linux
@@ -34,16 +34,32 @@ provider:
   environment:
     REGION_NAME: ${${self:custom.config}:REGION_NAME}
     POST_TABLE: ${${self:custom.config}:POST_TABLE}
-    SUGGESTION_TABLE: ${${self:custom.config}:SUGGESTION_TABLE}
 
 functions:
   app:
     handler: wsgi_handler.handler
     events:
       - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http: "ANY {proxy+}"
 
 package:
   exclude:
     - this_project/**
     - __pycache__/**
+
+resources:
+  Resources:
+    POSTTABLE:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: post_type
+            AttributeType: S
+          - AttributeName: post_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: post_type
+            KeyType: HASH
+          - AttributeName: post_id
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
