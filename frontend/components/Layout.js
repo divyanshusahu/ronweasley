@@ -1,11 +1,14 @@
 import Head from "next/head";
 
-import { Row, Col, Card, Layout as AntLayout } from "antd";
+import isEmpty from "is-empty";
+
+import { Row, Col, Card, Layout as AntLayout, Empty, List } from "antd";
 
 import { Link as RSLink, Element } from "react-scroll";
 
 import NavigationBar from "./NavigationBar";
 import ScrollAnimation from "./ScrollAnimation";
+import DisplayPost from "./DisplayPost";
 import Footer from "./Footer";
 
 const AntHeader = AntLayout.Header;
@@ -44,6 +47,39 @@ function Layout(props) {
       }
     }
   };
+
+  let display;
+
+  if (isEmpty(props.posts)) {
+    display = <Empty />;
+  } else if (props.type === "fanart") {
+    display = null;
+  } else {
+    display = (
+      <List
+        itemLayout="vertical"
+        split={false}
+        dataSource={props.posts}
+        pagination={{ pageSize: 3 }}
+        renderItem={p => (
+          <List.Item>
+            <DisplayPost
+              inner={true}
+              bordered={false}
+              key={p.post_id["S"]}
+              post_type={p.post_type["S"]}
+              post_id={p.post_id["S"]}
+              post_title={p.post_title["S"]}
+              post_author={p.post_author["S"]}
+              post_author_link={p.post_author["S"]}
+              post_date={p.post_date["S"]}
+              post_content={p.post_content["S"]}
+            />
+          </List.Item>
+        )}
+      />
+    );
+  }
 
   return (
     <div>
@@ -101,8 +137,12 @@ function Layout(props) {
                         props.onTabChange(key);
                       }}
                       tabBarExtraContent={props.tabBarExtraContent}
+                      bodyStyle={{
+                        paddingLeft: 8,
+                        paddingRight: 8
+                      }}
                     >
-                      <div className="page_posts">{props.display}</div>
+                      <div className="page_posts">{display}</div>
                     </Card>
                   </Col>
                 </Row>
@@ -170,18 +210,7 @@ function Layout(props) {
             align-items: flex-end;
           }
           .page_posts {
-            min-height: calc(150vh - 80px);
-            background-image: radial-gradient(
-                73% 147%,
-                #eadfdf 59%,
-                #ece2df 100%
-              ),
-              radial-gradient(
-                91% 146%,
-                rgba(255, 255, 255, 0.5) 47%,
-                rgba(0, 0, 0, 0.5) 100%
-              );
-            background-blend-mode: screen;
+            min-height: 160px;
           }
           @media only screen and (orientation: portrait) {
             .main {

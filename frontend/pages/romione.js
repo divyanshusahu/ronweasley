@@ -1,20 +1,34 @@
 import Link from "next/link";
 
+import fetch from "isomorphic-unfetch";
+
 import { Button } from "antd";
 
 import Layout from "../components/Layout";
-import DisplayPosts from "../components/DisplayPosts";
 
-function Index() {
-  const [display, setDisplay] = React.useState(
-    <DisplayPosts post_type="romione_appreciation" />
-  );
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : "https://api.ronweasley.co";
+
+function Romione() {
   const [selectedTab, setSelectedTab] = React.useState("appreciation");
+
+  const [posts, getPosts] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch(BASE_URL + "/get/romione_" + selectedTab)
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          getPosts(data.posts);
+        }
+      });
+  }, [selectedTab]);
 
   const tabList = [
     { key: "1", tab: "Appreciation" },
-    { key: "2", tab: "Fanart" },
-    { key: "3", tab: "Fanfiction" }
+    { key: "2", tab: "Fanart" }
   ];
 
   const [activeTabKey, setActiveTabKey] = React.useState("1");
@@ -22,11 +36,8 @@ function Index() {
     setActiveTabKey(key);
     if (key === "1") {
       setSelectedTab("appreciation");
-      setDisplay(<DisplayPosts post_type="romione_appreciation" />);
     } else if (key === "2") {
       setSelectedTab("fanart");
-    } else if (key === "3") {
-      setSelectedTab("fanfiction");
     }
   };
 
@@ -46,12 +57,13 @@ function Index() {
       landscape="/romione/landscape.jpg"
       portrait="/romione/portrait.jpg"
       tabList={tabList}
-      display={display}
       activeTabKey={activeTabKey}
       onTabChange={handleOnTabChange}
       tabBarExtraContent={tabBarExtraContent}
+      posts={posts}
+      type={selectedTab}
     />
   );
 }
 
-export default Index;
+export default Romione;

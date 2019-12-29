@@ -1,21 +1,35 @@
 import Link from "next/link";
 
+import fetch from "isomorphic-unfetch";
+
 import { Button } from "antd";
 
 import Layout from "../components/Layout";
-import DisplayPosts from "../components/DisplayPosts";
+
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : "https://api.ronweasley.co";
 
 function Index() {
-  const [display, setDisplay] = React.useState(
-    <DisplayPosts post_type="ron_weasley_appreciation" />
-  );
   const [selectedTab, setSelectedTab] = React.useState("appreciation");
+
+  const [posts, getPosts] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch(BASE_URL + "/get/ron_weasley_" + selectedTab)
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          getPosts(data.posts);
+        }
+      });
+  }, [selectedTab]);
 
   const tabList = [
     { key: "1", tab: "Appreciation" },
     { key: "2", tab: "Defense" },
-    { key: "3", tab: "Fanart" },
-    { key: "4", tab: "Fanfiction" }
+    { key: "3", tab: "Fanart" }
   ];
 
   const [activeTabKey, setActiveTabKey] = React.useState("1");
@@ -23,14 +37,10 @@ function Index() {
     setActiveTabKey(key);
     if (key === "1") {
       setSelectedTab("appreciation");
-      setDisplay(<DisplayPosts post_type="ron_weasley_appreciation" />);
     } else if (key === "2") {
       setSelectedTab("defense");
-      setDisplay(<DisplayPosts post_type="ron_weasley_defense" />);
     } else if (key === "3") {
       setSelectedTab("fanart");
-    } else if (key === "4") {
-      setSelectedTab("fanfiction");
     }
   };
 
@@ -50,10 +60,11 @@ function Index() {
       landscape="/ron_weasley/landscape.jpg"
       portrait="/ron_weasley/portrait.jpg"
       tabList={tabList}
-      display={display}
       activeTabKey={activeTabKey}
       onTabChange={handleOnTabChange}
       tabBarExtraContent={tabBarExtraContent}
+      posts={posts}
+      type={selectedTab}
     />
   );
 }
