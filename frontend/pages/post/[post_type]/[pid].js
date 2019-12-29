@@ -36,6 +36,51 @@ function Posts({ data }) {
 
   const post = data.post;
 
+  const options = {
+    inlineStyles: {
+      HIGHLIGHT: {
+        style: { backgroundColor: "#ff0" }
+      },
+      STRIKETHROUGH: {
+        style: { textDecoration: "line-through" }
+      }
+    },
+    blockStyleFn: block => {
+      const blockType = block.get("type");
+      if (
+        blockType === "unordered-list-item" ||
+        blockType === "ordered-list-item"
+      ) {
+        return {
+          style: {
+            marginLeft: 24
+          }
+        };
+      }
+    },
+    entityStyleFn: entity => {
+      const entityType = entity.get("type");
+      if (entityType === "IMAGE") {
+        const data = entity.getData();
+        return {
+          element: "img",
+          attributes: {
+            src: data.src
+          },
+          style: {
+            maxWidth: "90%",
+            marginLeft: "5%"
+          }
+        };
+      }
+    }
+  };
+
+  const postHtml = ReactHtmlParser(stateToHTML(
+    convertFromRaw(JSON.parse(post.post_content["S"])),
+    options
+  ));
+
   return (
     <div>
       <SecondaryLayout title={`Post: ${post.post_title["S"]}`}>
@@ -73,11 +118,7 @@ function Posts({ data }) {
                   <Icon type="flag" title="Report Post" />
                 ]}
               >
-                {ReactHtmlParser(
-                  stateToHTML(
-                    convertFromRaw(JSON.parse(post.post_content["S"]))
-                  )
-                )}
+                <div>{postHtml}</div>
               </Card>
             </Col>
           </Row>

@@ -26,7 +26,11 @@ function DraftJSEditor(props) {
 
   const Link = props => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
-    return <a href={url}>{props.children}</a>;
+    return (
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {props.children}
+      </a>
+    );
   };
 
   const decorator = new CompositeDecorator([
