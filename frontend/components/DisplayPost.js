@@ -54,6 +54,7 @@ function DisplayPost(props) {
     <div>
       <div className="display_post_card">
         <Card
+          bordered={props.bordered}
           type={props.inner ? "inner" : null}
           title={
             <span>
@@ -61,7 +62,7 @@ function DisplayPost(props) {
                 <Typography.Paragraph
                   strong
                   ellipsis={{ rows: 1, expandable: true }}
-                  style={{ fontSize: 18 }}
+                  style={{ fontSize: 16 }}
                 >
                   {props.post_title}
                 </Typography.Paragraph>
