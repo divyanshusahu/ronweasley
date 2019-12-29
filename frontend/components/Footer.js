@@ -45,7 +45,7 @@ function Footer() {
         `}
       </style>
       <Row>
-        <Col sm={12} md={{ span: 8, offset: 8 }}>
+        <Col sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }}>
           <Paragraph
             style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
           >
