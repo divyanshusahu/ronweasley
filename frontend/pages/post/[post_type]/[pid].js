@@ -1,14 +1,11 @@
 import Link from "next/link";
 
 import fetch from "isomorphic-unfetch";
-import TimeAgo from "react-timeago";
-import { convertFromRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
-import ReactHtmlParser from "react-html-parser";
 
-import { Button, Row, Col, Card, Typography, Icon } from "antd";
+import { Button, Row, Col } from "antd";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
+import DisplayPost from "../../../components/DisplayPost";
 import ErrorLayout from "../../../components/ErrorLayout";
 
 const BASE_URL =
@@ -36,51 +33,6 @@ function Posts({ data }) {
 
   const post = data.post;
 
-  const options = {
-    inlineStyles: {
-      HIGHLIGHT: {
-        style: { backgroundColor: "#ff0" }
-      },
-      STRIKETHROUGH: {
-        style: { textDecoration: "line-through" }
-      }
-    },
-    blockStyleFn: block => {
-      const blockType = block.get("type");
-      if (
-        blockType === "unordered-list-item" ||
-        blockType === "ordered-list-item"
-      ) {
-        return {
-          style: {
-            marginLeft: 24
-          }
-        };
-      }
-    },
-    entityStyleFn: entity => {
-      const entityType = entity.get("type");
-      if (entityType === "IMAGE") {
-        const data = entity.getData();
-        return {
-          element: "img",
-          attributes: {
-            src: data.src
-          },
-          style: {
-            maxWidth: "90%",
-            marginLeft: "5%"
-          }
-        };
-      }
-    }
-  };
-
-  const postHtml = ReactHtmlParser(stateToHTML(
-    convertFromRaw(JSON.parse(post.post_content["S"])),
-    options
-  ));
-
   return (
     <div>
       <SecondaryLayout title={`Post: ${post.post_title["S"]}`}>
@@ -92,34 +44,18 @@ function Posts({ data }) {
               lg={{ span: 18, offset: 3 }}
               xl={{ span: 16, offset: 4 }}
             >
-              <Card
-                title={
-                  <Card.Meta
-                    title={
-                      <Typography.Title level={4}>
-                        {post.post_title["S"]}
-                      </Typography.Title>
-                    }
-                    description={
-                      <a
-                        href={post.post_author_link["S"]}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {post.post_author["S"]}
-                      </a>
-                    }
-                  />
-                }
-                extra={<TimeAgo date={post.post_date["S"]} />}
-                actions={[
-                  <Icon type="edit" title="Edit Post" />,
-                  <Icon type="delete" title="Delete Post" />,
-                  <Icon type="flag" title="Report Post" />
-                ]}
-              >
-                <div>{postHtml}</div>
-              </Card>
+              <DisplayPost
+                inner={false}
+                bordered={true}
+                key={post.post_id["S"]}
+                post_type={post.post_type["S"]}
+                post_id={post.post_id["S"]}
+                post_title={post.post_title["S"]}
+                post_author={post.post_author["S"]}
+                post_author_link={post.post_author_link["S"]}
+                post_date={post.post_date["S"]}
+                post_content={post.post_content["S"]}
+              />
             </Col>
           </Row>
         </div>
@@ -127,7 +63,7 @@ function Posts({ data }) {
       <style jsx>
         {`
           .display_post {
-            margin: 40px 0;
+            margin: 64px 0 16px 0;
           }
         `}
       </style>
