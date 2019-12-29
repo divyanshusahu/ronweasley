@@ -14,10 +14,8 @@ allowed_types = [
     "ron_weasley_appreciation",
     "ron_weasley_defense",
     "ron_weasley_fanart",
-    "ron_weasley_fanfiction",
     "romione_appreciation",
     "romione_fanart",
-    "romione_fanfiction",
     "bug",
     "suggestion",
     "feedback"
