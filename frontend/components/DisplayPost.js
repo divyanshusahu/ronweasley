@@ -26,6 +26,14 @@ function DisplayPost(props) {
             marginLeft: 24
           }
         };
+      } else if (blockType === "blockquote") {
+        return {
+          style: {
+            padding: 8,
+            fontStyle: "italic",
+            borderLeft: "4px solid rgba(192, 192, 192, 1)"
+          }
+        };
       }
     },
     entityStyleFn: entity => {
@@ -39,7 +47,9 @@ function DisplayPost(props) {
           },
           style: {
             maxWidth: "90%",
-            marginLeft: "5%"
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto"
           }
         };
       }

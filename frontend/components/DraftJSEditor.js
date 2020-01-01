@@ -4,7 +4,9 @@ import {
   RichUtils,
   AtomicBlockUtils,
   CompositeDecorator,
-  convertToRaw
+  convertToRaw,
+  getDefaultKeyBinding,
+  KeyBindingUtil
 } from "draft-js";
 
 import Head from "next/head";
@@ -42,10 +44,12 @@ function DraftJSEditor(props) {
   );
   const [currentInlineStyles, setCurrentInlineStyles] = React.useState(1);
   // a hacky way to avoid initial check
+  const [currentBlockType, setCurrentBlockType] = React.useState("unstyled");
 
   React.useEffect(() => {
     const inlineStyle = editorState.getCurrentInlineStyle();
     setCurrentInlineStyles(inlineStyle);
+    setCurrentBlockType(RichUtils.getCurrentBlockType(editorState));
   }, [editorState]);
 
   const styleMap = {
@@ -57,11 +61,31 @@ function DraftJSEditor(props) {
     }
   };
 
+  const myKeyBindingFn = event => {
+    if (event.keyCode === 72 && KeyBindingUtil.hasCommandModifier(event)) {
+      return "custom-command-highlight";
+    } else if (
+      event.keyCode === 68 &&
+      KeyBindingUtil.hasCommandModifier(event)
+    ) {
+      return "custom-command-strikethrough";
+    }
+    return getDefaultKeyBinding(event);
+  };
+
   const handleKeyCommand = command => {
+    if (command === "custom-command-highlight") {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, "HIGHLIGHT"));
+      return "handled";
+    } else if (command === "custom-command-strikethrough") {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, "STRIKETHROUGH"));
+      return "handled";
+    }
     const ns = RichUtils.handleKeyCommand(editorState, command);
     if (ns) {
       setEditorState(ns);
     }
+    return "not-handled";
   };
 
   const handleUndoClick = () => {
@@ -72,42 +96,51 @@ function DraftJSEditor(props) {
     setEditorState(EditorState.redo(editorState));
   };
 
-  const handleBoldClick = () => {
+  const handleBoldClick = event => {
+    event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
   };
 
-  const handleItalicClick = () => {
+  const handleItalicClick = event => {
+    event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"));
   };
 
-  const handleStrikeClick = () => {
+  const handleStrikeClick = event => {
+    event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "STRIKETHROUGH"));
   };
 
-  const handleUnderlineClick = () => {
+  const handleUnderlineClick = event => {
+    event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"));
   };
 
-  const handleHighlightClick = () => {
+  const handleHighlightClick = event => {
+    event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "HIGHLIGHT"));
   };
 
-  const handleULClick = () => {
+  const handleULClick = event => {
+    event.preventDefault();
     setEditorState(
       RichUtils.toggleBlockType(editorState, "unordered-list-item")
     );
   };
 
-  const handleOLClick = () => {
+  const handleOLClick = event => {
+    event.preventDefault();
     setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"));
   };
 
-  const handleBlockqouteClick = () => {
-    setEditorState(RichUtils.toggleCode(editorState, "blockquote"));
+  const handleBlockqouteClick = event => {
+    event.preventDefault();
+    setEditorState(RichUtils.toggleBlockType(editorState, "blockquote"));
   };
 
-  const handleCodeblockClick = () => {
-    setEditorState(RichUtils.toggleCode(editorState, "code-block"));
+  const handleCodeblockClick = event => {
+    event.preventDefault();
+    setEditorState(RichUtils.toggleBlockType(editorState, "code-block"));
   };
 
   const handleHeaderClick = event => {
@@ -191,8 +224,16 @@ function DraftJSEditor(props) {
 
   if (true) {
     const currentContent = convertToRaw(editorState.getCurrentContent());
+    //console.log(RichUtils.getCurrentBlockType());
     props.handleEditorContent(JSON.stringify(currentContent));
   }
+
+  const myBlockStyleFn = contentBlock => {
+    let type = contentBlock.getType();
+    if (type === "blockquote") {
+      return "editorBlockQuote";
+    }
+  };
 
   return (
     <div className="root">
@@ -217,75 +258,108 @@ function DraftJSEditor(props) {
             </Radio.Group>
           </Col>
           <Col>
-            <Button
-              icon="bold"
-              title="Bold"
-              onClick={handleBoldClick}
-              className={clsx({
-                "ant-radio-button-wrapper-checked":
-                  typeof currentInlineStyles === "object"
-                    ? currentInlineStyles.has("BOLD")
-                    : false
-              })}
-            />
-            <Button
-              icon="italic"
-              title="Italic"
-              onClick={handleItalicClick}
-              className={clsx({
-                "ant-radio-button-wrapper-checked":
-                  typeof currentInlineStyles === "object"
-                    ? currentInlineStyles.has("ITALIC")
-                    : false
-              })}
-            />
-            <Button
-              icon="underline"
-              title="Underline"
-              onClick={handleUnderlineClick}
-              className={clsx({
-                "ant-radio-button-wrapper-checked":
-                  typeof currentInlineStyles === "object"
-                    ? currentInlineStyles.has("UNDERLINE")
-                    : false
-              })}
-            />
-            <Button
-              icon="strikethrough"
-              title="Strikethrough"
-              onClick={handleStrikeClick}
-              className={clsx({
-                "ant-radio-button-wrapper-checked":
-                  typeof currentInlineStyles === "object"
-                    ? currentInlineStyles.has("STRIKETHROUGH")
-                    : false
-              })}
-            />
-            <Button
-              icon="highlight"
-              title="highlight"
-              onClick={handleHighlightClick}
-              className={clsx({
-                "ant-radio-button-wrapper-checked":
-                  typeof currentInlineStyles === "object"
-                    ? currentInlineStyles.has("HIGHLIGHT")
-                    : false
-              })}
-            />
+            <span onMouseDown={() => handleBoldClick(event)}>
+              <Button
+                icon="bold"
+                title="Bold (Ctrl + B)"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    typeof currentInlineStyles === "object"
+                      ? currentInlineStyles.has("BOLD")
+                      : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleItalicClick(event)}>
+              <Button
+                icon="italic"
+                title="Italic (Ctrl + I)"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    typeof currentInlineStyles === "object"
+                      ? currentInlineStyles.has("ITALIC")
+                      : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleUnderlineClick(event)}>
+              <Button
+                icon="underline"
+                title="Underline (Ctrl + U)"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    typeof currentInlineStyles === "object"
+                      ? currentInlineStyles.has("UNDERLINE")
+                      : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleStrikeClick(event)}>
+              <Button
+                icon="strikethrough"
+                title="Strikethrough  (Ctrl + D)"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    typeof currentInlineStyles === "object"
+                      ? currentInlineStyles.has("STRIKETHROUGH")
+                      : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleHighlightClick(event)}>
+              <Button
+                icon="highlight"
+                title="Highlight (Ctrl + H)"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    typeof currentInlineStyles === "object"
+                      ? currentInlineStyles.has("HIGHLIGHT")
+                      : false
+                })}
+              />
+            </span>
           </Col>
           <Col>
-            <Button
-              icon="unordered-list"
-              title="Unordered List"
-              onClick={handleULClick}
-            />
-            <Button
-              icon="ordered-list"
-              title="Ordered List"
-              onClick={handleOLClick}
-            />
-            <Button icon="code" />
-            <Button icon="block" />
+            <span onMouseDown={() => handleULClick(event)}>
+              <Button
+                icon="unordered-list"
+                title="Unordered List"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    currentBlockType === "unordered-list-item" ? true : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleOLClick(event)}>
+              <Button
+                icon="ordered-list"
+                title="Ordered List"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    currentBlockType === "ordered-list-item" ? true : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleCodeblockClick(event)}>
+              <Button
+                icon="code"
+                title="Code Block"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    currentBlockType === "code-block" ? true : false
+                })}
+              />
+            </span>
+            <span onMouseDown={() => handleBlockqouteClick(event)}>
+              <Button
+                icon="block"
+                title="Blockquote"
+                className={clsx({
+                  "ant-radio-button-wrapper-checked":
+                    currentBlockType === "blockquote" ? true : false
+                })}
+              />
+            </span>
           </Col>
           <Col>
             <Popover
@@ -297,7 +371,6 @@ function DraftJSEditor(props) {
                   placeholder="Insert Link"
                   prefix={<Icon type="link" />}
                   addonAfter={<Icon type="enter" onClick={confirm_link} />}
-                  size="small"
                   onPressEnter={confirm_link}
                 />
               }
@@ -313,7 +386,6 @@ function DraftJSEditor(props) {
                   placeholder="Insert Image Link"
                   prefix={<Icon type="file-image" />}
                   addonAfter={<Icon type="enter" onClick={confirm_media} />}
-                  size="small"
                   onPressEnter={confirm_media}
                 />
               }
@@ -328,11 +400,22 @@ function DraftJSEditor(props) {
           editorState={editorState}
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
+          keyBindingFn={myKeyBindingFn}
           customStyleMap={styleMap}
           blockRendererFn={mediaBlockRenderer}
+          blockStyleFn={myBlockStyleFn}
           placeholder="Begin typing here..."
         />
       </div>
+      <style jsx global>
+        {`
+          .editorBlockQuote {
+            padding: 8px;
+            font-style: italic;
+            border-left: 4px solid rgba(192, 192, 192, 1);
+          }
+        `}
+      </style>
       <style jsx>
         {`
           .toolbar {
