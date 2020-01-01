@@ -65,7 +65,7 @@ function Layout(props) {
           <List.Item>
             <DisplayPost
               inner={true}
-              bordered={false}
+              bordered={true}
               key={p.post_id["S"]}
               post_type={p.post_type["S"]}
               post_id={p.post_id["S"]}
