@@ -1,9 +1,18 @@
-import { Card, Typography, Icon } from "antd";
+import fetch from "isomorphic-unfetch";
+
+import { Card, Typography, Icon, Modal, Input, message } from "antd";
+
+const { confirm } = Modal;
 
 import TimeAgo from "react-timeago";
 import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import ReactHtmlParser from "react-html-parser";
+
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : "https://api.ronweasley.co";
 
 function DisplayPost(props) {
   const options = {
@@ -60,6 +69,62 @@ function DisplayPost(props) {
     stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
   );
 
+  const handleDeletePost = (post_secret, post_type, post_id) => {
+    message.loading({
+      content: "Action in progress",
+      duration: 0,
+      key: "handleDeleteMessage"
+    });
+    const post_data = {
+      post_secret: post_secret
+    };
+    fetch(`${BASE_URL}/delete_post/${post_type}/${post_id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post_data)
+    })
+      .then(r => r.json())
+      .then(data => {
+        console.log(data);
+        if (data.success) {
+          message.success({
+            content: data.message,
+            duration: 1.5,
+            key: "handleDeleteMessage"
+          });
+        } else {
+          message.error({
+            content: data.message,
+            duration: 1.5,
+            key: "handleDeleteMessage"
+          });
+        }
+      });
+  };
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: "Are you sure delete this post?",
+      content: (
+        <span>
+          <p>This action is irrerversable. You need to enter post secret.</p>
+          <Input.Password placeholder="Post Secret" id="input_post_secret" />
+        </span>
+      ),
+      centered: true,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        handleDeletePost(
+          document.getElementById("input_post_secret").value,
+          props.post_type,
+          props.post_id
+        );
+      }
+    });
+  };
+
   return (
     <div>
       <div className="display_post_card">
@@ -88,7 +153,11 @@ function DisplayPost(props) {
           extra={<TimeAgo date={props.post_date} />}
           actions={[
             <Icon type="edit" title="Edit Post" />,
-            <Icon type="delete" title="Delete Post" />,
+            <Icon
+              type="delete"
+              title="Delete Post"
+              onClick={showDeleteConfirm}
+            />,
             <Icon type="flag" title="Report Post" />
           ]}
         >
