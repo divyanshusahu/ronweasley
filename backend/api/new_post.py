@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import validators
 import hashlib
 
-posts = Blueprint("posts", __name__, url_prefix="/new_post")
+new_post = Blueprint("new_post", __name__, url_prefix="/new_post")
 
 allowed_types = ["ron_weasley_appreciation",
                  "ron_weasley_defense", "romione_appreciation"]
@@ -44,7 +44,7 @@ def valid_inputs(post_data):
     return error
 
 
-@posts.route("/<post_type>", methods=["POST"])
+@new_post.route("/<post_type>", methods=["POST"])
 def insert_post(post_type):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid post type"}), 400
