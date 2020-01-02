@@ -57,7 +57,8 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
     };
     message.loading({
       content: "Action in progress...",
-      key: "handlePostLoading"
+      key: "handlePostMessage",
+      duration: 0
     });
     fetch(BASE_URL + "/new_suggestion/" + type, {
       method: "POST",
@@ -67,10 +68,18 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
       .then(r => r.json())
       .then(data => {
         if (data.success) {
-          message.success({ content: data.message, key: "handlePostLoading" });
+          message.success({
+            content: data.message,
+            key: "handlePostMessage",
+            duration: 1.5
+          });
           refreshFeed(type);
         } else {
-          message.error({ content: data.message, key: "handlePostLoading" });
+          message.error({
+            content: data.message,
+            key: "handlePostMessage",
+            duration: 1.5
+          });
         }
       });
   };
