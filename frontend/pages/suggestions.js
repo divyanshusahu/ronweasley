@@ -71,14 +71,12 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
           message.success({
             content: data.message,
             key: "handlePostMessage",
-            duration: 1.5
           });
           refreshFeed(type);
         } else {
           message.error({
             content: data.message,
             key: "handlePostMessage",
-            duration: 1.5
           });
         }
       });
