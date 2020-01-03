@@ -1,6 +1,6 @@
 import fetch from "isomorphic-unfetch";
 
-import { Card, Typography, Icon, Modal, Input, message } from "antd";
+import { Card, Typography, Icon, Modal, Input, Alert, message } from "antd";
 
 const { confirm } = Modal;
 
@@ -69,6 +69,8 @@ function DisplayPost(props) {
     stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
   );
 
+  const [deleteAlertDisplay, setDeleteAlertDisplay] = React.useState("none");
+
   const handleDeletePost = (post_secret, post_type, post_id) => {
     message.loading({
       content: "Action in progress",
@@ -85,13 +87,13 @@ function DisplayPost(props) {
     })
       .then(r => r.json())
       .then(data => {
-        console.log(data);
         if (data.success) {
           message.success({
             content: data.message,
             duration: 1.5,
             key: "handleDeleteMessage"
           });
+          setDeleteAlertDisplay("block");
         } else {
           message.error({
             content: data.message,
@@ -125,8 +127,22 @@ function DisplayPost(props) {
     });
   };
 
+  const actions = [
+    <Icon type="edit" title="Edit Post" />,
+    <Icon type="delete" title="Delete Post" onClick={showDeleteConfirm} />,
+    <Icon type="flag" title="Report Post" />
+  ];
+
   return (
     <div>
+      <div className="alert_div">
+        <Alert
+          message="Deleted"
+          description="This post has been deleted."
+          type="error"
+          showIcon
+        />
+      </div>
       <div className="display_post_card">
         <Card
           bordered={props.bordered}
@@ -151,21 +167,17 @@ function DisplayPost(props) {
             </span>
           }
           extra={<TimeAgo date={props.post_date} />}
-          actions={[
-            <Icon type="edit" title="Edit Post" />,
-            <Icon
-              type="delete"
-              title="Delete Post"
-              onClick={showDeleteConfirm}
-            />,
-            <Icon type="flag" title="Report Post" />
-          ]}
+          actions={props.showActions ? actions : null}
         >
           <div>{postHtml}</div>
         </Card>
       </div>
       <style jsx>
         {`
+          .alert_div {
+            margin: 0 0 32px 0;
+            display: ${deleteAlertDisplay};
+          }
           .display_post_card {
             margin-bottom: 48px;
           }

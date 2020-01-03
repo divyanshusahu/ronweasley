@@ -66,6 +66,7 @@ function Layout(props) {
             <DisplayPost
               inner={true}
               bordered={true}
+              showActions={false}
               key={p.post_id["S"]}
               post_type={p.post_type["S"]}
               post_id={p.post_id["S"]}
@@ -199,7 +200,7 @@ function Layout(props) {
             padding: 8px;
           }
           .page_content {
-            padding: 40px 0 80px 0;
+            padding: 80px 0;
             background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
           }
           .toolbar {

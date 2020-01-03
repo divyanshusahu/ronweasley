@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import fetch from "isomorphic-unfetch";
 
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, Alert } from "antd";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import DisplayPost from "../../../components/DisplayPost";
@@ -47,6 +47,7 @@ function Posts({ data }) {
               <DisplayPost
                 inner={false}
                 bordered={true}
+                showActions={true}
                 key={post.post_id["S"]}
                 post_type={post.post_type["S"]}
                 post_id={post.post_id["S"]}
