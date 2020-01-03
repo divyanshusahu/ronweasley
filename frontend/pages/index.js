@@ -17,7 +17,7 @@ function Index() {
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
-    fetch(BASE_URL + "/get/ron_weasley_" + selectedTab)
+    fetch(BASE_URL + "/get_post/ron_weasley_" + selectedTab)
       .then(r => r.json())
       .then(data => {
         if (data.success) {

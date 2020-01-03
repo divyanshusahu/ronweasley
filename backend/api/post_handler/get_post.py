@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 import boto3
 import os
 
-get_posts = Blueprint("get_posts", __name__, url_prefix="/get")
+get_post = Blueprint("get_post", __name__, url_prefix="/get_post")
 
 if os.getenv("ENV") == "development":
     db = boto3.client("dynamodb", region_name="localhost",
@@ -18,11 +18,12 @@ allowed_types = [
     "romione_fanart",
     "bug",
     "suggestion",
-    "feedback"
+    "feedback",
+    "reported_post"
 ]
 
 
-@get_posts.route("/<post_type>", methods=["GET"])
+@get_post.route("/<post_type>", methods=["GET"])
 def get_post_by_type(post_type):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid Request"}), 400
@@ -41,12 +42,14 @@ def get_post_by_type(post_type):
             post.pop("post_secret", None)
             send_result.append(post)
 
+        send_result = sorted(send_result, key=lambda x: x["post_date"]["S"], reverse=True)
+
         return jsonify({"success": True, "posts": send_result}), 200
     except:
         return jsonify({"success": False, "message": "An error occurred"}), 500
 
 
-@get_posts.route("/<post_type>/<post_id>", methods=["GET"])
+@get_post.route("/<post_type>/<post_id>", methods=["GET"])
 def get_post_by_id(post_type, post_id):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid Request"}), 400

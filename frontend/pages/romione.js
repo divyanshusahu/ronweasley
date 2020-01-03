@@ -17,7 +17,7 @@ function Romione() {
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
-    fetch(BASE_URL + "/get/romione_" + selectedTab)
+    fetch(BASE_URL + "/get_post/romione_" + selectedTab)
       .then(r => r.json())
       .then(data => {
         if (data.success) {
