@@ -77,7 +77,7 @@ function DisplayPost(props) {
       duration: 0,
       key: "handleDeleteMessage"
     });
-    const post_data = {
+    let post_data = {
       post_secret: post_secret
     };
     fetch(`${BASE_URL}/delete_post/${post_type}/${post_id}`, {
@@ -127,10 +127,69 @@ function DisplayPost(props) {
     });
   };
 
+  const [reportAlertDisplay, setReportAlertDisplay] = React.useState(
+    props.post_reported ? "block" : "none"
+  );
+
+  const handleReportPost = (reported_post_reason, post_type, post_id) => {
+    message.loading({
+      content: "Action in progress",
+      duration: 0,
+      key: "handleReportMessage"
+    });
+    let post_data = {
+      reported_post_reason: reported_post_reason
+    };
+    fetch(`${BASE_URL}/report_post/${post_type}/${post_id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(post_data)
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          message.success({
+            content: data.message,
+            key: "handleReportMessage"
+          });
+          setReportAlertDisplay("block");
+        } else {
+          message.error({
+            content: data.message,
+            key: "handleReportMessage"
+          });
+        }
+      });
+  };
+
+  const showReportConfirm = () => {
+    confirm({
+      title: "Do you want to report this post?",
+      content: (
+        <span>
+          <Input placeholder="Reason" id="input_post_report_reason" />
+        </span>
+      ),
+      centered: true,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        handleReportPost(
+          document.getElementById("input_post_report_reason").value,
+          props.post_type,
+          props.post_id
+        );
+      }
+    });
+  };
+
   const actions = [
     <Icon type="edit" title="Edit Post" />,
     <Icon type="delete" title="Delete Post" onClick={showDeleteConfirm} />,
-    <Icon type="flag" title="Report Post" />
+    <Icon type="flag" title="Report Post" onClick={showReportConfirm} />
   ];
 
   return (
@@ -140,6 +199,14 @@ function DisplayPost(props) {
           message="Deleted"
           description="This post has been deleted."
           type="error"
+          showIcon
+        />
+      </div>
+      <div className="reported_div">
+        <Alert
+          message="Reported"
+          description="This post has been reported."
+          type="warning"
           showIcon
         />
       </div>
@@ -177,6 +244,10 @@ function DisplayPost(props) {
           .alert_div {
             margin: 0 0 32px 0;
             display: ${deleteAlertDisplay};
+          }
+          .reported_div {
+            margin-bottom: 32px;
+            display: ${reportAlertDisplay};
           }
           .display_post_card {
             margin-bottom: 48px;
