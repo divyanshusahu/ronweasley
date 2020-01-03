@@ -4,6 +4,7 @@ from api.new_post import new_post
 from api.suggestions import suggestions
 from api.get_posts import get_posts
 from api.delete_post import delete_post
+from api.report_post import report_post
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -12,6 +13,7 @@ app.register_blueprint(new_post)
 app.register_blueprint(suggestions)
 app.register_blueprint(get_posts)
 app.register_blueprint(delete_post)
+app.register_blueprint(report_post)
 
 
 @app.route("/")
