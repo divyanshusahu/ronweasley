@@ -49,20 +49,7 @@ function Footer() {
           <Paragraph
             style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
           >
-            This Website is dedicated to Ron Lovers.
-          </Paragraph>
-          <Paragraph
-            style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
-          >
-            Made with{" "}
-            <Icon type="heart" theme="filled" style={{ color: "#f00" }} /> by{" "}
-            <a
-              href="https://github.com/divyanshusahu"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Divyanshu
-            </a>
+            A website inspired by the excellent work of Ron Weasley Defense Squad.
           </Paragraph>
         </Col>
       </Row>
