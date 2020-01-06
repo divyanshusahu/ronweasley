@@ -31,6 +31,9 @@ provider:
   environment:
     REGION_NAME: ${${self:custom.config}:REGION_NAME}
     POST_TABLE: ${${self:custom.config}:POST_TABLE}
+    JWT_SECRET_KEY: ${${self:custom.config}:JWT_SECRET_KEY}
+    ADMIN_USERNAME: ${${self:custom.config}:ADMIN_USERNAME}
+    ADMIN_PASSWORD: ${${self:custom.config}:ADMIN_PASSWORD}
 
 functions:
   app:
