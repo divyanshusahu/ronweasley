@@ -56,9 +56,17 @@ function Dashboard(props) {
       key: "deletePostMessage"
     });
     if (action === "ignore_post") {
-      fetch(`${BASE_URL}/admin/delete_post/reported_post/${post_id}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${props.access_token}` }
+      let post_data = {
+        reported_post_type: reported_post_type,
+        reported_post_id: reported_post_id
+      };
+      fetch(`${BASE_URL}/admin/ignore_report/${post_id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${props.access_token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(post_data)
       })
         .then(r => r.json())
         .then(data => {
@@ -80,7 +88,7 @@ function Dashboard(props) {
       fetch(
         `${BASE_URL}/admin/delete_post/${reported_post_type}/${reported_post_id}`,
         {
-          method: "GET",
+          method: "POST",
           headers: { Authorization: `Bearer ${props.access_token}` }
         }
       )
@@ -93,7 +101,7 @@ function Dashboard(props) {
               key: "deletePostMessage"
             });
             fetch(`${BASE_URL}/admin/delete_post/reported_post/${post_id}`, {
-              method: "GET",
+              method: "POST",
               headers: { Authorization: `Bearer ${props.access_token}` }
             })
               .then(r => r.json())
