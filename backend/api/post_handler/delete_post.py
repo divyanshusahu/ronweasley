@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 import boto3
 import os
 import hashlib
-import json
 
 delete_post = Blueprint("delete_post", __name__, url_prefix="/delete_post")
 
@@ -15,9 +14,11 @@ else:
 
 @delete_post.route("/<post_type>/<post_id>", methods=["POST"])
 def delete_post_by_id(post_type, post_id):
-    post_data = json.loads(request.data.decode("utf-8"))
+    if request.is_json == False:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
+
     post_secret = hashlib.sha256(
-        post_data["post_secret"].encode()).hexdigest()
+        request.json.get("post_secret", "").encode()).hexdigest()
 
     try:
         result = db.delete_item(

@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 import boto3
 import os
 import uuid
-import json
 from datetime import datetime, timezone
 
 suggestions = Blueprint("suggestions", __name__, url_prefix="/new_suggestion")
@@ -16,8 +15,11 @@ else:
 
 @suggestions.route("/<suggestion_type>", methods=["POST"])
 def add_suggestions(suggestion_type):
-    data = json.loads(request.data.decode("utf-8"))
-    if len(data["post_content"]) < 4:
+    if request.is_json == False:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
+
+    post_content = request.json.get("post_content", "")
+    if len(post_content) < 4:
         return jsonify({"success": False, "message": "Content should be atleast four characters long"}), 400
 
     if suggestion_type not in ["bug", "suggestion", "feedback"]:
@@ -33,10 +35,9 @@ def add_suggestions(suggestion_type):
                 "post_id": {"S": post_id},
                 "post_type": {"S": suggestion_type},
                 "post_date": {"S": date},
-                "post_content": {"S": data["post_content"]}
+                "post_content": {"S": post_content}
             }
         )
         return jsonify({"success": True, "message": "Successfully Added"}), 200
-    except Exception as e:
-        print(e)
+    except:
         return jsonify({"success": False, "message": "An error occurred"}), 500

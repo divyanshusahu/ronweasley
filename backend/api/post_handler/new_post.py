@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request
 import boto3
 import os
 import uuid
-import json
 from datetime import datetime, timezone
 import validators
 import hashlib
@@ -46,10 +45,13 @@ def valid_inputs(post_data):
 
 @new_post.route("/<post_type>", methods=["POST"])
 def insert_post(post_type):
+    if request.is_json == False:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
+
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid post type"}), 400
 
-    post_data = json.loads(request.data.decode("utf-8"))
+    post_data = request.json
     error = valid_inputs(post_data)
 
     if error["error"] == True:
