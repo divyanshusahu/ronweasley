@@ -41,7 +41,7 @@ def report_post_by_id(reported_post_type, reported_post_id):
             UpdateExpression="SET post_reported = if_not_exists(post_reported, :pr)",
             ExpressionAttributeValues={
                 ":pt": {"S": reported_post_type},
-                ":pid": {"S": reported_post_type},
+                ":pid": {"S": reported_post_id},
                 ":pr": {"BOOL": True}
             },
             ReturnValues="UPDATED_OLD"
