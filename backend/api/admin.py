@@ -1,31 +1,72 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+import boto3
 import os
-import json
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
+
+if os.getenv("ENV") == "development":
+    db = boto3.client("dynamodb", region_name="localhost",
+                      endpoint_url="http://localhost:8000")
+else:
+    db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
 
 @admin.route("/login", methods=["POST"])
 def login():
-    post_data = json.loads(request.data.decode("utf-8"))
+    if request.is_json == False:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
 
-    if len(post_data["username"]) == 0:
+    username = request.json.get("username", "")
+    password = request.json.get("password", "")
+
+    if len(username) == 0:
         return jsonify({"success": False, "message": "Username must not be empty"}), 400
-    if len(post_data["password"]) == 0:
+    if len(password) == 0:
         return jsonify({"success": False, "message": "Password must not be empty"}), 400
 
-    if post_data["username"] != os.environ["ADMIN_USERNAME"] or post_data["password"] != os.environ["ADMIN_PASSWORD"]:
+    if username != os.environ["ADMIN_USERNAME"] or password != os.environ["ADMIN_PASSWORD"]:
         return jsonify({"success": False, "message": "Invalid username or password"}), 400
 
-    access_token = create_access_token(identity=post_data["username"])
+    access_token = create_access_token(identity=username)
     return jsonify({"success": True, "access_token": access_token}), 200
 
 
 @admin.route("/identity_check", methods=["GET"])
 @jwt_required
-def protected():
+def identity_check():
     identity = get_jwt_identity()
     if identity == os.environ["ADMIN_USERNAME"]:
         return jsonify({"success": True}), 200
     return jsonify({"success": False}), 403
+
+
+@admin.route("/delete_post/<post_type>/<post_id>", methods=["POST"])
+@jwt_required
+def delete_post(post_type, post_id):
+    try:
+        db.delete_item(
+            TableName=os.environ["POST_TABLE"],
+            Key={
+                "post_type": {
+                    "S": post_type
+                },
+                "post_id": {
+                    "S": post_id
+                }
+            },
+            ConditionExpression="post_type = :pt AND post_id = :pid",
+            ExpressionAttributeValues={
+                ":pt": {
+                    "S": post_type
+                },
+                ":pid": {
+                    "S": post_id
+                }
+            }
+        )
+        return jsonify({"success": True, "message": "Delete Successful"}), 200
+    except db.exceptions.ConditionalCheckFailedException:
+        return jsonify({"success": False, "message": "Post not exist"}), 400
+
+    return jsonify({"success": False, "message": "Bad request"}), 400
