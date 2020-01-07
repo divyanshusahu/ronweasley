@@ -2,7 +2,7 @@ import Link from "next/link";
 import cookies from "next-cookies";
 import fetch from "isomorphic-unfetch";
 
-import { Row, Col, Card, Button, List, Icon } from "antd";
+import { Row, Col, Card, Button, List, Icon, Popconfirm, message } from "antd";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 import ErrorLayout from "../../components/ErrorLayout";
@@ -12,8 +12,8 @@ const BASE_URL =
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function Dashboard({ authorized }) {
-  if (!authorized) {
+function Dashboard(props) {
+  if (!props.authorized) {
     return (
       <div>
         <ErrorLayout
@@ -44,6 +44,84 @@ function Dashboard({ authorized }) {
     });
   }, []);
 
+  const handlePostDelete = (
+    reported_post_type,
+    reported_post_id,
+    post_id,
+    action
+  ) => {
+    message.loading({
+      content: "Action in progress",
+      duration: 0,
+      key: "deletePostMessage"
+    });
+    if (action === "ignore_post") {
+      fetch(`${BASE_URL}/admin/delete_post/reported_post/${post_id}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${props.access_token}` }
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "deletePostMessage"
+            });
+            getPost("reported_post").then(d => {
+              if (d.success) {
+                setRepotedPost(d.posts);
+              }
+            });
+          } else {
+            message.error({ content: data.message, key: "deletePostMessage" });
+          }
+        });
+    } else if (action === "delete_post") {
+      fetch(
+        `${BASE_URL}/admin/delete_post/${reported_post_type}/${reported_post_id}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${props.access_token}` }
+        }
+      )
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            message.loading({
+              content: "Post deleted. Deleting reported entry.",
+              duration: 0,
+              key: "deletePostMessage"
+            });
+            fetch(`${BASE_URL}/admin/delete_post/reported_post/${post_id}`, {
+              method: "GET",
+              headers: { Authorization: `Bearer ${props.access_token}` }
+            })
+              .then(r => r.json())
+              .then(data => {
+                if (data.success) {
+                  message.success({
+                    content: data.message,
+                    key: "deletePostMessage"
+                  });
+                  getPost("reported_post").then(d => {
+                    if (d.success) {
+                      setRepotedPost(d.posts);
+                    }
+                  });
+                } else {
+                  message.error({
+                    content: data.message,
+                    key: "deletePostMessage"
+                  });
+                }
+              });
+          } else {
+            message.error({ content: data.message, key: "deletePostMessage" });
+          }
+        });
+    }
+  };
+
   return (
     <div>
       <SecondaryLayout title="Admin Dashboard">
@@ -56,7 +134,38 @@ function Dashboard({ authorized }) {
                   dataSource={reportedPost}
                   renderItem={item => (
                     <List.Item
-                      actions={[<Icon type="delete" title="Delete Post" />]}
+                      actions={[
+                        <Popconfirm
+                          title="Confirm delete?"
+                          okText="Yes"
+                          cancelText="No"
+                          onConfirm={() =>
+                            handlePostDelete(
+                              item.reported_post_type["S"],
+                              item.reported_post_id["S"],
+                              item.post_id["S"],
+                              "delete_post"
+                            )
+                          }
+                        >
+                          <Icon type="delete" title="Delete Post" />
+                        </Popconfirm>,
+                        <Popconfirm
+                          title="Ignore this report?"
+                          okText="Yes"
+                          cancelText="No"
+                          onConfirm={() =>
+                            handlePostDelete(
+                              item.reported_post_type["S"],
+                              item.reported_post_id["S"],
+                              item.post_id["S"],
+                              "ignore_post"
+                            )
+                          }
+                        >
+                          <Icon type="close" title="Ignore Report" />
+                        </Popconfirm>
+                      ]}
                     >
                       <List.Item.Meta
                         title={
@@ -112,7 +221,7 @@ Dashboard.getInitialProps = async ctx => {
   });
   const result = await r1.json();
   if (result.success) {
-    return { authorized: true };
+    return { authorized: true, access_token: access_token };
   }
   return { authorized: false };
 };
