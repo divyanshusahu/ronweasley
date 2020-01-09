@@ -1,13 +1,14 @@
+import Router from "next/router";
+
 import fetch from "isomorphic-unfetch";
-
-import { Card, Typography, Icon, Modal, Input, Alert, message } from "antd";
-
-const { confirm } = Modal;
-
 import TimeAgo from "react-timeago";
 import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import ReactHtmlParser from "react-html-parser";
+
+import { Card, Typography, Icon, Modal, Input, Alert, message } from "antd";
+
+const { confirm } = Modal;
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -69,6 +70,58 @@ function DisplayPost(props) {
     stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
   );
 
+  const handleEditPost = (post_secret, post_type, post_id) => {
+    message.loading({
+      content: "Action in progress",
+      duration: 0,
+      key: "handleEditMessage"
+    });
+    let post_data = {
+      post_secret: post_secret
+    };
+    fetch(`${BASE_URL}/edit_post/${post_type}/${post_id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post_data)
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          message.success({ content: data.message, key: "handleEditMessage" });
+          document.cookie = `${post_id}=${data.access_token}; path=/edit_post`;
+          Router.push(`/edit_post/${post_type}/${post_id}`);
+        } else {
+          message.error({ content: data.message, key: "handleEditMessage" });
+        }
+      });
+  };
+
+  const showEditConfirm = () => {
+    confirm({
+      title: "Edit Post.",
+      content: (
+        <span>
+          <p>Post secret is required to edit post.</p>
+          <Input.Password
+            placeholder="Post Secret"
+            id="edit_input_post_secret"
+          />
+        </span>
+      ),
+      centered: true,
+      okText: "Yes",
+      okType: "primary",
+      cancelText: "No",
+      onOk() {
+        handleEditPost(
+          document.getElementById("edit_input_post_secret").value,
+          props.post_type,
+          props.post_id
+        );
+      }
+    });
+  };
+
   const [deleteAlertDisplay, setDeleteAlertDisplay] = React.useState("none");
 
   const handleDeletePost = (post_secret, post_type, post_id) => {
@@ -90,14 +143,12 @@ function DisplayPost(props) {
         if (data.success) {
           message.success({
             content: data.message,
-            duration: 1.5,
             key: "handleDeleteMessage"
           });
           setDeleteAlertDisplay("block");
         } else {
           message.error({
             content: data.message,
-            duration: 1.5,
             key: "handleDeleteMessage"
           });
         }
@@ -110,7 +161,10 @@ function DisplayPost(props) {
       content: (
         <span>
           <p>This action is irrerversable. You need to enter post secret.</p>
-          <Input.Password placeholder="Post Secret" id="input_post_secret" />
+          <Input.Password
+            placeholder="Post Secret"
+            id="delete_input_post_secret"
+          />
         </span>
       ),
       centered: true,
@@ -119,7 +173,7 @@ function DisplayPost(props) {
       cancelText: "No",
       onOk() {
         handleDeletePost(
-          document.getElementById("input_post_secret").value,
+          document.getElementById("delete_input_post_secret").value,
           props.post_type,
           props.post_id
         );
@@ -187,7 +241,7 @@ function DisplayPost(props) {
   };
 
   const actions = [
-    <Icon type="edit" title="Edit Post" />,
+    <Icon type="edit" title="Edit Post" onClick={showEditConfirm} />,
     <Icon type="delete" title="Delete Post" onClick={showDeleteConfirm} />,
     <Icon type="flag" title="Report Post" onClick={showReportConfirm} />
   ];

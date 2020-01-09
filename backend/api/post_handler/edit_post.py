@@ -13,13 +13,11 @@ else:
     db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
 
-@edit_post.route("/secret_check", methods=["POST"])
-def secret_check():
+@edit_post.route("/<post_type>/<post_id>", methods=["POST"])
+def secret_check(post_type, post_id):
     if request.is_json == False:
         return jsonify({"success": False, "message": "Bad Request"}), 400
 
-    post_type = request.json.get("post_type", "")
-    post_id = request.json.get("post_id", "")
     post_secret = request.json.get("post_secret", "")
 
     if len(post_secret) == 0:
@@ -41,13 +39,14 @@ def secret_check():
     if "Item" in result:
         if result["Item"]["post_secret"]["S"] == hashlib.sha256(post_secret.encode()).hexdigest():
             access_token = create_access_token(identity=post_id)
-            return jsonify({"success": True, "access_token": access_token}), 200
+            return jsonify({"success": True, "message": "Post secret verified", "access_token": access_token}), 200
         else:
             return jsonify({"success": False, "message": "Wrong post secret"}), 400
     else:
         return jsonify({"success": False, "message": "No post exists."}), 400
 
     return jsonify({"success": False, "message": "Bad Request"}), 400
+
 
 @edit_post.route("/identity_check", methods=["POST"])
 @jwt_required
@@ -60,4 +59,3 @@ def identity_check():
     if post_id == identity:
         return jsonify({"success": True}), 200
     return jsonify({"success": False, "message": "Unauthorized"}), 403
-
