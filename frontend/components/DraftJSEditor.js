@@ -5,6 +5,7 @@ import {
   AtomicBlockUtils,
   CompositeDecorator,
   convertToRaw,
+  convertFromRaw,
   getDefaultKeyBinding,
   KeyBindingUtil
 } from "draft-js";
@@ -14,6 +15,7 @@ import Head from "next/head";
 import { Row, Col, Radio, Button, Popover, Input, Icon } from "antd";
 
 import clsx from "clsx";
+import isEmpty from "is-empty";
 
 function DraftJSEditor(props) {
   const findLinkEntities = (contentBlock, callback, contentState) => {
@@ -40,7 +42,11 @@ function DraftJSEditor(props) {
   ]);
 
   const [editorState, setEditorState] = React.useState(
-    EditorState.createEmpty(decorator)
+    isEmpty(props.post_content)
+      ? EditorState.createEmpty(decorator)
+      : EditorState.createWithContent(
+          convertFromRaw(JSON.parse(props.post_content))
+        )
   );
   const [currentInlineStyles, setCurrentInlineStyles] = React.useState(1);
   // a hacky way to avoid initial check
@@ -224,7 +230,6 @@ function DraftJSEditor(props) {
 
   if (true) {
     const currentContent = convertToRaw(editorState.getCurrentContent());
-    //console.log(RichUtils.getCurrentBlockType());
     props.handleEditorContent(JSON.stringify(currentContent));
   }
 
