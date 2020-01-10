@@ -8,12 +8,16 @@ import hashlib
 
 new_post = Blueprint("new_post", __name__, url_prefix="/new_post")
 
-allowed_types = ["ron_weasley_appreciation",
-                 "ron_weasley_defense", "romione_appreciation"]
+allowed_types = [
+    "ron_weasley_appreciation",
+    "ron_weasley_defense",
+    "romione_appreciation",
+]
 
 if os.getenv("ENV") == "development":
-    db = boto3.client("dynamodb", region_name="localhost",
-                      endpoint_url="http://localhost:8000")
+    db = boto3.client(
+        "dynamodb", region_name="localhost", endpoint_url="http://localhost:8000"
+    )
 else:
     db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
@@ -28,7 +32,10 @@ def valid_inputs(post_data):
         error["error"] = True
         error["post_title"] = "Title must be three characters long"
 
-    if len(post_data["post_author_link"]) and validators.url(post_data["post_author_link"], public=True) != True:
+    if (
+        len(post_data["post_author_link"])
+        and validators.url(post_data["post_author_link"], public=True) != True
+    ):
         error["error"] = True
         error["post_author_link"] = "Url must be valid"
 
@@ -65,7 +72,8 @@ def insert_post(post_type):
         post_data["post_author_link"] = "/anonymous/anon.jpg"
 
     post_data["post_secret"] = hashlib.sha256(
-        post_data["post_secret"].encode()).hexdigest()
+        post_data["post_secret"].encode()
+    ).hexdigest()
 
     try:
         db.put_item(
@@ -79,9 +87,14 @@ def insert_post(post_type):
                 "post_content": {"S": post_data["post_content"]},
                 "post_secret": {"S": post_data["post_secret"]},
                 "post_date": {"S": date},
-            }
+            },
         )
-        return jsonify({"success": True, "message": "New Post Created", "post_id": post_id}), 200
+        return (
+            jsonify(
+                {"success": True, "message": "New Post Created", "post_id": post_id}
+            ),
+            200,
+        )
     except:
         return jsonify({"success": False, "message": "An error occurred"}), 500
 

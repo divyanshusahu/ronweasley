@@ -5,8 +5,9 @@ import os
 get_post = Blueprint("get_post", __name__, url_prefix="/get_post")
 
 if os.getenv("ENV") == "development":
-    db = boto3.client("dynamodb", region_name="localhost",
-                      endpoint_url="http://localhost:8000")
+    db = boto3.client(
+        "dynamodb", region_name="localhost", endpoint_url="http://localhost:8000"
+    )
 else:
     db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
@@ -19,7 +20,7 @@ allowed_types = [
     "bug",
     "suggestion",
     "feedback",
-    "reported_post"
+    "reported_post",
 ]
 
 
@@ -33,7 +34,7 @@ def get_post_by_type(post_type):
             TableName=os.environ["POST_TABLE"],
             Select="ALL_ATTRIBUTES",
             KeyConditionExpression="post_type = :post_type",
-            ExpressionAttributeValues={":post_type": {"S": post_type}}
+            ExpressionAttributeValues={":post_type": {"S": post_type}},
         )
 
         send_result = []
@@ -42,7 +43,9 @@ def get_post_by_type(post_type):
             post.pop("post_secret", None)
             send_result.append(post)
 
-        send_result = sorted(send_result, key=lambda x: x["post_date"]["S"], reverse=True)
+        send_result = sorted(
+            send_result, key=lambda x: x["post_date"]["S"], reverse=True
+        )
 
         return jsonify({"success": True, "posts": send_result}), 200
     except:
@@ -57,7 +60,7 @@ def get_post_by_id(post_type, post_id):
     try:
         result = db.get_item(
             TableName=os.environ["POST_TABLE"],
-            Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}}
+            Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
         )
 
         if "Item" in result:

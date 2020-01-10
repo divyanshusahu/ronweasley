@@ -12,8 +12,10 @@ from api.admin import admin
 
 app = Flask(__name__)
 
-CORS(app, resources={
-     r"*": {"origins": ["http://localhost:3000", "https://ronweasley.co"]}})
+CORS(
+    app,
+    resources={r"*": {"origins": ["http://localhost:3000", "https://ronweasley.co"]}},
+)
 
 app.config["JWT_SECRET_KEY"] = "secret"
 app.config["JWT_ERROR_MESSAGE_KEY"] = "message"

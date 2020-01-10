@@ -7,8 +7,9 @@ from datetime import datetime, timezone
 suggestions = Blueprint("suggestions", __name__, url_prefix="/new_suggestion")
 
 if os.getenv("ENV") == "development":
-    db = boto3.client("dynamodb", region_name="localhost",
-                      endpoint_url="http://localhost:8000")
+    db = boto3.client(
+        "dynamodb", region_name="localhost", endpoint_url="http://localhost:8000"
+    )
 else:
     db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
@@ -20,7 +21,15 @@ def add_suggestions(suggestion_type):
 
     post_content = request.json.get("post_content", "")
     if len(post_content) < 4:
-        return jsonify({"success": False, "message": "Content should be atleast four characters long"}), 400
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Content should be atleast four characters long",
+                }
+            ),
+            400,
+        )
 
     if suggestion_type not in ["bug", "suggestion", "feedback"]:
         return jsonify({"success": False, "message": "Invalid Request"}), 400
@@ -35,8 +44,8 @@ def add_suggestions(suggestion_type):
                 "post_id": {"S": post_id},
                 "post_type": {"S": suggestion_type},
                 "post_date": {"S": date},
-                "post_content": {"S": post_content}
-            }
+                "post_content": {"S": post_content},
+            },
         )
         return jsonify({"success": True, "message": "Successfully Added"}), 200
     except:
