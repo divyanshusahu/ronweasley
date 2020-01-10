@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+black = "*"
+
+[packages]
+flask = "*"
+flask-cors = "*"
+flask-jwt-extended = "*"
+boto3 = "*"
+validators = "*"
+
+[requires]
+python_version = "3.8"
