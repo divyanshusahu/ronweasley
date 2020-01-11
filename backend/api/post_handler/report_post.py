@@ -43,7 +43,7 @@ def report_post_by_id(reported_post_type, reported_post_id):
                 "post_id": {"S": reported_post_id},
             },
             ConditionExpression="post_type = :pt AND post_id = :pid",
-            UpdateExpression="SET post_reported = if_not_exists(post_reported, :pr)",
+            UpdateExpression="SET post_reported = :pr",
             ExpressionAttributeValues={
                 ":pt": {"S": reported_post_type},
                 ":pid": {"S": reported_post_id},
@@ -51,7 +51,11 @@ def report_post_by_id(reported_post_type, reported_post_id):
             },
             ReturnValues="UPDATED_OLD",
         )
-        if "Attributes" not in result:
+        print(result)
+        if (
+            "Attributes" not in result
+            or result["Attributes"]["post_reported"]["BOOL"] == False
+        ):
             db.put_item(
                 TableName=os.environ["POST_TABLE"],
                 Item={
