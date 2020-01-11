@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 import boto3
 import os
+from datetime import datetime, timezone
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -106,5 +107,51 @@ def ignore_report(post_id):
 
     except db.exceptions.ConditionalCheckFailedException:
         return jsonify({"success": False, "message": "Post does not exist"}), 400
+
+    return jsonify({"success": False, "message": "Bad Request"}), 400
+
+
+@admin.route("/reply_post/<post_type>/<post_id>", methods=["POST"])
+@jwt_required
+def reply_post(post_type, post_id):
+    if request.is_json == False:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
+
+    identity = get_jwt_identity()
+
+    if identity != os.environ["ADMIN_USERNAME"]:
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+
+    post_reply = request.json.get("post_reply", "")
+
+    if len(post_reply) < 4:
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "message": "Reply must be atleast four characters long",
+                }
+            ),
+            400,
+        )
+
+    post_reply_time = datetime.now(timezone.utc).isoformat()
+
+    try:
+        db.update_item(
+            TableName=os.environ["POST_TABLE"],
+            Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
+            ConditionExpression="post_type = :post_type AND post_id = :post_id",
+            UpdateExpression="SET post_reply = :post_reply, post_reply_time = :post_reply_time",
+            ExpressionAttributeValues={
+                ":post_type": {"S": post_type},
+                ":post_id": {"S": post_id},
+                ":post_reply": {"S": post_reply},
+                ":post_reply_time": {"S": post_reply_time},
+            },
+        )
+        return jsonify({"success": True, "message": "Successfully Replied"}), 200
+    except db.exceptions.ConditionalCheckFailedException:
+        return jsonify({"success": False, "message": "Post does not exist"}), 404
 
     return jsonify({"success": False, "message": "Bad Request"}), 400

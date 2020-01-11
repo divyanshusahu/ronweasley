@@ -70,13 +70,13 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
         if (data.success) {
           message.success({
             content: data.message,
-            key: "handlePostMessage",
+            key: "handlePostMessage"
           });
           refreshFeed(type);
         } else {
           message.error({
             content: data.message,
-            key: "handlePostMessage",
+            key: "handlePostMessage"
           });
         }
       });
@@ -195,7 +195,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                           <Comment
                             content={b.post_reply["S"]}
                             author="Admin"
-                            datetime={b.post_reply_time["S"]}
+                            datetime={<TimeAgo date={b.post_reply_time["S"]} />}
                             avatar={
                               <Avatar
                                 icon="user"
@@ -258,7 +258,9 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                           <Comment
                             content={sug.post_reply["S"]}
                             author="Admin"
-                            datetime={sug.post_reply_time["S"]}
+                            datetime={
+                              <TimeAgo date={sug.post_reply_time["S"]} />
+                            }
                             avatar={
                               <Avatar
                                 icon="user"

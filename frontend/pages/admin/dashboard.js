@@ -1,8 +1,22 @@
 import Link from "next/link";
 import cookies from "next-cookies";
 import fetch from "isomorphic-unfetch";
+import isEmpty from "is-empty";
 
-import { Row, Col, Card, Button, List, Icon, Popconfirm, message } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  List,
+  Icon,
+  Popconfirm,
+  message,
+  Modal,
+  Input
+} from "antd";
+
+import TimeAgo from "react-timeago";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 import ErrorLayout from "../../components/ErrorLayout";
@@ -31,6 +45,8 @@ function Dashboard(props) {
   }
 
   const [reportedPost, setRepotedPost] = React.useState([]);
+  const [bugPost, setBugPost] = React.useState([]);
+  const [suggestionPost, setSuggestionPost] = React.useState([]);
 
   const getPost = type => {
     return fetch(BASE_URL + "/get_post/" + type).then(r => r.json());
@@ -40,6 +56,16 @@ function Dashboard(props) {
     getPost("reported_post").then(data => {
       if (data.success) {
         setRepotedPost(data.posts);
+      }
+    });
+    getPost("bug").then(data => {
+      if (data.success) {
+        setBugPost(data.posts);
+      }
+    });
+    getPost("suggestion").then(data => {
+      if (data.success) {
+        setSuggestionPost(data.posts);
       }
     });
   }, []);
@@ -130,6 +156,79 @@ function Dashboard(props) {
     }
   };
 
+  const handleAdminReply = (post_type, post_id, post_reply) => {
+    message.loading({
+      content: "Action in progress...",
+      duration: 0,
+      key: "adminReplyMessage"
+    });
+    fetch(`${BASE_URL}/admin/reply_post/${post_type}/${post_id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${props.access_token}`
+      },
+      body: JSON.stringify({ post_reply: post_reply })
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          message.success({ content: data.message, key: "adminReplyMessage" });
+        } else {
+          message.error({ content: data.message, key: "adminReplyMessage" });
+        }
+      });
+  };
+
+  const handleDelete = (post_type, post_id) => {
+    message.loading({
+      content: "Action in progress...",
+      duration: 0,
+      key: "handleDelete"
+    });
+    fetch(`${BASE_URL}/admin/delete_post/${post_type}/${post_id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${props.access_token}`
+      }
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          message.success({ content: data.message, key: "handleDelete" });
+        } else {
+          message.error({ content: data.message, key: "handleDelete" });
+        }
+      });
+  };
+
+  const showAdminReplyModal = item => {
+    Modal.confirm({
+      title: `Reply to ${item.post_type["S"]} message`,
+      content: (
+        <div>
+          <p>User Message:</p>
+          <p>{item.post_content["S"]}</p>
+          <Input
+            id="admin_reply_message"
+            placeholder="Admin Reply"
+            defaultValue={isEmpty(item.post_reply) ? "" : item.post_reply["S"]}
+          />
+        </div>
+      ),
+      centered: true,
+      okText: "Reply",
+      cancelText: "Cancel",
+      onOk() {
+        handleAdminReply(
+          item.post_type["S"],
+          item.post_id["S"],
+          document.getElementById("admin_reply_message").value
+        );
+      }
+    });
+  };
+
   return (
     <div>
       <SecondaryLayout title="Admin Dashboard">
@@ -193,18 +292,98 @@ function Dashboard(props) {
             <Col xs={{ span: 22, offset: 1 }} lg={{ span: 12, offset: 1 }}>
               <Row gutter={[0, 32]}>
                 <Col xs={{ span: 24, offset: 0 }} lg={{ span: 11, offset: 0 }}>
-                  <Card title="Bugs"></Card>
+                  <Card title="Bugs">
+                    <div className="card_content_area">
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={bugPost}
+                        renderItem={item => (
+                          <List.Item
+                            actions={[
+                              <Icon
+                                type="message"
+                                title="Reply"
+                                onClick={() => showAdminReplyModal(item)}
+                              />,
+                              <Popconfirm
+                                title="Confirm Delete"
+                                okText="Ok"
+                                cancelText="No"
+                                onConfirm={() =>
+                                  handleDelete(
+                                    item.post_type["S"],
+                                    item.post_id["S"]
+                                  )
+                                }
+                              >
+                                <Icon type="delete" title="Delete" />
+                              </Popconfirm>
+                            ]}
+                          >
+                            <List.Item.Meta
+                              title={item.post_content["S"]}
+                              description={
+                                <TimeAgo date={item.post_date["S"]} />
+                              }
+                            />
+                          </List.Item>
+                        )}
+                      />
+                    </div>
+                  </Card>
                 </Col>
                 <Col xs={{ span: 24, offset: 0 }} lg={{ span: 11, offset: 2 }}>
-                  <Card title="Suggestions"></Card>
+                  <Card title="Suggestions">
+                    <div className="card_content_area">
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={suggestionPost}
+                        renderItem={item => (
+                          <List.Item
+                            actions={[
+                              <Icon
+                                type="message"
+                                title="Reply"
+                                onClick={() => showAdminReplyModal(item)}
+                              />,
+                              <Popconfirm
+                                title="Confirm Delete"
+                                okText="Ok"
+                                cancelText="No"
+                                onConfirm={() =>
+                                  handleDelete(
+                                    item.post_type["S"],
+                                    item.post_id["S"]
+                                  )
+                                }
+                              >
+                                <Icon type="delete" title="Delete" />
+                              </Popconfirm>
+                            ]}
+                          >
+                            <List.Item.Meta
+                              title={item.post_content["S"]}
+                              description={
+                                <TimeAgo date={item.post_date["S"]} />
+                              }
+                            />
+                          </List.Item>
+                        )}
+                      />
+                    </div>
+                  </Card>
                 </Col>
               </Row>
               <Row gutter={[0, 32]}>
                 <Col xs={{ span: 24, offset: 0 }} lg={{ span: 11, offset: 0 }}>
-                  <Card title="Help Needed"></Card>
+                  <Card title="Help Needed">
+                    <div className="card_content_area"></div>
+                  </Card>
                 </Col>
                 <Col xs={{ span: 24, offset: 0 }} lg={{ span: 11, offset: 2 }}>
-                  <Card title="Currently Working On"></Card>
+                  <Card title="Currently Working On">
+                    <div className="card_content_area"></div>
+                  </Card>
                 </Col>
               </Row>
             </Col>
@@ -215,6 +394,11 @@ function Dashboard(props) {
         {`
           .admin_area {
             margin: 64px 0;
+          }
+          .card_content_area {
+            height: 288px;
+            max-height: 288px;
+            overflow: auto;
           }
         `}
       </style>
