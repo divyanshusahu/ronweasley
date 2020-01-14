@@ -7,12 +7,14 @@ import fetch from "isomorphic-unfetch";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 import DraftJSEditor from "../../components/DraftJSEditor";
+import UploadImage from "../../components/UploadImage";
 import ErrorLayout from "../../components/ErrorLayout";
 
 function NewPost({ query }) {
   const allowedQuery = [
     "ron_weasley_appreciation",
     "ron_weasley_defense",
+    "ron_weasley_fanart",
     "romione_appreciation"
   ];
 
@@ -45,6 +47,18 @@ function NewPost({ query }) {
     setEditorContent(content);
   };
 
+  const [imageList, setImageList] = React.useState([]);
+  const handleImageList = list => {
+    setImageList(list);
+  };
+
+  const display =
+    query.indexOf("fanart") > 0 ? (
+      <UploadImage handleImageList={handleImageList} />
+    ) : (
+      <DraftJSEditor handleEditorContent={handleEditorContent} />
+    );
+
   const add_new_post = () => {
     let post_data = {
       post_type: query,
@@ -75,6 +89,66 @@ function NewPost({ query }) {
         }
       });
   };
+
+  const add_new_fanart = () => {
+    message.loading({
+      content: "Action in progress...",
+      duration: 0,
+      key: "newFanart"
+    });
+    /*let post_data = {
+      post_type: query,
+      post_title: document.getElementById("post_title").value,
+      post_author: document.getElementById("post_author").value,
+      post_author_link: document.getElementById("post_author_link").value,
+      post_secret: document.getElementById("post_secret").value,
+      post_images: imageList
+    };*/
+    let post_data = new FormData();
+    imageList.forEach(file => {
+      post_data.append("files", file);
+    });
+    post_data.append("post_type", query);
+    post_data.append("post_title", document.getElementById("post_title").value);
+    post_data.append(
+      "post_author",
+      document.getElementById("post_author").value
+    );
+    post_data.append(
+      "post_author_link",
+      document.getElementById("post_author_link").value
+    );
+    post_data.append(
+      "post_secret",
+      document.getElementById("post_secret").value
+    );
+
+    fetch(`${BASE_URL}/new_fanart/${query}`, {
+      method: "POST",
+      body: post_data
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          message.success({ content: data.message, key: "newFanart" });
+        } else {
+          message.error({ content: data.message, key: "newFanart" });
+        }
+      });
+  };
+
+  const newPostButton =
+    query.indexOf("fanart") > 0 ? (
+      <Button onClick={add_new_fanart}>
+        <Icon type="save" />
+        Create Post
+      </Button>
+    ) : (
+      <Button onClick={add_new_post}>
+        <Icon type="save" />
+        Create Post
+      </Button>
+    );
 
   return (
     <div>
@@ -122,16 +196,8 @@ function NewPost({ query }) {
                   </Col>
                 </Row>
                 <div className="editor_area">
-                  <Card
-                    type="inner"
-                    extra={
-                      <Button onClick={add_new_post}>
-                        <Icon type="save" />
-                        Create Post
-                      </Button>
-                    }
-                  >
-                    <DraftJSEditor handleEditorContent={handleEditorContent} />
+                  <Card type="inner" extra={newPostButton}>
+                    {display}
                   </Card>
                 </div>
               </Card>
