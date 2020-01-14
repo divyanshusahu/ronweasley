@@ -34,6 +34,7 @@ provider:
     JWT_SECRET_KEY: ${${self:custom.config}:JWT_SECRET_KEY}
     ADMIN_USERNAME: ${${self:custom.config}:ADMIN_USERNAME}
     ADMIN_PASSWORD: ${${self:custom.config}:ADMIN_PASSWORD}
+    BUCKET_NAME: ${${self:custom.config}:BUCKET_NAME}
 
 functions:
   app:
