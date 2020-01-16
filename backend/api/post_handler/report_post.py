@@ -42,12 +42,12 @@ def report_post_by_id(reported_post_type, reported_post_id):
                 "post_type": {"S": reported_post_type},
                 "post_id": {"S": reported_post_id},
             },
-            ConditionExpression="post_type = :pt AND post_id = :pid",
-            UpdateExpression="SET post_reported = :pr",
+            ConditionExpression="post_type = :post_type AND post_id = :post_id",
+            UpdateExpression="SET post_reported = :post_reported",
             ExpressionAttributeValues={
-                ":pt": {"S": reported_post_type},
-                ":pid": {"S": reported_post_id},
-                ":pr": {"BOOL": True},
+                ":post_type": {"S": reported_post_type},
+                ":post_id": {"S": reported_post_id},
+                ":post_reported": {"BOOL": True},
             },
             ReturnValues="UPDATED_OLD",
         )

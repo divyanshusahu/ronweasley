@@ -56,8 +56,11 @@ def delete_post(post_type, post_id):
         db.delete_item(
             TableName=os.environ["POST_TABLE"],
             Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
-            ConditionExpression="post_type = :pt AND post_id = :pid",
-            ExpressionAttributeValues={":pt": {"S": post_type}, ":pid": {"S": post_id}},
+            ConditionExpression="post_type = :post_type AND post_id = :post_id",
+            ExpressionAttributeValues={
+                ":post_type": {"S": post_type},
+                ":post_id": {"S": post_id},
+            },
         )
         return jsonify({"success": True, "message": "Delete Successful"}), 200
     except db.exceptions.ConditionalCheckFailedException:
@@ -90,12 +93,12 @@ def ignore_report(post_id):
                 "post_type": {"S": reported_post_type},
                 "post_id": {"S": reported_post_id},
             },
-            ConditionExpression="post_type = :pt AND post_id = :pid",
-            UpdateExpression="SET post_reported = :pr",
+            ConditionExpression="post_type = :post_type AND post_id = :post_id",
+            UpdateExpression="SET post_reported = :post_reported",
             ExpressionAttributeValues={
-                ":pt": {"S": reported_post_type},
-                ":pid": {"S": reported_post_id},
-                ":pr": {"BOOL": False},
+                ":post_type": {"S": reported_post_type},
+                ":post_id": {"S": reported_post_id},
+                ":post_reported": {"BOOL": False},
             },
         )
         db.delete_item(

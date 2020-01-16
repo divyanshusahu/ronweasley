@@ -26,8 +26,8 @@ def delete_post_by_id(post_type, post_id):
         result = db.delete_item(
             TableName=os.environ["POST_TABLE"],
             Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
-            ConditionExpression="post_secret = :ps",
-            ExpressionAttributeValues={":ps": {"S": post_secret}},
+            ConditionExpression="post_secret = :post_secret",
+            ExpressionAttributeValues={":post_secret": {"S": post_secret}},
             ReturnValues="ALL_OLD",
         )
         if len(result["Attributes"]) != 0:
