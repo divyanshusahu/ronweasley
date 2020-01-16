@@ -5,6 +5,7 @@ import TimeAgo from "react-timeago";
 import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import ReactHtmlParser from "react-html-parser";
+import isEmpty from "is-empty";
 
 import { Card, Typography, Icon, Modal, Input, Alert, message } from "antd";
 
@@ -16,7 +17,7 @@ const BASE_URL =
     : "https://api.ronweasley.co";
 
 function DisplayPost(props) {
-  const options = {
+  /*const options = {
     inlineStyles: {
       HIGHLIGHT: {
         style: { backgroundColor: "#ff0" }
@@ -64,11 +65,92 @@ function DisplayPost(props) {
         };
       }
     }
-  };
+  };*/
 
-  const postHtml = ReactHtmlParser(
+  /*const postHtml = ReactHtmlParser(
     stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
-  );
+  );*/
+
+  let display;
+  if (!isEmpty(props.post_content)) {
+    const options = {
+      inlineStyles: {
+        HIGHLIGHT: {
+          style: { backgroundColor: "#ff0" }
+        },
+        STRIKETHROUGH: {
+          style: { textDecoration: "line-through" }
+        }
+      },
+      blockStyleFn: block => {
+        const blockType = block.get("type");
+        if (
+          blockType === "unordered-list-item" ||
+          blockType === "ordered-list-item"
+        ) {
+          return {
+            style: {
+              marginLeft: 24
+            }
+          };
+        } else if (blockType === "blockquote") {
+          return {
+            style: {
+              padding: 8,
+              fontStyle: "italic",
+              borderLeft: "4px solid rgba(192, 192, 192, 1)"
+            }
+          };
+        }
+      },
+      entityStyleFn: entity => {
+        const entityType = entity.get("type");
+        if (entityType === "IMAGE") {
+          const data = entity.getData();
+          return {
+            element: "img",
+            attributes: {
+              src: data.src
+            },
+            style: {
+              maxWidth: "90%",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto"
+            }
+          };
+        }
+      }
+    };
+
+    display = ReactHtmlParser(
+      stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
+    );
+  } else {
+    let img_url =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:4572/fanart.ronweasley.co"
+        : "http://fanart.ronweasley.co";
+    display = (
+      <div>
+        {props.post_image.map((img, index) => (
+          <div key={index}>
+            <img
+              alt="image"
+              src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
+              style={{
+                maxWidth: "90%",
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: "64px"
+              }}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const handleEditPost = (post_secret, post_type, post_id) => {
     message.loading({
@@ -290,7 +372,7 @@ function DisplayPost(props) {
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
         >
-          <div>{postHtml}</div>
+          <div>{display}</div>
         </Card>
       </div>
       <style jsx>
