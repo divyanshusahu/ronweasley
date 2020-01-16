@@ -51,7 +51,6 @@ def report_post_by_id(reported_post_type, reported_post_id):
             },
             ReturnValues="UPDATED_OLD",
         )
-        print(result)
         if (
             "Attributes" not in result
             or result["Attributes"]["post_reported"]["BOOL"] == False

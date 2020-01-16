@@ -81,6 +81,15 @@ def upload_fanart(post_type):
         filename = "%s%s" % (str(i), file_ext)
         image_key_list.append({"S": filename})
 
+    for img, name in zip(image_data_list, image_key_list):
+        key = "%s/%s/%s" % (post_type, post_id, name["S"])
+        try:
+            s3.upload_fileobj(
+                img, os.environ["BUCKET_NAME"], key, {"ACL": "public-read"}
+            )
+        except:
+            return jsonify({"success": False, "message": "Upload image failed"}), 500
+
     try:
         db.put_item(
             TableName=os.environ["POST_TABLE"],
@@ -95,15 +104,6 @@ def upload_fanart(post_type):
                 "post_image": {"L": image_key_list},
             },
         )
-        for img, name in zip(image_data_list, image_key_list):
-            key = "%s/%s/%s" % (post_type, post_id, name["S"])
-            try:
-                s3.upload_fileobj(
-                    img, os.environ["BUCKET_NAME"], key, {"ACL": "public-read"}
-                )
-            except:
-                return jsonify({"success": True, "message": "Upload image failed"}), 500
-
         return jsonify({"success": True, "message": "Post successfully created"}), 200
     except:
         return jsonify({"success": False, "message": "An error occurred"}), 500
