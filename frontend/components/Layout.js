@@ -48,39 +48,32 @@ function Layout(props) {
     }
   };
 
-  let display;
-
-  if (isEmpty(props.posts)) {
-    display = <Empty />;
-  } else if (props.type === "fanart") {
-    display = null;
-  } else {
-    display = (
-      <List
-        itemLayout="vertical"
-        split={false}
-        dataSource={props.posts}
-        pagination={{ pageSize: 3 }}
-        renderItem={p => (
-          <List.Item>
-            <DisplayPost
-              inner={true}
-              bordered={true}
-              showActions={false}
-              key={p.post_id["S"]}
-              post_type={p.post_type["S"]}
-              post_id={p.post_id["S"]}
-              post_title={p.post_title["S"]}
-              post_author={p.post_author["S"]}
-              post_author_link={p.post_author["S"]}
-              post_date={p.post_date["S"]}
-              post_content={p.post_content["S"]}
-            />
-          </List.Item>
-        )}
-      />
-    );
-  }
+  const display = (
+    <List
+      itemLayout="vertical"
+      split={false}
+      dataSource={props.posts}
+      pagination={{ pageSize: 3 }}
+      renderItem={p => (
+        <List.Item>
+          <DisplayPost
+            inner={true}
+            bordered={true}
+            showActions={false}
+            key={p.post_id["S"]}
+            post_type={p.post_type["S"]}
+            post_id={p.post_id["S"]}
+            post_title={p.post_title["S"]}
+            post_author={p.post_author["S"]}
+            post_author_link={p.post_author_link["S"]}
+            post_date={p.post_date["S"]}
+            post_content={isEmpty(p.post_content) ? null : p.post_content["S"]}
+            post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
+          />
+        </List.Item>
+      )}
+    />
+  );
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import Router from "next/router";
+import Link from "next/link";
 
 import fetch from "isomorphic-unfetch";
 import TimeAgo from "react-timeago";
@@ -17,60 +18,6 @@ const BASE_URL =
     : "https://api.ronweasley.co";
 
 function DisplayPost(props) {
-  /*const options = {
-    inlineStyles: {
-      HIGHLIGHT: {
-        style: { backgroundColor: "#ff0" }
-      },
-      STRIKETHROUGH: {
-        style: { textDecoration: "line-through" }
-      }
-    },
-    blockStyleFn: block => {
-      const blockType = block.get("type");
-      if (
-        blockType === "unordered-list-item" ||
-        blockType === "ordered-list-item"
-      ) {
-        return {
-          style: {
-            marginLeft: 24
-          }
-        };
-      } else if (blockType === "blockquote") {
-        return {
-          style: {
-            padding: 8,
-            fontStyle: "italic",
-            borderLeft: "4px solid rgba(192, 192, 192, 1)"
-          }
-        };
-      }
-    },
-    entityStyleFn: entity => {
-      const entityType = entity.get("type");
-      if (entityType === "IMAGE") {
-        const data = entity.getData();
-        return {
-          element: "img",
-          attributes: {
-            src: data.src
-          },
-          style: {
-            maxWidth: "90%",
-            display: "block",
-            marginLeft: "auto",
-            marginRight: "auto"
-          }
-        };
-      }
-    }
-  };*/
-
-  /*const postHtml = ReactHtmlParser(
-    stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
-  );*/
-
   let display;
   if (!isEmpty(props.post_content)) {
     const options = {
@@ -126,7 +73,7 @@ function DisplayPost(props) {
     display = ReactHtmlParser(
       stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
     );
-  } else {
+  } else if (!isEmpty(props.post_image)) {
     let img_url =
       process.env.NODE_ENV === "development"
         ? "http://localhost:4572/fanart.ronweasley.co"
@@ -328,6 +275,11 @@ function DisplayPost(props) {
     <Icon type="flag" title="Report Post" onClick={showReportConfirm} />
   ];
 
+  const post_url =
+    props.post_type.indexOf("fanart") > 0
+      ? `/fanart/${props.post_type}/${props.post_id}`
+      : `/post/${props.post_type}/${props.post_id}`;
+
   return (
     <div>
       <div className="alert_div">
@@ -352,15 +304,17 @@ function DisplayPost(props) {
           type={props.inner ? "inner" : null}
           title={
             <span>
-              <a href={`/post/${props.post_type}/${props.post_id}`}>
-                <Typography.Paragraph
-                  strong
-                  ellipsis={{ rows: 1, expandable: true }}
-                  style={{ fontSize: 16 }}
-                >
-                  {props.post_title}
-                </Typography.Paragraph>
-              </a>
+              <Link href={post_url}>
+                <a>
+                  <Typography.Paragraph
+                    strong
+                    ellipsis={{ rows: 1, expandable: true }}
+                    style={{ fontSize: 16 }}
+                  >
+                    {props.post_title}
+                  </Typography.Paragraph>
+                </a>
+              </Link>
               <Typography.Text type="secondary">
                 Author:{" "}
                 <a href={props.post_author_link} rel="noopener noreferrer">

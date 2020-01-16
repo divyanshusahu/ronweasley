@@ -80,7 +80,10 @@ function Posts({ data }) {
 
 Posts.getInitialProps = async ({ query }) => {
   const post_type = query.post_type;
-  const post_id = query.pid;
+  if (post_type.indexOf("fanart") > 0) {
+    return { data: { success: false } };
+  }
+  const post_id = query.post_id;
   const r = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
   const data = await r.json();
   return { data: data };

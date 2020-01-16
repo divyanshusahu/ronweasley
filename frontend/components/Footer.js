@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Row, Col, Icon, Typography } from "antd";
+import { Row, Col, Typography } from "antd";
 
 const { Paragraph } = Typography;
 
@@ -49,7 +49,8 @@ function Footer() {
           <Paragraph
             style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
           >
-            A website inspired by the excellent work of Ron Weasley Defense Squad.
+            A website inspired by the excellent work of Ron Weasley Defense
+            Squad.
           </Paragraph>
         </Col>
       </Row>

@@ -96,14 +96,6 @@ function NewPost({ query }) {
       duration: 0,
       key: "newFanart"
     });
-    /*let post_data = {
-      post_type: query,
-      post_title: document.getElementById("post_title").value,
-      post_author: document.getElementById("post_author").value,
-      post_author_link: document.getElementById("post_author_link").value,
-      post_secret: document.getElementById("post_secret").value,
-      post_images: imageList
-    };*/
     let post_data = new FormData();
     imageList.forEach(file => {
       post_data.append("files", file);
@@ -131,6 +123,7 @@ function NewPost({ query }) {
       .then(data => {
         if (data.success) {
           message.success({ content: data.message, key: "newFanart" });
+          Router.push(`/fanart/${query}/${data.post_id}`);
         } else {
           message.error({ content: data.message, key: "newFanart" });
         }
@@ -228,7 +221,7 @@ function NewPost({ query }) {
 }
 
 NewPost.getInitialProps = async ({ query }) => {
-  return { query: query.type };
+  return { query: query.post_type };
 };
 
 export default NewPost;

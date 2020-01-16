@@ -15,15 +15,6 @@ function UploadImage(props) {
     });
   };
 
-  /*const handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    const img = file.url || file.preview;
-    setPreviewImage(img);
-    setPreviewVisible(true);
-  };*/
-
   const handlePreviewCancel = () => {
     setPreviewVisible(false);
   };
@@ -71,7 +62,7 @@ function UploadImage(props) {
         onCancel={handlePreviewCancel}
         width={768}
       >
-        <img alt="image" src={previewImage} style={{maxWidth: "100%"}} />
+        <img alt="image" src={previewImage} style={{ maxWidth: "100%" }} />
       </Modal>
     </div>
   );

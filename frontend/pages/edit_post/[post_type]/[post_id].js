@@ -70,14 +70,17 @@ function EditPost(props) {
       post_secret: document.getElementById("post_secret").value,
       post_content: editorContent
     };
-    fetch(`${BASE_URL}/edit_post/update/${post.post_type["S"]}/${post.post_id["S"]}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${props.access_token}`
-      },
-      body: JSON.stringify(post_data)
-    })
+    fetch(
+      `${BASE_URL}/edit_post/update/${post.post_type["S"]}/${post.post_id["S"]}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.access_token}`
+        },
+        body: JSON.stringify(post_data)
+      }
+    )
       .then(r => r.json())
       .then(data => {
         if (data.success) {
@@ -185,7 +188,7 @@ function EditPost(props) {
 
 EditPost.getInitialProps = async ctx => {
   const post_type = ctx.query.post_type;
-  const post_id = ctx.query.pid;
+  const post_id = ctx.query.post_id;
   const r1 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
   const d1 = await r1.json();
   if (d1.success) {
