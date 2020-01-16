@@ -104,7 +104,12 @@ def upload_fanart(post_type):
                 "post_image": {"L": image_key_list},
             },
         )
-        return jsonify({"success": True, "message": "Post successfully created"}), 200
+        return (
+            jsonify(
+                {"success": True, "message": "New Post Created", "post_id": post_id}
+            ),
+            200,
+        )
     except:
         return jsonify({"success": False, "message": "An error occurred"}), 500
 
