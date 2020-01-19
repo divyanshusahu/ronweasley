@@ -15,7 +15,8 @@ function NewPost({ query }) {
     "ron_weasley_appreciation",
     "ron_weasley_defense",
     "ron_weasley_fanart",
-    "romione_appreciation"
+    "romione_appreciation",
+    "romione_fanart"
   ];
 
   const BASE_URL =
@@ -83,7 +84,10 @@ function NewPost({ query }) {
       .then(data => {
         if (data.success) {
           message.success({ content: data.message, key: "newPostLoading" });
-          Router.push(`/post/${query}/${data.post_id}`);
+          Router.replace(
+            "/post/[post_type]/[post_id]",
+            `/post/${query}/${data.post_id}`
+          );
         } else {
           message.error({ content: data.message, key: "newPostLoading" });
         }
@@ -123,7 +127,10 @@ function NewPost({ query }) {
       .then(data => {
         if (data.success) {
           message.success({ content: data.message, key: "newFanart" });
-          Router.push(`/fanart/${query}/${data.post_id}`);
+          Router.replace(
+            "/fanart/[post_type]/[post_id]",
+            `/fanart/${query}/${data.post_id}`
+          );
         } else {
           message.error({ content: data.message, key: "newFanart" });
         }

@@ -27,7 +27,7 @@ function LoginForm(props) {
               message.error({ content: data.message });
             } else {
               document.cookie = `access_token=${data.access_token}; path=/admin`;
-              Router.push("/admin/dashboard");
+              Router.replace("/admin/dashboard");
             }
           });
       }

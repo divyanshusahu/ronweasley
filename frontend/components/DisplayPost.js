@@ -118,7 +118,10 @@ function DisplayPost(props) {
         if (data.success) {
           message.success({ content: data.message, key: "handleEditMessage" });
           document.cookie = `${post_id}=${data.access_token}; path=/edit_post`;
-          Router.push(`/edit_post/${post_type}/${post_id}`);
+          Router.push(
+            "/edit_post/[post_type]/[post_id]",
+            `/edit_post/${post_type}/${post_id}`
+          );
         } else {
           message.error({ content: data.message, key: "handleEditMessage" });
         }
@@ -277,6 +280,11 @@ function DisplayPost(props) {
 
   const post_url =
     props.post_type.indexOf("fanart") > 0
+      ? "/fanart/[post_type]/[post_id]"
+      : "/post/[post_type]/[post_id]";
+
+  const post_as =
+    props.post_type.indexOf("fanart") > 0
       ? `/fanart/${props.post_type}/${props.post_id}`
       : `/post/${props.post_type}/${props.post_id}`;
 
@@ -304,7 +312,7 @@ function DisplayPost(props) {
           type={props.inner ? "inner" : null}
           title={
             <span>
-              <Link href={post_url}>
+              <Link href={post_url} as={post_as}>
                 <a>
                   <Typography.Paragraph
                     strong

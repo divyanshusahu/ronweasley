@@ -42,7 +42,7 @@ function Romione() {
   };
 
   const tabBarExtraContent = (
-    <Link href="/new_post/[post_type]" as={`new_post/romione_${selectedTab}`}>
+    <Link href="/new_post/[post_type]" as={`/new_post/romione_${selectedTab}`}>
       <a>
         <Button>New</Button>
       </a>

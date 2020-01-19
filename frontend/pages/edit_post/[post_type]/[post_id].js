@@ -85,7 +85,10 @@ function EditPost(props) {
       .then(data => {
         if (data.success) {
           message.success({ content: data.message, key: "editPostMessage" });
-          Router.push(`/post/${post.post_type["S"]}/${post.post_id["S"]}`);
+          Router.replace(
+            "/post/[post_type]/[post_id]",
+            `/post/${post.post_type["S"]}/${post.post_id["S"]}`
+          );
         } else {
           message.error({ content: data.message, key: "editPostMessage" });
         }
