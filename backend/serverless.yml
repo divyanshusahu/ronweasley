@@ -28,6 +28,11 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["PostTable", "Arn"] }
+    - Effect: "Allow"
+      Action:
+        - s3:PutObject
+        - s3:PutObjectAcl
+      Resource: "arn:aws:s3:::fanart.ronweasley.co/*"
   environment:
     REGION_NAME: ${${self:custom.config}:REGION_NAME}
     POST_TABLE: ${${self:custom.config}:POST_TABLE}
