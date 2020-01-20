@@ -4,6 +4,7 @@ service: ronweasley-backend
 plugins:
   - serverless-python-requirements
   - serverless-wsgi
+  - serverless-apigw-binary
 
 custom:
   wsgi:
@@ -12,6 +13,9 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
   config: file(./secret.json)
+  apigwBinary:
+    types:
+      - "*/*"
 
 provider:
   name: aws
