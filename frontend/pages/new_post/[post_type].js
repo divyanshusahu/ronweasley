@@ -16,7 +16,17 @@ function NewPost({ query }) {
     "ron_weasley_defense",
     "ron_weasley_fanart",
     "romione_appreciation",
-    "romione_fanart"
+    "romione_fanart",
+    "golden_trio_appreciation",
+    "golden_trio_fanart",
+    "weasley_family_appreciation",
+    "weasley_family_fanart",
+    "ron_and_lavender_appreciation",
+    "ron_and_lavender_fanart",
+    "ron_and_harry_appreciation",
+    "ron_and_harry_fanart",
+    "ron_and_luna_appreciation",
+    "ron_and_luna_fanart"
   ];
 
   const BASE_URL =

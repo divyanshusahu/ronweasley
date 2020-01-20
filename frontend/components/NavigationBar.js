@@ -19,34 +19,42 @@ function NavigationBar(props) {
   const FriendshipsMenu = (
     <ul style={{ listStyle: "none", backgroundColor: "#fff" }}>
       <li>
-        <p
-          style={{
-            fontSize: "16px",
-            lineHeight: "64px",
-            fontFamily: "Capriola",
-            color: "#000",
-            marginBottom: 0,
-            border: "1px solid rgba(128,128,128,0.25)",
-            borderTop: "none"
-          }}
-        >
-          Golden Trio
-        </p>
+        <Link href="/friendships/golden_trio">
+          <a>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "64px",
+                fontFamily: "Capriola",
+                color: "#000",
+                marginBottom: 0,
+                border: "1px solid rgba(128,128,128,0.25)",
+                borderTop: "none"
+              }}
+            >
+              Golden Trio
+            </p>
+          </a>
+        </Link>
       </li>
       <li>
-        <p
-          style={{
-            fontSize: "16px",
-            lineHeight: "64px",
-            fontFamily: "Capriola",
-            color: "#000",
-            marginBottom: 0,
-            border: "1px solid rgba(128,128,128,0.25)",
-            borderTop: "none"
-          }}
-        >
-          Weasley Family
-        </p>
+        <Link href="/friendships/weasley_family">
+          <a>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "64px",
+                fontFamily: "Capriola",
+                color: "#000",
+                marginBottom: 0,
+                border: "1px solid rgba(128,128,128,0.25)",
+                borderTop: "none"
+              }}
+            >
+              Weasley Family
+            </p>
+          </a>
+        </Link>
       </li>
     </ul>
   );
@@ -54,49 +62,61 @@ function NavigationBar(props) {
   const FanonshipMenu = (
     <ul style={{ listStyle: "none", backgroundColor: "#fff" }}>
       <li>
-        <p
-          style={{
-            fontSize: "16px",
-            lineHeight: "64px",
-            fontFamily: "Capriola",
-            color: "#000",
-            marginBottom: 0,
-            border: "1px solid rgba(128,128,128,0.25)",
-            borderTop: "none"
-          }}
-        >
-          Ron-Lavender
-        </p>
+        <Link href="/fanon_ships/ron_and_lavender">
+          <a>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "64px",
+                fontFamily: "Capriola",
+                color: "#000",
+                marginBottom: 0,
+                border: "1px solid rgba(128,128,128,0.25)",
+                borderTop: "none"
+              }}
+            >
+              Ron-Lavender
+            </p>
+          </a>
+        </Link>
       </li>
       <li>
-        <p
-          style={{
-            fontSize: "16px",
-            lineHeight: "64px",
-            fontFamily: "Capriola",
-            color: "#000",
-            marginBottom: 0,
-            border: "1px solid rgba(128,128,128,0.25)",
-            borderTop: "none"
-          }}
-        >
-          Ron-Harry
-        </p>
+        <Link href="/fanon_ships/ron_and_harry">
+          <a>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "64px",
+                fontFamily: "Capriola",
+                color: "#000",
+                marginBottom: 0,
+                border: "1px solid rgba(128,128,128,0.25)",
+                borderTop: "none"
+              }}
+            >
+              Ron-Harry
+            </p>
+          </a>
+        </Link>
       </li>
       <li>
-        <p
-          style={{
-            fontSize: "16px",
-            lineHeight: "64px",
-            fontFamily: "Capriola",
-            color: "#000",
-            marginBottom: 0,
-            border: "1px solid rgba(128,128,128,0.25)",
-            borderTop: "none"
-          }}
-        >
-          Ron-Luna
-        </p>
+        <Link href="/fanon_ships/ron_and_luna">
+          <a>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "64px",
+                fontFamily: "Capriola",
+                color: "#000",
+                marginBottom: 0,
+                border: "1px solid rgba(128,128,128,0.25)",
+                borderTop: "none"
+              }}
+            >
+              Ron-Luna
+            </p>
+          </a>
+        </Link>
       </li>
     </ul>
   );
@@ -173,7 +193,11 @@ function NavigationBar(props) {
                       </Link>
                     </li>
                     <li className="navigation_item">
-                      <p className="navigation_text">Credits</p>
+                      <Link href="/credits">
+                        <a>
+                          <p className="navigation_text">Credits</p>
+                        </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -196,8 +220,16 @@ function NavigationBar(props) {
                   >
                     <Menu mode="inline" style={{ border: "none" }}>
                       <SubMenu title="Friendships">
-                        <Item>Golden Trio</Item>
-                        <Item>Weasley Family</Item>
+                        <Item>
+                          <Link href="/friendships/golden_trio">
+                            <a>Golden Trio</a>
+                          </Link>
+                        </Item>
+                        <Item>
+                          <Link href="/friendships/weasley_family">
+                            <a>Weasley Family</a>
+                          </Link>
+                        </Item>
                       </SubMenu>
                       <Item>
                         <Link href="/romione">
@@ -205,16 +237,32 @@ function NavigationBar(props) {
                         </Link>
                       </Item>
                       <SubMenu title="Fanon Ships">
-                        <Item>Ron-Lavender</Item>
-                        <Item>Ron-Harry</Item>
-                        <Item>Ron-Luna</Item>
+                        <Item>
+                          <Link href="/fanon_ships/ron_and_lavender">
+                            <a>Ron-Lavender</a>
+                          </Link>
+                        </Item>
+                        <Item>
+                          <Link href="/fanon_ships/ron_and_harry">
+                            <a>Ron-Harry</a>
+                          </Link>
+                        </Item>
+                        <Item>
+                          <Link href="/fanon_ships/ron_and_luna">
+                            <a>Ron-Luna</a>
+                          </Link>
+                        </Item>
                       </SubMenu>
                       <Item>
                         <Link href="/suggestions">
                           <a>Suggestions</a>
                         </Link>
                       </Item>
-                      <Item>Credits</Item>
+                      <Item>
+                        <Link href="/credits">
+                          <a>Credits</a>
+                        </Link>
+                      </Item>
                     </Menu>
                   </Drawer>
                 </div>
