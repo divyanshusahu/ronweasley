@@ -8,7 +8,8 @@ import { stateToHTML } from "draft-js-export-html";
 import ReactHtmlParser from "react-html-parser";
 import isEmpty from "is-empty";
 
-import { Card, Typography, Icon, Modal, Input, Alert, message } from "antd";
+import { Card, Typography, Modal, Input, Alert, message } from "antd";
+import { EditOutlined, DeleteOutlined, FlagOutlined } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
@@ -273,9 +274,9 @@ function DisplayPost(props) {
   };
 
   const actions = [
-    <Icon type="edit" title="Edit Post" onClick={showEditConfirm} />,
-    <Icon type="delete" title="Delete Post" onClick={showDeleteConfirm} />,
-    <Icon type="flag" title="Report Post" onClick={showReportConfirm} />
+    <EditOutlined title="Edit Post" onClick={showEditConfirm} />,
+    <DeleteOutlined title="Delete Post" onClick={showDeleteConfirm} />,
+    <FlagOutlined title="Report Post" onClick={showReportConfirm} />
   ];
 
   const post_url =

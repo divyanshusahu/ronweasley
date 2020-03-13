@@ -3,7 +3,8 @@ import Link from "next/link";
 
 import clsx from "clsx";
 
-import { Row, Col, Icon, Drawer, Menu, Dropdown } from "antd";
+import { Row, Col, Drawer, Menu, Dropdown } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
 
 const { SubMenu, Item } = Menu;
 
@@ -202,8 +203,7 @@ function NavigationBar(props) {
                   </ul>
                 </div>
                 <div className="xl_down">
-                  <Icon
-                    type="menu"
+                  <MenuOutlined
                     style={{ fontSize: "20px" }}
                     onClick={handleDrawerOpen}
                   />
@@ -304,7 +304,7 @@ function NavigationBar(props) {
           .light {
             background-color: rgba(255, 255, 255, 1);
             color: #000000;
-            box-shadow: 0 2px 4px 0 rgba(128, 128, 128, 1);
+            box-shadow: 0 2px 8px 0 rgba(216, 216, 216, 1);
           }
           .navigation {
             height: 64px;

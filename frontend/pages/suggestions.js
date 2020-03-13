@@ -8,13 +8,22 @@ import {
   Card,
   Typography,
   Collapse,
-  Icon,
   Input,
   Comment,
   Avatar,
   Empty,
   message
 } from "antd";
+
+import {
+  WarningOutlined,
+  CheckSquareOutlined,
+  BugOutlined,
+  QuestionCircleOutlined,
+  ExclamationCircleOutlined,
+  EnterOutlined,
+  UserOutlined
+} from "@ant-design/icons";
 
 import SecondaryLayout from "../components/SecondaryLayout";
 
@@ -97,7 +106,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     </Typography.Text>
                   </span>
                 }
-                extra={<Icon type="warning" style={{ fontSize: 20 }} />}
+                extra={<WarningOutlined style={{ fontSize: 20 }} />}
               >
                 <div className="admin_feedback_card_content">
                   {/*<Collapse bordered={false}>
@@ -141,7 +150,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     </Typography.Text>
                   </span>
                 }
-                extra={<Icon type="check-square" style={{ fontSize: 20 }} />}
+                extra={<CheckSquareOutlined style={{ fontSize: 20 }} />}
               >
                 <div className="admin_feedback_card_content">
                   <Empty />
@@ -162,14 +171,13 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     </Typography.Text>
                   </span>
                 }
-                extra={<Icon type="bug" style={{ fontSize: 20 }} />}
+                extra={<BugOutlined style={{ fontSize: 20 }} />}
                 actions={[
                   <Input
                     id="input-bug"
                     placeholder="Report Bug here"
                     addonAfter={
-                      <Icon
-                        type="enter"
+                      <EnterOutlined
                         onClick={() => post_user_feedback("bug")}
                       />
                     }
@@ -189,7 +197,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         datetime={<TimeAgo date={b.post_date["S"]} />}
                         key={b.post_id["S"]}
                         author="Anon"
-                        avatar={<Avatar icon="bug" />}
+                        avatar={<Avatar icon={<BugOutlined />} />}
                       >
                         {isEmpty(b.post_reply) ? null : (
                           <Comment
@@ -198,7 +206,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                             datetime={<TimeAgo date={b.post_reply_time["S"]} />}
                             avatar={
                               <Avatar
-                                icon="user"
+                                icon={<UserOutlined />}
                                 style={{ backgroundColor: "#52c41a" }}
                               />
                             }
@@ -220,14 +228,13 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     </Typography.Text>
                   </span>
                 }
-                extra={<Icon type="question-circle" style={{ fontSize: 20 }} />}
+                extra={<QuestionCircleOutlined style={{ fontSize: 20 }} />}
                 actions={[
                   <Input
                     id="input-suggestion"
                     placeholder="Enter suggestions here"
                     addonAfter={
-                      <Icon
-                        type="enter"
+                      <EnterOutlined
                         onClick={() => post_user_feedback("suggestion")}
                       />
                     }
@@ -249,8 +256,8 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         author="Anon"
                         avatar={
                           <Avatar
-                            icon="user"
-                            style={{ backgroundColor: "#f5222d" }}
+                            icon={<UserOutlined />}
+                            style={{ backgroundColor: "#52c41a" }}
                           />
                         }
                       >
@@ -263,7 +270,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                             }
                             avatar={
                               <Avatar
-                                icon="user"
+                                icon={<UserOutlined />}
                                 style={{ backgroundColor: "#52c41a" }}
                               />
                             }
@@ -285,16 +292,13 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     </Typography.Text>
                   </span>
                 }
-                extra={
-                  <Icon type="exclamation-circle" style={{ fontSize: 20 }} />
-                }
+                extra={<ExclamationCircleOutlined style={{ fontSize: 20 }} />}
                 actions={[
                   <Input
                     id="input-feedback"
                     placeholder="Leave feedback here"
                     addonAfter={
-                      <Icon
-                        type="enter"
+                      <EnterOutlined
                         onClick={() => post_user_feedback("feedback")}
                       />
                     }
@@ -314,7 +318,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         datetime={<TimeAgo date={fed.post_date["S"]} />}
                         key={fed.post_id["S"]}
                         author="Anon"
-                        avatar={<Avatar icon="user" />}
+                        avatar={<Avatar icon={<UserOutlined />} />}
                       />
                     ))
                   )}

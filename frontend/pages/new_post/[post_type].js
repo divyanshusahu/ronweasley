@@ -1,7 +1,13 @@
 import Link from "next/link";
 import Router from "next/router";
 
-import { Button, Row, Col, Card, Input, Icon, Typography, message } from "antd";
+import { Button, Row, Col, Card, Input, Typography, message } from "antd";
+import {
+  SaveOutlined,
+  SolutionOutlined,
+  UserOutlined,
+  LinkOutlined
+} from "@ant-design/icons";
 
 import fetch from "isomorphic-unfetch";
 
@@ -150,12 +156,12 @@ function NewPost({ query }) {
   const newPostButton =
     query.indexOf("fanart") > 0 ? (
       <Button onClick={add_new_fanart}>
-        <Icon type="save" />
+        <SaveOutlined />
         Create Post
       </Button>
     ) : (
       <Button onClick={add_new_post}>
-        <Icon type="save" />
+        <SaveOutlined />
         Create Post
       </Button>
     );
@@ -164,15 +170,20 @@ function NewPost({ query }) {
     <div>
       <SecondaryLayout title="New Post">
         <div className="page_root">
-          <Row type="flex" justify="center">
-            <Col xs={22} md={20} lg={18} xl={16}>
+          <Row>
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 20, offset: 2 }}
+              lg={{ span: 18, offset: 3 }}
+              xl={{ span: 16, offset: 4 }}
+            >
               <Card title="New Post" extra={title}>
                 <Row gutter={[16, 16]}>
                   <Col xs={24} lg={12}>
                     <Input
                       id="post_title"
                       placeholder="Post Title"
-                      suffix={<Icon type="solution" />}
+                      suffix={<SolutionOutlined />}
                     />
                     <Typography.Text type="secondary">
                       *required. (min length = 3)
@@ -182,7 +193,7 @@ function NewPost({ query }) {
                     <Input
                       id="post_author"
                       placeholder="Author's Name"
-                      suffix={<Icon type="user" />}
+                      suffix={<UserOutlined />}
                     />
                     <Typography.Text type="secondary">optional</Typography.Text>
                   </Col>
@@ -190,7 +201,7 @@ function NewPost({ query }) {
                     <Input
                       id="post_author_link"
                       placeholder="Author's Profile Link"
-                      suffix={<Icon type="link" />}
+                      suffix={<LinkOutlined />}
                     />
                     <Typography.Text type="secondary">optional</Typography.Text>
                   </Col>

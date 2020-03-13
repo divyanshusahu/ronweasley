@@ -9,12 +9,17 @@ import {
   Card,
   Button,
   List,
-  Icon,
   Popconfirm,
   message,
   Modal,
   Input
 } from "antd";
+
+import {
+  DeleteOutlined,
+  CloseOutlined,
+  MessageOutlined
+} from "@ant-design/icons";
 
 import TimeAgo from "react-timeago";
 
@@ -255,7 +260,7 @@ function Dashboard(props) {
                             )
                           }
                         >
-                          <Icon type="delete" title="Delete Post" />
+                          <DeleteOutlined title="Delete Post" />
                         </Popconfirm>,
                         <Popconfirm
                           title="Ignore this report?"
@@ -270,7 +275,7 @@ function Dashboard(props) {
                             )
                           }
                         >
-                          <Icon type="close" title="Ignore Report" />
+                          <CloseOutlined title="Ignore Report" />
                         </Popconfirm>
                       ]}
                     >
@@ -300,8 +305,7 @@ function Dashboard(props) {
                         renderItem={item => (
                           <List.Item
                             actions={[
-                              <Icon
-                                type="message"
+                              <MessageOutlined
                                 title="Reply"
                                 onClick={() => showAdminReplyModal(item)}
                               />,
@@ -316,7 +320,7 @@ function Dashboard(props) {
                                   )
                                 }
                               >
-                                <Icon type="delete" title="Delete" />
+                                <DeleteOutlined title="Delete" />
                               </Popconfirm>
                             ]}
                           >
@@ -341,8 +345,7 @@ function Dashboard(props) {
                         renderItem={item => (
                           <List.Item
                             actions={[
-                              <Icon
-                                type="message"
+                              <MessageOutlined
                                 title="Reply"
                                 onClick={() => showAdminReplyModal(item)}
                               />,
@@ -357,7 +360,7 @@ function Dashboard(props) {
                                   )
                                 }
                               >
-                                <Icon type="delete" title="Delete" />
+                                <DeleteOutlined title="Delete" />
                               </Popconfirm>
                             ]}
                           >

@@ -1,4 +1,5 @@
-import { Upload, Icon, Modal } from "antd";
+import { Upload, Modal } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 function UploadImage(props) {
   const [uploadImageList, setUploadImageList] = React.useState([]);
@@ -51,7 +52,7 @@ function UploadImage(props) {
     <div>
       <Upload {...upload_element_props}>
         <div>
-          <Icon type="plus" />
+          <PlusOutlined />
         </div>
       </Upload>
       <Modal

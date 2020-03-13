@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import isEmpty from "is-empty";
 
-import { Row, Col, Card, Layout as AntLayout, Empty, List } from "antd";
+import { Row, Col, Card, Layout as AntLayout, List } from "antd";
 
 import { Link as RSLink, Element } from "react-scroll";
 
@@ -16,7 +16,7 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
-  const isBrowser = typeof window !== "undefined";
+  /*const isBrowser = typeof window !== "undefined";
   const [dark, setDark] = React.useState(true);
   const [light, setLight] = React.useState(false);
 
@@ -46,7 +46,7 @@ function Layout(props) {
         setLight(false);
       }
     }
-  };
+  };*/
 
   const display = (
     <List
@@ -90,13 +90,11 @@ function Layout(props) {
           <AntHeader
             style={{
               padding: 0,
-              position: "sticky",
-              top: 0,
               background: "transparent",
               zIndex: 10
             }}
           >
-            <NavigationBar dark={dark} light={light} />
+            <NavigationBar dark={true} />
           </AntHeader>
           <AntContent>
             <div className="main">

@@ -17,7 +17,7 @@ function SecondaryLayout(props) {
       </Head>
       <AntLayout style={{ minHeight: "100vh" }}>
         <AntHeader
-          style={{ padding: 0, position: "sticky", top: 0, zIndex: 10 }}
+          style={{ padding: 0, zIndex: 10 }}
         >
           <NavigationBar light={true} />
         </AntHeader>

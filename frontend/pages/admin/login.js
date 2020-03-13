@@ -1,6 +1,7 @@
 import Router from "next/router";
 
-import { Row, Col, Card, Form, Icon, Input, Button, message } from "antd";
+import { Row, Col, Card, Form, Input, Button, message } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import fetch from "isomorphic-unfetch";
 
@@ -54,10 +55,7 @@ function LoginForm(props) {
                         { required: true, message: "Please input username" }
                       ]
                     })(
-                      <Input
-                        prefix={<Icon type="user" />}
-                        placeholder="Username"
-                      />
+                      <Input prefix={<UserOutlined />} placeholder="Username" />
                     )}
                   </Form.Item>
                   <Form.Item>
@@ -67,7 +65,7 @@ function LoginForm(props) {
                       ]
                     })(
                       <Input.Password
-                        prefix={<Icon type="lock" />}
+                        prefix={<LockOutlined />}
                         placeholder="Password"
                       />
                     )}

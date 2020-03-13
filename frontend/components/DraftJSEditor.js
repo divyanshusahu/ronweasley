@@ -12,7 +12,23 @@ import {
 
 import Head from "next/head";
 
-import { Row, Col, Radio, Button, Popover, Input, Icon } from "antd";
+import { Row, Col, Radio, Button, Popover, Input } from "antd";
+import {
+  UndoOutlined,
+  RedoOutlined,
+  BoldOutlined,
+  ItalicOutlined,
+  UnderlineOutlined,
+  StrikethroughOutlined,
+  HighlightOutlined,
+  UnorderedListOutlined,
+  OrderedListOutlined,
+  CodeOutlined,
+  BlockOutlined,
+  LinkOutlined,
+  EnterOutlined,
+  FileImageOutlined
+} from "@ant-design/icons";
 
 import clsx from "clsx";
 import isEmpty from "is-empty";
@@ -249,12 +265,20 @@ function DraftJSEditor(props) {
         />
       </Head>
       <div className="toolbar">
-        <Row type="flex" justify="start" gutter={[16, 16]}>
-          <Col>
-            <Button icon="undo" title="Undo" onClick={handleUndoClick} />
-            <Button icon="redo" title="Redo" onClick={handleRedoClick} />
+        <Row justify="start" gutter={[16, 16]}>
+          <Col style={{ display: "inline-block" }}>
+            <Button
+              icon={<UndoOutlined />}
+              title="Undo"
+              onClick={handleUndoClick}
+            />
+            <Button
+              icon={<RedoOutlined />}
+              title="Redo"
+              onClick={handleRedoClick}
+            />
           </Col>
-          <Col>
+          <Col style={{ display: "inline-block" }}>
             <Radio.Group defaultValue="unstyled" onChange={handleHeaderClick}>
               <Radio.Button value="unstyled">N</Radio.Button>
               <Radio.Button value="header-one">H1</Radio.Button>
@@ -262,10 +286,10 @@ function DraftJSEditor(props) {
               <Radio.Button value="header-four">H3</Radio.Button>
             </Radio.Group>
           </Col>
-          <Col>
+          <Col style={{ display: "inline-block" }}>
             <span onMouseDown={() => handleBoldClick(event)}>
               <Button
-                icon="bold"
+                icon={<BoldOutlined />}
                 title="Bold (Ctrl + B)"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -277,7 +301,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleItalicClick(event)}>
               <Button
-                icon="italic"
+                icon={<ItalicOutlined />}
                 title="Italic (Ctrl + I)"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -289,7 +313,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleUnderlineClick(event)}>
               <Button
-                icon="underline"
+                icon={<UnderlineOutlined />}
                 title="Underline (Ctrl + U)"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -301,7 +325,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleStrikeClick(event)}>
               <Button
-                icon="strikethrough"
+                icon={<StrikethroughOutlined />}
                 title="Strikethrough  (Ctrl + D)"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -313,7 +337,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleHighlightClick(event)}>
               <Button
-                icon="highlight"
+                icon={<HighlightOutlined />}
                 title="Highlight (Ctrl + H)"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -324,10 +348,10 @@ function DraftJSEditor(props) {
               />
             </span>
           </Col>
-          <Col>
+          <Col style={{ display: "inline-block" }}>
             <span onMouseDown={() => handleULClick(event)}>
               <Button
-                icon="unordered-list"
+                icon={<UnorderedListOutlined />}
                 title="Unordered List"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -337,7 +361,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleOLClick(event)}>
               <Button
-                icon="ordered-list"
+                icon={<OrderedListOutlined />}
                 title="Ordered List"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -347,7 +371,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleCodeblockClick(event)}>
               <Button
-                icon="code"
+                icon={<CodeOutlined />}
                 title="Code Block"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -357,7 +381,7 @@ function DraftJSEditor(props) {
             </span>
             <span onMouseDown={() => handleBlockqouteClick(event)}>
               <Button
-                icon="block"
+                icon={<BlockOutlined />}
                 title="Blockquote"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
@@ -366,7 +390,7 @@ function DraftJSEditor(props) {
               />
             </span>
           </Col>
-          <Col>
+          <Col style={{ display: "inline-block" }}>
             <Popover
               trigger="click"
               placement="top"
@@ -374,13 +398,13 @@ function DraftJSEditor(props) {
                 <Input
                   id="link-url-field"
                   placeholder="Insert Link"
-                  prefix={<Icon type="link" />}
-                  addonAfter={<Icon type="enter" onClick={confirm_link} />}
+                  prefix={<LinkOutlined />}
+                  addonAfter={<EnterOutlined onClick={confirm_link} />}
                   onPressEnter={confirm_link}
                 />
               }
             >
-              <Button icon="link" title="Insert Link" />
+              <Button icon={<LinkOutlined />} title="Insert Link" />
             </Popover>
             <Popover
               trigger="click"
@@ -389,13 +413,13 @@ function DraftJSEditor(props) {
                 <Input
                   id="image-url-field"
                   placeholder="Insert Image Link"
-                  prefix={<Icon type="file-image" />}
-                  addonAfter={<Icon type="enter" onClick={confirm_media} />}
+                  prefix={<FileImageOutlined />}
+                  addonAfter={<EnterOutlined onClick={confirm_media} />}
                   onPressEnter={confirm_media}
                 />
               }
             >
-              <Button icon="file-image" title="Insert Image" />
+              <Button icon={<FileImageOutlined />} title="Insert Image" />
             </Popover>
           </Col>
         </Row>

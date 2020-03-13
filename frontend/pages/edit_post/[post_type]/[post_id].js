@@ -4,7 +4,13 @@ import Router from "next/router";
 import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
 
-import { Button, Row, Col, Card, Input, Icon, Typography, message } from "antd";
+import { Button, Row, Col, Card, Input, Typography, message } from "antd";
+import {
+  SolutionOutlined,
+  UserOutlined,
+  LinkOutlined,
+  SaveOutlined
+} from "@ant-design/icons";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
@@ -110,7 +116,7 @@ function EditPost(props) {
                     <Input
                       id="post_title"
                       placeholder="Post Title"
-                      suffix={<Icon type="solution" />}
+                      suffix={<SolutionOutlined />}
                       defaultValue={post.post_title["S"]}
                     />
                     <Typography.Text type="secondary">
@@ -121,7 +127,7 @@ function EditPost(props) {
                     <Input
                       id="post_author"
                       placeholder="Author's Name"
-                      suffix={<Icon type="user" />}
+                      suffix={<UserOutlined />}
                       defaultValue={
                         post.post_author["S"] !== "Anonymous"
                           ? post.post_author["S"]
@@ -134,7 +140,7 @@ function EditPost(props) {
                     <Input
                       id="post_author_link"
                       placeholder="Author's Profile Link"
-                      suffix={<Icon type="link" />}
+                      suffix={<LinkOutlined />}
                       defaultValue={
                         post.post_author_link["S"] !== "/anonymous/anon.jpg"
                           ? post.post_author_link["S"]
@@ -159,7 +165,7 @@ function EditPost(props) {
                     type="inner"
                     extra={
                       <Button onClick={handlePostUpdate}>
-                        <Icon type="save" />
+                        <SaveOutlined />
                         Save Post
                       </Button>
                     }
