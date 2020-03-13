@@ -12,6 +12,11 @@ allowed_types = [
     "ron_weasley_appreciation",
     "ron_weasley_defense",
     "romione_appreciation",
+    "golden_trio_appreciation",
+    "weasley_family_appreciation",
+    "ron_and_lavender_appreciation",
+    "ron_and_harry_appreciation",
+    "ron_and_luna_appreciation",
 ]
 
 if os.getenv("ENV") == "development":

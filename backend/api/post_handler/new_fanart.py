@@ -11,6 +11,11 @@ new_fanart = Blueprint("new_fanart", __name__, url_prefix="/new_fanart")
 allowed_types = [
     "ron_weasley_fanart",
     "romione_fanart",
+    "golden_trio_fanart",
+    "weasley_family_fanart",
+    "ron_and_lavender_fanart",
+    "ron_and_harry_fanart",
+    "ron_and_luna_fanart",
 ]
 
 if os.getenv("ENV") == "development":
