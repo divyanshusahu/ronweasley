@@ -101,6 +101,13 @@ function DisplayPost(props) {
   }
 
   const handleEditPost = (post_secret, post_type, post_id) => {
+    if (post_type.indexOf("fanart") > 0) {
+      return message.error({
+        content:
+          "Fanart edit not supported. To edit, delete current post and make a new one.",
+        duration: 5
+      });
+    }
     message.loading({
       content: "Action in progress",
       duration: 0,
