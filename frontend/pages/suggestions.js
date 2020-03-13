@@ -100,7 +100,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                 extra={<Icon type="warning" style={{ fontSize: 20 }} />}
               >
                 <div className="admin_feedback_card_content">
-                  <Collapse bordered={false}>
+                  {/*<Collapse bordered={false}>
                     <Collapse.Panel
                       header="Android, IOS App?"
                       key={1}
@@ -125,7 +125,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         Is Android, IOS app needed?
                       </Typography.Text>
                     </Collapse.Panel>
-                  </Collapse>
+                    </Collapse>*/}
                 </div>
               </Card>
             </Col>
