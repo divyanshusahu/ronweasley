@@ -39,7 +39,7 @@ function Footer() {
       <style jsx>
         {`
           .page_footer {
-            background-color: #fff;
+            background-color: #141414;
             padding: 24px;
           }
         `}
@@ -47,7 +47,7 @@ function Footer() {
       <Row>
         <Col sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }}>
           <Paragraph
-            style={{ textAlign: "center", fontSize: "1rem", color: "#000" }}
+            style={{ textAlign: "center", fontSize: "1rem", color: "#fafafa" }}
           >
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
