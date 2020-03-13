@@ -7,7 +7,7 @@ import { Button, Row, Col } from "antd";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
-import DisplatPost from "../../../components/DisplayPost";
+import DisplayPost from "../../../components/DisplayPost";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -43,7 +43,7 @@ function Fanart(props) {
               lg={{ span: 18, offset: 3 }}
               xl={{ span: 16, offset: 4 }}
             >
-              <DisplatPost
+              <DisplayPost
                 inner={false}
                 bordered={true}
                 showActions={true}

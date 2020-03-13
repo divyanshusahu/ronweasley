@@ -105,8 +105,13 @@ function EditPost(props) {
     <div>
       <SecondaryLayout title={`Edit Post: ${post.post_title["S"]}`}>
         <div className="edit_post">
-          <Row type="flex" justify="center">
-            <Col xs={22} md={20} lg={18} xl={16}>
+          <Row justify="center">
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 20, offset: 2 }}
+              lg={{ span: 18, offset: 3 }}
+              xl={{ span: 16, offset: 4 }}
+            >
               <Card
                 title="Edit Post"
                 extra={post.post_type["S"].replace(/_/g, " ")}
