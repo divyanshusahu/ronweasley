@@ -9,6 +9,7 @@ import { Link as RSLink, Element } from "react-scroll";
 import NavigationBar from "./NavigationBar";
 import ScrollAnimation from "./ScrollAnimation";
 import DisplayPost from "./DisplayPost";
+import DisplayFanart from "./DisplayFanart";
 import Footer from "./Footer";
 
 const AntHeader = AntLayout.Header;
@@ -48,32 +49,61 @@ function Layout(props) {
     }
   };*/
 
-  const display = (
-    <List
-      itemLayout="vertical"
-      split={false}
-      dataSource={props.posts}
-      pagination={{ pageSize: 3 }}
-      renderItem={p => (
-        <List.Item>
-          <DisplayPost
-            inner={true}
-            bordered={true}
-            showActions={false}
-            key={p.post_id["S"]}
-            post_type={p.post_type["S"]}
-            post_id={p.post_id["S"]}
-            post_title={p.post_title["S"]}
-            post_author={p.post_author["S"]}
-            post_author_link={p.post_author_link["S"]}
-            post_date={p.post_date["S"]}
-            post_content={isEmpty(p.post_content) ? null : p.post_content["S"]}
-            post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
-          />
-        </List.Item>
-      )}
-    />
-  );
+  let display;
+
+  if (props.type === "fanart") {
+    display = (
+      <List
+        grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }}
+        dataSource={props.posts}
+        renderItem={p => (
+          <List.Item>
+            <DisplayFanart
+              inner={false}
+              bordered={true}
+              showActions={false}
+              key={p.post_id["S"]}
+              post_type={p.post_type["S"]}
+              post_id={p.post_id["S"]}
+              post_title={p.post_title["S"]}
+              post_author={p.post_author["S"]}
+              post_author_link={p.post_author_link["S"]}
+              post_date={p.post_date["S"]}
+              post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
+            />
+          </List.Item>
+        )}
+      />
+    );
+  } else {
+    display = (
+      <List
+        itemLayout="vertical"
+        split={false}
+        dataSource={props.posts}
+        renderItem={p => (
+          <List.Item>
+            <DisplayPost
+              inner={false}
+              bordered={true}
+              showActions={false}
+              key={p.post_id["S"]}
+              post_type={p.post_type["S"]}
+              post_id={p.post_id["S"]}
+              post_title={p.post_title["S"]}
+              post_author={p.post_author["S"]}
+              post_author_link={p.post_author_link["S"]}
+              post_date={p.post_date["S"]}
+              post_content={
+                isEmpty(p.post_content) ? null : p.post_content["S"]
+              }
+              post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
+            />
+          </List.Item>
+        )}
+      />
+    );
+  }
 
   return (
     <div>
@@ -131,8 +161,13 @@ function Layout(props) {
                       tabBarExtraContent={props.tabBarExtraContent}
                       bodyStyle={{
                         paddingLeft: 8,
-                        paddingRight: 8
+                        paddingRight: 8,
+                        backgroundColor: "rgb(244, 248, 251)"
                       }}
+                      headStyle={{
+                        backgroundColor: "rgb(244, 248, 251)"
+                      }}
+                      bordered={false}
                     >
                       <div className="page_posts">{display}</div>
                     </Card>
@@ -192,7 +227,7 @@ function Layout(props) {
           }
           .page_content {
             padding: 80px 0;
-            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            background-color: rgb(244, 248, 251);
           }
           .toolbar {
             padding: 32px 16px 0 16px;

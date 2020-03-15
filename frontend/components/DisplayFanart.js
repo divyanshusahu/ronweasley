@@ -18,9 +18,8 @@ const BASE_URL =
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function DisplayPost(props) {
-  let display;
-  if (!isEmpty(props.post_content)) {
+function DisplayFanart(props) {
+  /*if (!isEmpty(props.post_content)) {
     const options = {
       inlineStyles: {
         HIGHLIGHT: {
@@ -74,41 +73,41 @@ function DisplayPost(props) {
     display = ReactHtmlParser(
       stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
     );
-  } else if (!isEmpty(props.post_image)) {
-    let img_url =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:4572/fanart.ronweasley.co"
-        : "http://fanart.ronweasley.co";
-    display = (
-      <div>
-        {props.post_image.map((img, index) => (
-          <div key={index}>
-            <img
-              alt="image"
-              src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
-              style={{
-                maxWidth: "90%",
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginBottom: "64px"
-              }}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }
+  } else if (!isEmpty(props.post_image)) {*/
+  let img_url =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:4572/fanart.ronweasley.co"
+      : "http://fanart.ronweasley.co";
+  /*const display = (
+    <div>
+      {props.post_image.map((img, index) => (
+        <div key={index}>
+          <img
+            alt="image"
+            src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
+            style={{
+              maxWidth: "90%",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginBottom: "64px"
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );*/
+  //}
 
   const handleEditPost = (post_secret, post_type, post_id) => {
-    if (post_type.indexOf("fanart") > 0) {
-      return message.error({
-        content:
-          "Fanart edit not supported. To edit, delete current post and make a new one.",
-        duration: 5
-      });
-    }
-    message.loading({
+    //if (post_type.indexOf("fanart") > 0) {
+    return message.error({
+      content:
+        "Fanart edit not supported. To edit, delete current post and make a new one.",
+      duration: 5
+    });
+    //}
+    /*message.loading({
       content: "Action in progress",
       duration: 0,
       key: "handleEditMessage"
@@ -133,7 +132,7 @@ function DisplayPost(props) {
         } else {
           message.error({ content: data.message, key: "handleEditMessage" });
         }
-      });
+      });*/
   };
 
   const showEditConfirm = () => {
@@ -286,7 +285,7 @@ function DisplayPost(props) {
     <FlagOutlined title="Report Post" onClick={showReportConfirm} />
   ];
 
-  const post_url =
+  /*const post_url =
     props.post_type.indexOf("fanart") > 0
       ? "/fanart/[post_type]/[post_id]"
       : "/post/[post_type]/[post_id]";
@@ -294,7 +293,7 @@ function DisplayPost(props) {
   const post_as =
     props.post_type.indexOf("fanart") > 0
       ? `/fanart/${props.post_type}/${props.post_id}`
-      : `/post/${props.post_type}/${props.post_id}`;
+      : `/post/${props.post_type}/${props.post_id}`;*/
 
   return (
     <div>
@@ -315,12 +314,15 @@ function DisplayPost(props) {
         />
       </div>
       <div className="display_post_card">
-        <Card
+        {/*<Card
           bordered={props.bordered}
           type={props.inner ? "inner" : null}
           title={
             <span>
-              <Link href={post_url} as={post_as}>
+              <Link
+                href="/fanart/[post_type]/[post_id]"
+                as={`/fanart/${props.post_type}/${props.post_id}`}
+              >
                 <a>
                   <Typography.Paragraph
                     strong
@@ -347,6 +349,27 @@ function DisplayPost(props) {
           actions={props.showActions ? actions : null}
         >
           <div>{display}</div>
+        </Card>*/}
+        <Card
+          bordered={props.bordered}
+          actions={props.showActions ? actions : null}
+          cover={
+            <img
+              alt={props.post_title}
+              src={
+                isEmpty(props.post_image)
+                  ? null
+                  : `${img_url}/${props.post_type}/${props.post_id}/${props.post_image[0]["S"]}`
+              }
+              width="100%"
+              height="400px"
+            />
+          }
+          extra={<TimeAgo date={props.post_date} />}
+        >
+          <Card.Meta
+            title={props.post_title}
+          />
         </Card>
       </div>
       <style jsx global>
@@ -376,4 +399,4 @@ function DisplayPost(props) {
   );
 }
 
-export default DisplayPost;
+export default DisplayFanart;
