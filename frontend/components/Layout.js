@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 import isEmpty from "is-empty";
 
@@ -17,38 +18,6 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
-  /*const isBrowser = typeof window !== "undefined";
-  const [dark, setDark] = React.useState(true);
-  const [light, setLight] = React.useState(false);
-
-  React.useEffect(() => {
-    if (isBrowser) {
-      window.addEventListener("scroll", handleScroll);
-      if (window.scrollY > 200) {
-        setDark(false);
-        setLight(true);
-      } else {
-        setDark(true);
-        setLight(false);
-      }
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, []);
-
-  const handleScroll = () => {
-    if (isBrowser) {
-      if (window.scrollY > 200) {
-        setDark(false);
-        setLight(true);
-      } else {
-        setDark(true);
-        setLight(false);
-      }
-    }
-  };*/
-
   let display;
 
   if (props.type === "fanart") {
@@ -58,19 +27,26 @@ function Layout(props) {
         dataSource={props.posts}
         renderItem={p => (
           <List.Item>
-            <DisplayFanart
-              inner={false}
-              bordered={true}
-              showActions={false}
-              key={p.post_id["S"]}
-              post_type={p.post_type["S"]}
-              post_id={p.post_id["S"]}
-              post_title={p.post_title["S"]}
-              post_author={p.post_author["S"]}
-              post_author_link={p.post_author_link["S"]}
-              post_date={p.post_date["S"]}
-              post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
-            />
+            <Link
+              href="/fanart/[post_type]/[post_id]"
+              as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
+            >
+              <a>
+                <DisplayFanart
+                  inner={false}
+                  bordered={true}
+                  showActions={false}
+                  key={p.post_id["S"]}
+                  post_type={p.post_type["S"]}
+                  post_id={p.post_id["S"]}
+                  post_title={p.post_title["S"]}
+                  post_author={p.post_author["S"]}
+                  post_author_link={p.post_author_link["S"]}
+                  post_date={p.post_date["S"]}
+                  post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
+                />
+              </a>
+            </Link>
           </List.Item>
         )}
       />
