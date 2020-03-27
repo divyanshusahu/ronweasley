@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 import isEmpty from "is-empty";
+import AOS from "aos";
 
 import { Row, Col, Card, Layout as AntLayout, List } from "antd";
 
@@ -18,6 +19,9 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
+  if (typeof window !== "undefined") {
+    AOS.init();
+  }
   let display;
 
   if (props.type === "fanart") {
@@ -58,7 +62,7 @@ function Layout(props) {
         split={false}
         dataSource={props.posts}
         renderItem={p => (
-          <List.Item>
+          <List.Item data-aos="zoom-in">
             <DisplayPost
               inner={false}
               bordered={true}
@@ -90,6 +94,10 @@ function Layout(props) {
           rel="stylesheet"
           type="text/css"
         />
+        <link
+          href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+          rel="stylesheet"
+        ></link>
       </Head>
       <div>
         <AntLayout>
@@ -159,12 +167,8 @@ function Layout(props) {
       </div>
       <style jsx>
         {`
-          .post_root {
-            min-height: 100vh;
-            height: 100%;
-          }
           .main {
-            min-height: 100vh;
+            min-height: 60vh;
             height: 100%;
             width: 100%;
             background-image: url(${props.landscape});
@@ -174,7 +178,7 @@ function Layout(props) {
           }
           .main_overlay {
             width: 100%;
-            height: 100vh;
+            height: 60vh;
             background-color: rgba(32, 32, 32, 0.75);
           }
           .hero {
