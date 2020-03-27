@@ -9,7 +9,12 @@ import ReactHtmlParser from "react-html-parser";
 import isEmpty from "is-empty";
 
 import { Card, Typography, Modal, Input, Alert, message } from "antd";
-import { EditOutlined, DeleteOutlined, FlagOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  FlagOutlined,
+  ExclamationCircleOutlined
+} from "@ant-design/icons";
 
 const { confirm } = Modal;
 
@@ -152,6 +157,7 @@ function DisplayPost(props) {
       okText: "Yes",
       okType: "primary",
       cancelText: "No",
+      icon: <ExclamationCircleOutlined />,
       onOk() {
         handleEditPost(
           document.getElementById("edit_input_post_secret").value,
@@ -211,6 +217,7 @@ function DisplayPost(props) {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
+      icon: <ExclamationCircleOutlined />,
       onOk() {
         handleDeletePost(
           document.getElementById("delete_input_post_secret").value,
@@ -270,6 +277,7 @@ function DisplayPost(props) {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
+      icon: <ExclamationCircleOutlined />,
       onOk() {
         handleReportPost(
           document.getElementById("input_post_report_reason").value,
@@ -349,13 +357,6 @@ function DisplayPost(props) {
           <div>{display}</div>
         </Card>
       </div>
-      <style jsx global>
-        {`
-          p {
-            font-size: 22px;
-          }
-        `}
-      </style>
       <style jsx>
         {`
           .alert_div {
