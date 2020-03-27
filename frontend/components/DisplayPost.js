@@ -353,6 +353,7 @@ function DisplayPost(props) {
           }
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
+          style={{boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)"}}
         >
           <div>{display}</div>
         </Card>

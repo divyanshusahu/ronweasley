@@ -7,7 +7,6 @@ import {
   Col,
   Card,
   Typography,
-  Collapse,
   Input,
   Comment,
   Avatar,
@@ -16,8 +15,6 @@ import {
 } from "antd";
 
 import {
-  WarningOutlined,
-  CheckSquareOutlined,
   BugOutlined,
   QuestionCircleOutlined,
   ExclamationCircleOutlined,
@@ -94,7 +91,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
   return (
     <div>
       <SecondaryLayout title="Report Bugs, Suggestions and Feedabck">
-        <div className="display_suggestions">
+        {/*<div className="display_suggestions">
           <Row gutter={[0, 32]}>
             <Col xs={{ span: 22, offset: 1 }} md={{ span: 9, offset: 2 }}>
               <Card
@@ -109,7 +106,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                 extra={<WarningOutlined style={{ fontSize: 20 }} />}
               >
                 <div className="admin_feedback_card_content">
-                  {/*<Collapse bordered={false}>
+                  <Collapse bordered={false}>
                     <Collapse.Panel
                       header="Android, IOS App?"
                       key={1}
@@ -134,7 +131,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         Is Android, IOS app needed?
                       </Typography.Text>
                     </Collapse.Panel>
-                    </Collapse>*/}
+                    </Collapse>
                 </div>
               </Card>
             </Col>
@@ -158,7 +155,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
               </Card>
             </Col>
           </Row>
-        </div>
+        </div>*/}
         <div className="user_feedback">
           <Row gutter={[0, 32]}>
             <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 2 }}>
@@ -186,6 +183,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     onChange={e => setBugInputValue(e.target.value)}
                   />
                 ]}
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
               >
                 <div className="user_feedback_card_content">
                   {isEmpty(bugs) ? (
@@ -243,6 +241,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     onChange={e => setSuggestionInputValue(e.target.value)}
                   />
                 ]}
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
               >
                 <div className="user_feedback_card_content">
                   {isEmpty(suggestions) ? (
@@ -307,6 +306,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                     onChange={e => setFeedbackInputValue(e.target.value)}
                   />
                 ]}
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
               >
                 <div className="user_feedback_card_content">
                   {isEmpty(feedbacks) ? (
@@ -334,7 +334,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
             margin-top: 64px;
           }
           .user_feedback {
-            margin-top: 32px;
+            margin-top: 64px;
             margin-bottom: 48px;
           }
           .admin_feedback_card_content {
@@ -343,8 +343,8 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
             overflow: auto;
           }
           .user_feedback_card_content {
-            height: 280px;
-            max-height: 280px;
+            height: 320px;
+            max-height: 320px;
             overflow: auto;
           }
         `}

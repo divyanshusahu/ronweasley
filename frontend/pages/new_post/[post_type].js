@@ -177,7 +177,11 @@ function NewPost({ query }) {
               lg={{ span: 18, offset: 3 }}
               xl={{ span: 16, offset: 4 }}
             >
-              <Card title="New Post" extra={title}>
+              <Card
+                title="New Post"
+                extra={title}
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
+              >
                 <Row gutter={[16, 16]}>
                   <Col xs={24} lg={12}>
                     <Input

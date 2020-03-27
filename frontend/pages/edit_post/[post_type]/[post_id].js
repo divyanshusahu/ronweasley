@@ -115,6 +115,7 @@ function EditPost(props) {
               <Card
                 title="Edit Post"
                 extra={post.post_type["S"].replace(/_/g, " ")}
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
               >
                 <Row gutter={[16, 16]}>
                   <Col xs={24} lg={12}>

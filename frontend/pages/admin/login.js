@@ -40,7 +40,7 @@ function LoginForm(props) {
               md={{ span: 12, offset: 6 }}
               lg={{ span: 8, offset: 8 }}
             >
-              <Card>
+              <Card style={{ boxShadow: "8px 8px 32px 0px rgba(0,0,0,0.5)" }}>
                 <Form onFinish={handleFormSubmit}>
                   <Form.Item
                     name="username"
