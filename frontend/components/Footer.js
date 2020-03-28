@@ -48,12 +48,20 @@ function Footer() {
         >
           Contact admin
         </span>{" "}
-        <a href="https://github.com/divyanshusahu" target="_blank">
+        <a
+          href="https://github.com/divyanshusahu"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <GithubOutlined
             style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
           />
         </a>{" "}
-        <a href="https://twitter.com/divyan5hu" target="_blank">
+        <a
+          href="https://twitter.com/divyan5hu"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <TwitterOutlined
             style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
           />
@@ -63,7 +71,11 @@ function Footer() {
             style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
           />
         </a>{" "}
-        <a href="https://instagram.com/_divyanshusahu_" target="_blank">
+        <a
+          href="https://instagram.com/_divyanshusahu_"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <InstagramOutlined
             style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
           />
