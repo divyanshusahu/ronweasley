@@ -24,6 +24,7 @@
     "clsx": "^1.1.0",
     "draft-js": "^0.11.4",
     "draft-js-export-html": "^1.4.1",
+    "framer-motion": "^1.10.2",
     "is-empty": "^1.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.3.2",
