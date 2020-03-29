@@ -11,12 +11,14 @@ function Credits() {
 
   const getSize = () => {
     return {
-      width: isClient ? document.body.clientWidth : undefined,
-      height: isClient ? document.body.scrollHeight : undefined
+      width: isClient ? document.body.clientWidth : 0,
+      height: isClient ? document.body.scrollHeight : 0
     };
   };
 
-  const [windowSize, setWindowSize] = React.useState(getSize());
+  // ! initilise width and height value to random numbers to avoid different
+  // ! value during server side and client side.
+  const [windowSize, setWindowSize] = React.useState({ width: 10, height: 10 });
   React.useEffect(() => {
     if (!isClient) {
       return false;
@@ -30,7 +32,7 @@ function Credits() {
   }, []);
 
   React.useEffect(() => {
-    setWindowSize(getSize);
+    setWindowSize(getSize());
   }, []);
 
   const ron_weasley_credit = [
