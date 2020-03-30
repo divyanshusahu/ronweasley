@@ -17,6 +17,7 @@ function Index() {
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
+    getPosts([]);
     fetch(BASE_URL + "/get_post/ron_weasley_" + selectedTab)
       .then(r => r.json())
       .then(data => {
@@ -58,8 +59,9 @@ function Index() {
   return (
     <Layout
       title="Ron Weasley"
-      main_heading="A Website dedicated to the most selfless Harry Potter Character."
-      about_heading="Some lines best describing Ron."
+      main_heading="Ron Weasley"
+      about_heading="From now on, I don’t care if my tea leaves spell, ‘Die, Ron, die,’ 
+      I’m chucking them in the bin where they belong."
       landscape="/ron_weasley/landscape.jpg"
       portrait="/ron_weasley/portrait.jpg"
       tabList={tabList}
