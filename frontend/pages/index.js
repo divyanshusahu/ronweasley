@@ -1,23 +1,54 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import fetch from "isomorphic-unfetch";
 
 import { Button } from "antd";
 
 import Layout from "../components/Layout";
+import postTabHook from "../hooks/postTabHook";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function Index() {
-  const [selectedTab, setSelectedTab] = React.useState("appreciation");
+function Index(props) {
+  const router = useRouter();
+  const tab_search_list = [
+    { key: "1", tab: "appreciation" },
+    { key: "2", tab: "defense" },
+    { key: "3", tab: "fanart" }
+  ];
+
+  const [selectedTab, setSelectedTab] = React.useState(null);
+  const [activeTabKey, setActiveTabKey] = React.useState("1");
+
+  React.useEffect(() => {
+    const result = postTabHook(tab_search_list, props.query);
+    if (result.result === -1) {
+      setSelectedTab("appreciation");
+      return;
+    } else if (result.result === -2) {
+      router.replace(router.pathname);
+      setSelectedTab("appreciation");
+      return;
+    } else if (result.result === -3) {
+      router.replace(router.pathname + "?tab=appreciation");
+      setSelectedTab("appreciation");
+      return;
+    } else {
+      setSelectedTab(result.tab);
+      setActiveTabKey(result.key);
+    }
+  }, []);
 
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
     getPosts([]);
+    if (!selectedTab) return;
+
     fetch(BASE_URL + "/get_post/ron_weasley_" + selectedTab)
       .then(r => r.json())
       .then(data => {
@@ -28,12 +59,50 @@ function Index() {
   }, [selectedTab]);
 
   const tabList = [
-    { key: "1", tab: "Appreciation" },
-    { key: "2", tab: "Defense" },
-    { key: "3", tab: "Fanart" }
+    {
+      key: "1",
+      tab: (
+        <Link href="?tab=appreciation" scroll={false}>
+          <a
+            style={{
+              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)"
+            }}
+          >
+            Appreciation
+          </a>
+        </Link>
+      )
+    },
+    {
+      key: "2",
+      tab: (
+        <Link href="?tab=defense" scroll={false}>
+          <a
+            style={{
+              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)"
+            }}
+          >
+            Defense
+          </a>
+        </Link>
+      )
+    },
+    {
+      key: "3",
+      tab: (
+        <Link href="?tab=fanart" scroll={false}>
+          <a
+            style={{
+              color: activeTabKey == 3 ? "inherit" : "rgba(0,0,0,0.65)"
+            }}
+          >
+            Fanart
+          </a>
+        </Link>
+      )
+    }
   ];
 
-  const [activeTabKey, setActiveTabKey] = React.useState("1");
   const handleOnTabChange = key => {
     setActiveTabKey(key);
     if (key === "1") {
@@ -73,5 +142,9 @@ function Index() {
     />
   );
 }
+
+Index.getInitialProps = async ({ query }) => {
+  return { query: query };
+};
 
 export default Index;
