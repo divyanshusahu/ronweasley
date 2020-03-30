@@ -2,14 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 
 import isEmpty from "is-empty";
-import AOS from "aos";
+import { motion } from "framer-motion";
 
 import { Row, Col, Card, Layout as AntLayout, List } from "antd";
 
-import { Link as RSLink, Element } from "react-scroll";
-
 import NavigationBar from "./NavigationBar";
-import ScrollAnimation from "./ScrollAnimation";
+import HeroHeading from "./HeroHeading";
 import DisplayPost from "./DisplayPost";
 import DisplayFanart from "./DisplayFanart";
 import Footer from "./Footer";
@@ -19,24 +17,77 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
-  if (typeof window !== "undefined") {
-    AOS.init();
-  }
   let display;
+
+  const variants = {
+    initial: { scale: 0.9, opacity: 0 },
+    enter: { scale: 1, opacity: 1, transition: { duration: 0.5 } },
+    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } }
+  };
 
   if (props.type === "fanart") {
     display = (
-      <List
-        grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }}
-        dataSource={props.posts}
-        renderItem={p => (
-          <List.Item>
-            <Link
-              href="/fanart/[post_type]/[post_id]"
-              as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
-            >
-              <a>
-                <DisplayFanart
+      <motion.div
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={{
+          enter: { transition: { staggerChildren: 0.1 } }
+        }}
+      >
+        <List
+          grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }}
+          dataSource={props.posts}
+          renderItem={p => (
+            <List.Item>
+              <Link
+                href="/fanart/[post_type]/[post_id]"
+                as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
+                scroll={false}
+              >
+                <a>
+                  <motion.div whileHover={{ scale: 1.05 }} variants={variants}>
+                    <DisplayFanart
+                      inner={false}
+                      bordered={true}
+                      showActions={false}
+                      key={p.post_id["S"]}
+                      post_type={p.post_type["S"]}
+                      post_id={p.post_id["S"]}
+                      post_title={p.post_title["S"]}
+                      post_author={p.post_author["S"]}
+                      post_author_link={p.post_author_link["S"]}
+                      post_date={p.post_date["S"]}
+                      post_image={
+                        isEmpty(p.post_image) ? null : p.post_image["L"]
+                      }
+                    />
+                  </motion.div>
+                </a>
+              </Link>
+            </List.Item>
+          )}
+        />
+      </motion.div>
+    );
+  } else {
+    display = (
+      <motion.div
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={{
+          enter: { transition: { staggerChildren: 0.1 } }
+        }}
+      >
+        <List
+          itemLayout="vertical"
+          split={false}
+          dataSource={props.posts}
+          renderItem={p => (
+            <List.Item>
+              <motion.div variants={variants}>
+                <DisplayPost
                   inner={false}
                   bordered={true}
                   showActions={false}
@@ -47,41 +98,16 @@ function Layout(props) {
                   post_author={p.post_author["S"]}
                   post_author_link={p.post_author_link["S"]}
                   post_date={p.post_date["S"]}
+                  post_content={
+                    isEmpty(p.post_content) ? null : p.post_content["S"]
+                  }
                   post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
                 />
-              </a>
-            </Link>
-          </List.Item>
-        )}
-      />
-    );
-  } else {
-    display = (
-      <List
-        itemLayout="vertical"
-        split={false}
-        dataSource={props.posts}
-        renderItem={p => (
-          <List.Item data-aos="zoom-in">
-            <DisplayPost
-              inner={false}
-              bordered={true}
-              showActions={false}
-              key={p.post_id["S"]}
-              post_type={p.post_type["S"]}
-              post_id={p.post_id["S"]}
-              post_title={p.post_title["S"]}
-              post_author={p.post_author["S"]}
-              post_author_link={p.post_author_link["S"]}
-              post_date={p.post_date["S"]}
-              post_content={
-                isEmpty(p.post_content) ? null : p.post_content["S"]
-              }
-              post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
-            />
-          </List.Item>
-        )}
-      />
+              </motion.div>
+            </List.Item>
+          )}
+        />
+      </motion.div>
     );
   }
 
@@ -89,15 +115,6 @@ function Layout(props) {
     <div>
       <Head>
         <title>{props.title}</title>
-        <link
-          href="https://fonts.googleapis.com/css?family=Oleo+Script"
-          rel="stylesheet"
-          type="text/css"
-        />
-        <link
-          href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
-          rel="stylesheet"
-        ></link>
       </Head>
       <div>
         <AntLayout>
@@ -114,51 +131,43 @@ function Layout(props) {
             <div className="main">
               <div className="main_overlay">
                 <div className="hero">
-                  <p className="hero_big_heading">{props.main_heading}</p>
-                  <p className="hero_about_heading">{props.about_heading}</p>
-                  <RSLink
-                    to="pageContent"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                  >
-                    <ScrollAnimation />
-                  </RSLink>
+                  <HeroHeading
+                    heading_text={props.main_heading}
+                    description_text={props.about_heading}
+                  />
                 </div>
               </div>
             </div>
-            <Element name="pageContent">
-              <div className="page_content">
-                <Row>
-                  <Col
-                    xs={{ span: 22, offset: 1 }}
-                    md={{ span: 20, offset: 2 }}
-                    lg={{ span: 18, offset: 3 }}
-                    xl={{ span: 16, offset: 4 }}
+            <div className="page_content">
+              <Row>
+                <Col
+                  xs={{ span: 22, offset: 1 }}
+                  md={{ span: 20, offset: 2 }}
+                  lg={{ span: 18, offset: 3 }}
+                  xl={{ span: 16, offset: 4 }}
+                >
+                  <Card
+                    tabList={props.tabList}
+                    activeTabKey={props.activeTabKey}
+                    onTabChange={key => {
+                      props.onTabChange(key);
+                    }}
+                    tabBarExtraContent={props.tabBarExtraContent}
+                    bodyStyle={{
+                      paddingLeft: 8,
+                      paddingRight: 8,
+                      backgroundColor: "rgb(244, 248, 251)"
+                    }}
+                    headStyle={{
+                      backgroundColor: "rgb(244, 248, 251)"
+                    }}
+                    bordered={false}
                   >
-                    <Card
-                      tabList={props.tabList}
-                      activeTabKey={props.activeTabKey}
-                      onTabChange={key => {
-                        props.onTabChange(key);
-                      }}
-                      tabBarExtraContent={props.tabBarExtraContent}
-                      bodyStyle={{
-                        paddingLeft: 8,
-                        paddingRight: 8,
-                        backgroundColor: "rgb(244, 248, 251)"
-                      }}
-                      headStyle={{
-                        backgroundColor: "rgb(244, 248, 251)"
-                      }}
-                      bordered={false}
-                    >
-                      <div className="page_posts">{display}</div>
-                    </Card>
-                  </Col>
-                </Row>
-              </div>
-            </Element>
+                    <div className="page_posts">{display}</div>
+                  </Card>
+                </Col>
+              </Row>
+            </div>
           </AntContent>
           <AntFooter style={{ padding: 0 }}>
             <Footer />
@@ -188,22 +197,6 @@ function Layout(props) {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-          }
-          .hero_big_heading {
-            color: #fff;
-            font-family: "Oleo Script";
-            font-size: 3rem;
-            margin-bottom: 0.35em;
-            font-weight: 400;
-            padding: 8px;
-          }
-          .hero_about_heading {
-            color: #efefef;
-            font-size: 1.25rem;
-            font-family: "Roboto";
-            font-weight: 500;
-            line-height: 1.6;
-            padding: 8px;
           }
           .page_content {
             padding: 80px 0;
