@@ -22,6 +22,10 @@ function Footer() {
           href="https://fonts.googleapis.com/css?family=Roboto"
         />
         <link
+          href="https://fonts.googleapis.com/css?family=Allerta"
+          rel="stylesheet"
+        />
+        <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/antd@4.0.2/dist/antd.min.css"
           type="text/css"
@@ -30,7 +34,12 @@ function Footer() {
       <Row>
         <Col sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }}>
           <Paragraph
-            style={{ textAlign: "center", fontSize: "1rem", color: "#f0f0f0" }}
+            style={{
+              textAlign: "center",
+              fontSize: "1rem",
+              color: "#f0f0f0",
+              fontFamily: "Allerta"
+            }}
           >
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
@@ -43,7 +52,8 @@ function Footer() {
           style={{
             fontSize: "16px",
             color: "rgba(240,240,240,0.6)",
-            marginRight: "8px"
+            marginRight: "8px",
+            fontFamily: "Allerta"
           }}
         >
           Contact admin
