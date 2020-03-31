@@ -5,6 +5,7 @@ import Confetti from "react-confetti";
 import { motion } from "framer-motion";
 
 import SecondaryLayout from "../components/SecondaryLayout";
+import credits_data from "../data/credits_data";
 
 function Credits() {
   const isClient = typeof window === "object";
@@ -34,32 +35,6 @@ function Credits() {
   React.useEffect(() => {
     setWindowSize(getSize());
   }, []);
-
-  const ron_weasley_credit = [
-    {
-      author: "stopblushingemma",
-      author_link: "https://stopblushingemma.tumblr.com",
-      original_post:
-        "https://stopblushingemma.tumblr.com/post/137186406330/colourful-ginger-boy"
-    },
-    {
-      author: "hillyminne",
-      author_link: "https://hillyminne.tumblr.com",
-      original_post:
-        "https://hillyminne.tumblr.com/post/173183074502/bearded-ron-weasley-d-some-ladies-were"
-    },
-    {
-      author: "atalienart",
-      author_link: "https://atalienart.tumblr.com",
-      original_post: "https://atalienart.tumblr.com/post/156010477127/ron"
-    },
-    {
-      author: "upthehillart",
-      author_link: "https://upthehillart.tumblr.com",
-      original_post:
-        "https://upthehillart.tumblr.com/post/157845950310/pigwidgeon-the-king"
-    }
-  ];
 
   const variants = {
     initial: { y: 30, scale: 0.9, opacity: 0 },
@@ -160,9 +135,9 @@ function Credits() {
                 md={{ span: 14, offset: 5 }}
                 lg={{ span: 12, offset: 6 }}
               >
-                {credit_display("Ron Weasley", ron_weasley_credit)}
-                {credit_display("Romione", ron_weasley_credit)}
-                {credit_display("Golden Trio", ron_weasley_credit)}
+                {credit_display("Ron Weasley", credits_data.ron_weasley)}
+                {credit_display("Romione", credits_data.romione)}
+                {credit_display("Golden Trio", credits_data.ron_weasley)}
               </Col>
             </Row>
           </div>
