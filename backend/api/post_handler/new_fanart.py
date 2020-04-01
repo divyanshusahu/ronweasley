@@ -76,6 +76,8 @@ def upload_fanart(post_type):
         )
     post_secret = hashlib.sha256(post_secret.encode()).hexdigest()
 
+    post_description = request.form["post_description"] if "post_description" in request.form else ""
+
     post_id = uuid.uuid1().hex
     post_date = datetime.now(timezone.utc).isoformat()
     image_data_list = request.files.getlist("files")
@@ -106,6 +108,7 @@ def upload_fanart(post_type):
                 "post_author_link": {"S": post_author_link},
                 "post_secret": {"S": post_secret},
                 "post_date": {"S": post_date},
+                "post_description": {"S": post_description},
                 "post_image": {"L": image_key_list},
             },
         )

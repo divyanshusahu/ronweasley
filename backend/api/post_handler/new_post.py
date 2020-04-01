@@ -90,6 +90,7 @@ def insert_post(post_type):
                 "post_author_link": {"S": post_data["post_author_link"]},
                 "post_type": {"S": post_type},
                 "post_content": {"S": post_data["post_content"]},
+                "post_summary": {"S": post_data["post_summary"]},
                 "post_secret": {"S": post_data["post_secret"]},
                 "post_date": {"S": date},
             },

@@ -33,32 +33,36 @@ allowed_types = [
     "reported_post",
 ]
 
+suggestions_types = ["bug", "suggestion", "feedback", "reported_post"]
+
 
 @get_post.route("/<post_type>", methods=["GET"])
 def get_post_by_type(post_type):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid Request"}), 400
 
+    if post_type in suggestions_types:
+        projectionExpression = """post_type, post_id, post_date, post_content, 
+        reported_post_type, reported_post_id, reported_post_reason"""
+    else:
+        projectionExpression = """post_type, post_id, post_title, post_author, 
+        post_author_link, post_date, post_summary"""
+
     try:
         result = db.query(
             TableName=os.environ["POST_TABLE"],
-            Select="ALL_ATTRIBUTES",
+            ProjectionExpression=projectionExpression,
             KeyConditionExpression="post_type = :post_type",
             ExpressionAttributeValues={":post_type": {"S": post_type}},
         )
 
-        send_result = []
-
-        for post in result["Items"]:
-            post.pop("post_secret", None)
-            send_result.append(post)
-
         send_result = sorted(
-            send_result, key=lambda x: x["post_date"]["S"], reverse=True
+            result["Items"], key=lambda x: x["post_date"]["S"], reverse=True
         )
 
         return jsonify({"success": True, "posts": send_result}), 200
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({"success": False, "message": "An error occurred"}), 500
 
 
@@ -67,15 +71,18 @@ def get_post_by_id(post_type, post_id):
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid Request"}), 400
 
+    projectionExpression = """post_type, post_id, post_title, post_author, post_author_link, 
+    post_date, post_content, post_description, post_image"""
+
     try:
         result = db.get_item(
             TableName=os.environ["POST_TABLE"],
             Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
+            ProjectionExpression=projectionExpression,
         )
 
         if "Item" in result:
             post = result["Item"]
-            post.pop("post_secret", None)
             return jsonify({"success": True, "post": post}), 200
         else:
             return jsonify({"success": False, "message": "No post exist"}), 404
