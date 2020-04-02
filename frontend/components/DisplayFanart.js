@@ -1,30 +1,28 @@
-import fetch from "isomorphic-unfetch";
 import TimeAgo from "react-timeago";
 import isEmpty from "is-empty";
 
-import { Card, Modal, Input, Alert, message } from "antd";
-import { EditOutlined, DeleteOutlined, FlagOutlined } from "@ant-design/icons";
+import { Card, Modal, Input, Alert, Typography, message } from "antd";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  FlagOutlined,
+  ExclamationCircleOutlined
+} from "@ant-design/icons";
+
+import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
+import {
+  handleEditFanart,
+  handleDeletePost,
+  handleReportPost
+} from "../hooks/postActionsUtils";
 
 const { confirm } = Modal;
-
-const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://api.ronweasley.co";
 
 function DisplayFanart(props) {
   let img_url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:4572/fanart.ronweasley.co"
       : "http://fanart.ronweasley.co";
-
-  const handleEditPost = () => {
-    return message.error({
-      content:
-        "Fanart edit not supported. To edit, delete current post and make a new one.",
-      duration: 5
-    });
-  };
 
   const showEditConfirm = () => {
     confirm({
@@ -42,48 +40,25 @@ function DisplayFanart(props) {
       okText: "Yes",
       okType: "primary",
       cancelText: "No",
+      icon: <ExclamationCircleOutlined />,
       onOk() {
-        handleEditPost(
+        let result = handleEditFanart(
           document.getElementById("edit_input_post_secret").value,
           props.post_type,
           props.post_id
         );
+        if (!result.success) {
+          return message.error({
+            content:
+              "Fanart edit not supported. To edit, delete current post and make a new one.",
+            duration: 5
+          });
+        }
       }
     });
   };
 
   const [deleteAlertDisplay, setDeleteAlertDisplay] = React.useState("none");
-
-  const handleDeletePost = (post_secret, post_type, post_id) => {
-    message.loading({
-      content: "Action in progress",
-      duration: 0,
-      key: "handleDeleteMessage"
-    });
-    let post_data = {
-      post_secret: post_secret
-    };
-    fetch(`${BASE_URL}/delete_post/${post_type}/${post_id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(post_data)
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          message.success({
-            content: data.message,
-            key: "handleDeleteMessage"
-          });
-          setDeleteAlertDisplay("block");
-        } else {
-          message.error({
-            content: data.message,
-            key: "handleDeleteMessage"
-          });
-        }
-      });
-  };
 
   const showDeleteConfirm = () => {
     confirm({
@@ -101,12 +76,31 @@ function DisplayFanart(props) {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
+      icon: <ExclamationCircleOutlined />,
       onOk() {
+        message.loading({
+          content: "Action in progress",
+          duration: 0,
+          key: "handleDeleteMessage"
+        });
         handleDeletePost(
           document.getElementById("delete_input_post_secret").value,
           props.post_type,
           props.post_id
-        );
+        ).then(data => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "handleDeleteMessage"
+            });
+            setDeleteAlertDisplay("block");
+          } else {
+            message.error({
+              content: data.message,
+              key: "handleDeleteMessage"
+            });
+          }
+        });
       }
     });
   };
@@ -114,39 +108,6 @@ function DisplayFanart(props) {
   const [reportAlertDisplay, setReportAlertDisplay] = React.useState(
     props.post_reported ? "block" : "none"
   );
-
-  const handleReportPost = (reported_post_reason, post_type, post_id) => {
-    message.loading({
-      content: "Action in progress",
-      duration: 0,
-      key: "handleReportMessage"
-    });
-    let post_data = {
-      reported_post_reason: reported_post_reason
-    };
-    fetch(`${BASE_URL}/report_post/${post_type}/${post_id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(post_data)
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          message.success({
-            content: data.message,
-            key: "handleReportMessage"
-          });
-          setReportAlertDisplay("block");
-        } else {
-          message.error({
-            content: data.message,
-            key: "handleReportMessage"
-          });
-        }
-      });
-  };
 
   const showReportConfirm = () => {
     confirm({
@@ -160,12 +121,31 @@ function DisplayFanart(props) {
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
+      icon: <ExclamationCircleOutlined />,
       onOk() {
+        message.loading({
+          content: "Action in progress",
+          duration: 0,
+          key: "handleReportMessage"
+        });
         handleReportPost(
           document.getElementById("input_post_report_reason").value,
           props.post_type,
           props.post_id
-        );
+        ).then(data => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "handleReportMessage"
+            });
+            setReportAlertDisplay("block");
+          } else {
+            message.error({
+              content: data.message,
+              key: "handleReportMessage"
+            });
+          }
+        });
       }
     });
   };
@@ -198,30 +178,76 @@ function DisplayFanart(props) {
         <Card
           bordered={props.bordered}
           actions={props.showActions ? actions : null}
+          title={
+            props.is_layout ? null : (
+              <span>
+                <Typography.Paragraph strong style={{ fontSize: 16 }}>
+                  {props.post_title}
+                </Typography.Paragraph>
+                <Typography.Text type="secondary">
+                  Author:{" "}
+                  <a
+                    href={props.post_author_link}
+                    rel="noopener noreferrer"
+                    style={{ color: "inherit", fontWeight: "bold" }}
+                  >
+                    {props.post_author}
+                  </a>
+                </Typography.Text>
+              </span>
+            )
+          }
           cover={
-            <img
-              alt={props.post_title}
-              src={
-                isEmpty(props.post_image)
-                  ? null
-                  : `${img_url}/${props.post_type}/${props.post_id}/${props.post_image[0]["S"]}`
-              }
-              width="100%"
-              height="400px"
-            />
+            props.is_layout ? (
+              <img
+                alt={props.post_title}
+                src={
+                  isEmpty(props.post_image)
+                    ? null
+                    : `${img_url}/${props.post_type}/${props.post_id}/${props.post_image[0]["S"]}`
+                }
+                width="100%"
+                height="400px"
+              />
+            ) : null
           }
           extra={<TimeAgo date={props.post_date} />}
+          actions={props.showActions ? actions : null}
         >
-          <Card.Meta title={props.post_title} />
+          {props.is_layout ? (
+            <Card.Meta
+              title={props.post_title}
+              description={`Author: ${props.post_author}`}
+            />
+          ) : null}
+          {props.is_layout ? null : (
+            <div>
+              {props.post_image.map((img, index) => (
+                <div key={index}>
+                  <img
+                    alt="image"
+                    src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
+                    style={{
+                      maxWidth: "90%",
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: "64px"
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {props.is_layout ? null : (
+            <div>
+              {isEmpty(props.post_description)
+                ? null
+                : getHTMLFromDraftJS(props.post_description)}
+            </div>
+          )}
         </Card>
       </div>
-      <style jsx global>
-        {`
-          p {
-            font-size: 22px;
-          }
-        `}
-      </style>
       <style jsx>
         {`
           .alert_div {
