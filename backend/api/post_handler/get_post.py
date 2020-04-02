@@ -46,7 +46,7 @@ def get_post_by_type(post_type):
         reported_post_type, reported_post_id, reported_post_reason"""
     else:
         projectionExpression = """post_type, post_id, post_title, post_author, 
-        post_author_link, post_date, post_summary"""
+        post_author_link, post_date, post_summary, post_image"""
 
     try:
         result = db.query(
