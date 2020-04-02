@@ -1,11 +1,7 @@
 import Router from "next/router";
 import Link from "next/link";
 
-import fetch from "isomorphic-unfetch";
 import TimeAgo from "react-timeago";
-import { convertFromRaw } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
-import ReactHtmlParser from "react-html-parser";
 import isEmpty from "is-empty";
 
 import { Card, Typography, Modal, Input, Alert, message } from "antd";
@@ -16,131 +12,16 @@ import {
   ExclamationCircleOutlined
 } from "@ant-design/icons";
 
+import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
+import {
+  handleEditPost,
+  handleDeletePost,
+  handleReportPost
+} from "../hooks/postActionsUtils";
+
 const { confirm } = Modal;
 
-const BASE_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://api.ronweasley.co";
-
 function DisplayPost(props) {
-  let display;
-  if (!isEmpty(props.post_content)) {
-    const options = {
-      inlineStyles: {
-        HIGHLIGHT: {
-          style: { backgroundColor: "#ff0" }
-        },
-        STRIKETHROUGH: {
-          style: { textDecoration: "line-through" }
-        }
-      },
-      blockStyleFn: block => {
-        const blockType = block.get("type");
-        if (
-          blockType === "unordered-list-item" ||
-          blockType === "ordered-list-item"
-        ) {
-          return {
-            style: {
-              marginLeft: 24
-            }
-          };
-        } else if (blockType === "blockquote") {
-          return {
-            style: {
-              padding: 8,
-              fontStyle: "italic",
-              borderLeft: "4px solid rgba(192, 192, 192, 1)"
-            }
-          };
-        }
-      },
-      entityStyleFn: entity => {
-        const entityType = entity.get("type");
-        if (entityType === "IMAGE") {
-          const data = entity.getData();
-          return {
-            element: "img",
-            attributes: {
-              src: data.src
-            },
-            style: {
-              maxWidth: "90%",
-              display: "block",
-              marginLeft: "auto",
-              marginRight: "auto"
-            }
-          };
-        }
-      }
-    };
-
-    display = ReactHtmlParser(
-      stateToHTML(convertFromRaw(JSON.parse(props.post_content)), options)
-    );
-  } else if (!isEmpty(props.post_image)) {
-    let img_url =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:4572/fanart.ronweasley.co"
-        : "http://fanart.ronweasley.co";
-    display = (
-      <div>
-        {props.post_image.map((img, index) => (
-          <div key={index}>
-            <img
-              alt="image"
-              src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
-              style={{
-                maxWidth: "90%",
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginBottom: "64px"
-              }}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  const handleEditPost = (post_secret, post_type, post_id) => {
-    if (post_type.indexOf("fanart") > 0) {
-      return message.error({
-        content:
-          "Fanart edit not supported. To edit, delete current post and make a new one.",
-        duration: 5
-      });
-    }
-    message.loading({
-      content: "Action in progress",
-      duration: 0,
-      key: "handleEditMessage"
-    });
-    let post_data = {
-      post_secret: post_secret
-    };
-    fetch(`${BASE_URL}/edit_post/${post_type}/${post_id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(post_data)
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          message.success({ content: data.message, key: "handleEditMessage" });
-          document.cookie = `${post_id}=${data.access_token}; path=/`;
-          Router.push(
-            "/edit_post/[post_type]/[post_id]",
-            `/edit_post/${post_type}/${post_id}`
-          );
-        } else {
-          message.error({ content: data.message, key: "handleEditMessage" });
-        }
-      });
-  };
-
   const showEditConfirm = () => {
     confirm({
       title: "Edit Post.",
@@ -159,47 +40,35 @@ function DisplayPost(props) {
       cancelText: "No",
       icon: <ExclamationCircleOutlined />,
       onOk() {
+        message.loading({
+          content: "Action in progress",
+          duration: 0,
+          key: "handleEditMessage"
+        });
         handleEditPost(
           document.getElementById("edit_input_post_secret").value,
           props.post_type,
           props.post_id
-        );
+        ).then(data => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "handleEditMessage"
+            });
+            document.cookie = `${post_id}=${data.access_token}; path=/`;
+            Router.push(
+              "/edit_post/[post_type]/[post_id]",
+              `/edit_post/${post_type}/${post_id}`
+            );
+          } else {
+            message.error({ content: data.message, key: "handleEditMessage" });
+          }
+        });
       }
     });
   };
 
   const [deleteAlertDisplay, setDeleteAlertDisplay] = React.useState("none");
-
-  const handleDeletePost = (post_secret, post_type, post_id) => {
-    message.loading({
-      content: "Action in progress",
-      duration: 0,
-      key: "handleDeleteMessage"
-    });
-    let post_data = {
-      post_secret: post_secret
-    };
-    fetch(`${BASE_URL}/delete_post/${post_type}/${post_id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(post_data)
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          message.success({
-            content: data.message,
-            key: "handleDeleteMessage"
-          });
-          setDeleteAlertDisplay("block");
-        } else {
-          message.error({
-            content: data.message,
-            key: "handleDeleteMessage"
-          });
-        }
-      });
-  };
 
   const showDeleteConfirm = () => {
     confirm({
@@ -219,11 +88,29 @@ function DisplayPost(props) {
       cancelText: "No",
       icon: <ExclamationCircleOutlined />,
       onOk() {
+        message.loading({
+          content: "Action in progress",
+          duration: 0,
+          key: "handleDeleteMessage"
+        });
         handleDeletePost(
           document.getElementById("delete_input_post_secret").value,
           props.post_type,
           props.post_id
-        );
+        ).then(data => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "handleDeleteMessage"
+            });
+            setDeleteAlertDisplay("block");
+          } else {
+            message.error({
+              content: data.message,
+              key: "handleDeleteMessage"
+            });
+          }
+        });
       }
     });
   };
@@ -231,39 +118,6 @@ function DisplayPost(props) {
   const [reportAlertDisplay, setReportAlertDisplay] = React.useState(
     props.post_reported ? "block" : "none"
   );
-
-  const handleReportPost = (reported_post_reason, post_type, post_id) => {
-    message.loading({
-      content: "Action in progress",
-      duration: 0,
-      key: "handleReportMessage"
-    });
-    let post_data = {
-      reported_post_reason: reported_post_reason
-    };
-    fetch(`${BASE_URL}/report_post/${post_type}/${post_id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(post_data)
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          message.success({
-            content: data.message,
-            key: "handleReportMessage"
-          });
-          setReportAlertDisplay("block");
-        } else {
-          message.error({
-            content: data.message,
-            key: "handleReportMessage"
-          });
-        }
-      });
-  };
 
   const showReportConfirm = () => {
     confirm({
@@ -279,11 +133,29 @@ function DisplayPost(props) {
       cancelText: "No",
       icon: <ExclamationCircleOutlined />,
       onOk() {
+        message.loading({
+          content: "Action in progress",
+          duration: 0,
+          key: "handleReportMessage"
+        });
         handleReportPost(
           document.getElementById("input_post_report_reason").value,
           props.post_type,
           props.post_id
-        );
+        ).then(data => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "handleReportMessage"
+            });
+            setReportAlertDisplay("block");
+          } else {
+            message.error({
+              content: data.message,
+              key: "handleReportMessage"
+            });
+          }
+        });
       }
     });
   };
@@ -328,17 +200,9 @@ function DisplayPost(props) {
           type={props.inner ? "inner" : null}
           title={
             <span>
-              <Link href={post_url} as={post_as}>
-                <a>
-                  <Typography.Paragraph
-                    strong
-                    ellipsis={{ rows: 1, expandable: true }}
-                    style={{ fontSize: 16 }}
-                  >
-                    {props.post_title}
-                  </Typography.Paragraph>
-                </a>
-              </Link>
+              <Typography.Paragraph strong style={{ fontSize: 16 }}>
+                {props.post_title}
+              </Typography.Paragraph>
               <Typography.Text type="secondary">
                 Author:{" "}
                 <a
@@ -353,9 +217,21 @@ function DisplayPost(props) {
           }
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
-          style={{boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)"}}
         >
-          <div>{display}</div>
+          {
+            <div>
+              {isEmpty(props.post_summary)
+                ? getHTMLFromDraftJS(props.post_content)
+                : getHTMLFromDraftJS(props.post_summary)}
+            </div>
+          }
+          {isEmpty(props.post_summary) ? null : (
+            <div style={{ float: "right" }}>
+              <Link href={post_url} as={post_as} scroll={false}>
+                <a>View</a>
+              </Link>
+            </div>
+          )}
         </Card>
       </div>
       <style jsx>

@@ -16,6 +16,7 @@ import SecondaryLayout from "../../components/SecondaryLayout";
 import DraftJSEditor from "../../components/DraftJSEditor";
 import UploadImage from "../../components/UploadImage";
 import ErrorLayout from "../../components/ErrorLayout";
+import getPostSummary from "../../hooks/getPostSummary";
 
 function NewPost({ query }) {
   const allowedQuery = [
@@ -72,19 +73,30 @@ function NewPost({ query }) {
 
   const display =
     query.indexOf("fanart") > 0 ? (
-      <UploadImage handleImageList={handleImageList} />
+      <div>
+        <UploadImage handleImageList={handleImageList} />
+        <DraftJSEditor
+          handleEditorContent={handleEditorContent}
+          placeholder="Fanart description (optional)"
+        />
+      </div>
     ) : (
-      <DraftJSEditor handleEditorContent={handleEditorContent} />
+      <DraftJSEditor
+        handleEditorContent={handleEditorContent}
+        placeholder="Begin your post here..."
+      />
     );
 
   const add_new_post = () => {
+    let post_summary = getPostSummary(editorContent);
     let post_data = {
       post_type: query,
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
-      post_content: editorContent
+      post_content: editorContent,
+      post_summary: post_summary
     };
     message.loading({
       content: "Action in progress...",
@@ -135,6 +147,7 @@ function NewPost({ query }) {
       "post_secret",
       document.getElementById("post_secret").value
     );
+    post_data.append("post_description", editorContent);
 
     fetch(`${BASE_URL}/new_fanart/${query}`, {
       method: "POST",

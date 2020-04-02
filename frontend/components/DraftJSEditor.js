@@ -433,7 +433,7 @@ function DraftJSEditor(props) {
           customStyleMap={styleMap}
           blockRendererFn={mediaBlockRenderer}
           blockStyleFn={myBlockStyleFn}
-          placeholder="Begin typing here..."
+          placeholder={props.placeholder}
         />
       </div>
       <style jsx global>
