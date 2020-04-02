@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
-import DisplayPost from "../../../components/DisplayPost";
+import DisplayFanart from "../../../components/DisplayFanart";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -60,10 +60,11 @@ function Fanart(props) {
                 lg={{ span: 18, offset: 3 }}
                 xl={{ span: 16, offset: 4 }}
               >
-                <DisplayPost
+                <DisplayFanart
                   inner={false}
                   bordered={true}
                   showActions={true}
+                  is_layout={false}
                   post_reported={
                     isEmpty(props.post.post_reported)
                       ? false
@@ -77,6 +78,11 @@ function Fanart(props) {
                   post_author_link={props.post.post_author_link["S"]}
                   post_date={props.post.post_date["S"]}
                   post_image={props.post.post_image["L"]}
+                  post_description={
+                    isEmpty(props.post_description)
+                      ? ""
+                      : props.post_description["S"]
+                  }
                 />
               </Col>
             </Row>
