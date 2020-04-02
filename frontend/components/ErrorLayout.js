@@ -1,23 +1,30 @@
-import Head from "next/head";
+import { Result, Layout as AntLayout } from "antd";
 
-import { Result } from "antd";
+import { motion } from "framer-motion";
+
+import Footer from "./Footer";
+
+const AntContent = AntLayout.Content;
+const AntFooter = AntLayout.Footer;
 
 function ErrorLayout(props) {
   return (
     <div>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/antd@3.26.4/dist/antd.min.css"
-          type="text/css"
-        />
-      </Head>
-      <Result
-        status={props.status}
-        title={props.title}
-        subTitle={props.subTitle}
-        extra={props.extra}
-      />
+      <AntLayout style={{ minHeight: "100vh" }}>
+        <AntContent>
+          <motion.div exit={{ opacity: 0, transition: { duration: 0.1 } }}>
+            <Result
+              status={props.status}
+              title={props.title}
+              subTitle={props.subTitle}
+              extra={props.extra}
+            />
+          </motion.div>
+        </AntContent>
+        <AntFooter style={{ padding: 0 }}>
+          <Footer />
+        </AntFooter>
+      </AntLayout>
     </div>
   );
 }
