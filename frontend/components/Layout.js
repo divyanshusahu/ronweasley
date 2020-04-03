@@ -51,6 +51,7 @@ function Layout(props) {
                       inner={false}
                       bordered={true}
                       showActions={false}
+                      is_layout={true}
                       key={p.post_id["S"]}
                       post_type={p.post_type["S"]}
                       post_id={p.post_id["S"]}
@@ -86,7 +87,7 @@ function Layout(props) {
           dataSource={props.posts}
           renderItem={p => (
             <List.Item>
-              <motion.div variants={variants}>
+              <motion.div variants={variants} whileHover={{ scale: 1.01 }}>
                 <DisplayPost
                   inner={false}
                   bordered={true}
@@ -98,10 +99,9 @@ function Layout(props) {
                   post_author={p.post_author["S"]}
                   post_author_link={p.post_author_link["S"]}
                   post_date={p.post_date["S"]}
-                  post_content={
-                    isEmpty(p.post_content) ? null : p.post_content["S"]
+                  post_summary={
+                    isEmpty(p.post_summary) ? null : p.post_summary["S"]
                   }
-                  post_image={isEmpty(p.post_image) ? null : p.post_image["L"]}
                 />
               </motion.div>
             </List.Item>
