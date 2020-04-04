@@ -1,25 +1,53 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import fetch from "isomorphic-unfetch";
 
 import { Button } from "antd";
 
 import Layout from "../../components/Layout";
+import postTabHook from "../../hooks/postTabHook";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function RonAndLuna() {
+function RonAndLuna(props) {
+  const router = useRouter();
+  const tab_search_list = [
+    { key: "1", tab: "appreciation" },
+    { key: "2", tab: "fanart" },
+  ];
+
   const [selectedTab, setSelectedTab] = React.useState("appreciation");
+  const [activeTabKey, setActiveTabKey] = React.useState("1");
+
+  React.useEffect(() => {
+    const result = postTabHook(tab_search_list, props.query);
+    if (result.result === -1) {
+      setSelectedTab("appreciation");
+      return;
+    } else if (result.result === -2) {
+      router.replace(router.pathname);
+      setSelectedTab("appreciation");
+      return;
+    } else if (result.result === -3) {
+      router.replace(router.pathname + "?tab=appreciation");
+      setSelectedTab("appreciation");
+      return;
+    } else {
+      setSelectedTab(result.tab);
+      setActiveTabKey(result.key);
+    }
+  }, []);
 
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
     fetch(BASE_URL + "/get_post/ron_and_luna_" + selectedTab)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           getPosts(data.posts);
         }
@@ -27,13 +55,39 @@ function RonAndLuna() {
   }, [selectedTab]);
 
   const tabList = [
-    { key: "1", tab: "Appreciation" },
-    { key: "2", tab: "Fanart" }
+    {
+      key: "1",
+      tab: (
+        <Link href="?tab=appreciation" scroll={false}>
+          <a
+            style={{
+              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)",
+            }}
+          >
+            Appreciation
+          </a>
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      tab: (
+        <Link href="?tab=fanart" scroll={false}>
+          <a
+            style={{
+              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)",
+            }}
+          >
+            Fanart
+          </a>
+        </Link>
+      ),
+    },
   ];
 
-  const [activeTabKey, setActiveTabKey] = React.useState("1");
-  const handleOnTabChange = key => {
+  const handleOnTabChange = (key) => {
     setActiveTabKey(key);
+    getPosts([]);
     if (key === "1") {
       setSelectedTab("appreciation");
     } else if (key === "2") {
@@ -57,9 +111,9 @@ function RonAndLuna() {
       <Layout
         title="Ron-Luna"
         main_heading="Ron-Luna"
-        about_heading="Some lines best describing ron-luna."
-        landscape=""
-        portrait=""
+        about_heading="'She is great isn't she?' said Ron admiringly. 'Always good value.'"
+        landscape="/ron_and_luna/landscape.jpg"
+        portrait="/ron_and_luna/portrait.jpg"
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
@@ -70,5 +124,9 @@ function RonAndLuna() {
     </div>
   );
 }
+
+RonAndLuna.getInitialProps = async ({ query }) => {
+  return { query: query };
+};
 
 export default RonAndLuna;
