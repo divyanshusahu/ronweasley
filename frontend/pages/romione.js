@@ -45,7 +45,6 @@ function Romione(props) {
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
-    getPosts([]);
     if (!selectedTab) return;
 
     fetch(BASE_URL + "/get_post/romione_" + selectedTab)
@@ -90,6 +89,7 @@ function Romione(props) {
 
   const handleOnTabChange = key => {
     setActiveTabKey(key);
+    getPosts([]);
     if (key === "1") {
       setSelectedTab("appreciation");
     } else if (key === "2") {

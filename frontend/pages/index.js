@@ -46,7 +46,6 @@ function Index(props) {
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
-    getPosts([]);
     if (!selectedTab) return;
 
     fetch(BASE_URL + "/get_post/ron_weasley_" + selectedTab)
@@ -105,6 +104,7 @@ function Index(props) {
 
   const handleOnTabChange = key => {
     setActiveTabKey(key);
+    getPosts([]);
     if (key === "1") {
       setSelectedTab("appreciation");
     } else if (key === "2") {
