@@ -1,4 +1,4 @@
-import { Row, Col, Typography, Card, List, Avatar } from "antd";
+import { Row, Col, Typography, Card, List, Avatar, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import Confetti from "react-confetti";
 
@@ -13,7 +13,7 @@ function Credits() {
   const getSize = () => {
     return {
       width: isClient ? document.body.clientWidth : 0,
-      height: isClient ? document.body.scrollHeight : 0
+      height: isClient ? document.body.scrollHeight : 0,
     };
   };
 
@@ -42,13 +42,20 @@ function Credits() {
       y: 0,
       scale: 1,
       opacity: 1,
-      transition: { duration: 0.5 }
+      transition: { duration: 0.5 },
     },
     exit: {
       scale: 0.6,
       opacity: 0,
-      transition: { duration: 0.2 }
-    }
+      transition: { duration: 0.2 },
+    },
+  };
+
+  const [showImageModal, setShowImageModal] = React.useState(false);
+  const [imageURL, setImageURL] = React.useState("#");
+  const handleImagePreview = (url) => {
+    setShowImageModal(true);
+    setImageURL(url);
   };
 
   const credit_display = (title, data) => {
@@ -58,21 +65,31 @@ function Credits() {
           title={title}
           style={{
             boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
-            marginBottom: "64px"
+            marginBottom: "64px",
           }}
         >
           <List
-            itemLayout="horizontal"
+            itemLayout="vertical"
             dataSource={data}
             renderItem={(item, index) => (
-              <List.Item>
+              <List.Item
+                extra={
+                  <img
+                    src={item.thumbnail}
+                    alt="art"
+                    width={64}
+                    onClick={() => handleImagePreview(item.thumbnail)}
+                    style={{ cursor: "pointer" }}
+                  />
+                }
+              >
                 <List.Item.Meta
                   avatar={
                     <Avatar
                       size="large"
                       icon={<UserOutlined />}
                       style={{
-                        backgroundColor: index % 2 ? "#52c41a" : "#faad14"
+                        backgroundColor: index % 2 ? "#52c41a" : "#faad14",
                       }}
                     />
                   }
@@ -105,7 +122,12 @@ function Credits() {
 
   return (
     <div>
-      <Confetti width={windowSize.width} height={windowSize.height} />
+      <Confetti
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+        numberOfPieces={400}
+      />
       <SecondaryLayout title="Credits">
         <motion.div
           initial="initial"
@@ -113,7 +135,7 @@ function Credits() {
           exit="exit"
           variants={{
             enter: { transition: { staggerChildren: 0.1 } },
-            exit: { transition: { staggerChildren: 0.1 } }
+            exit: { transition: { staggerChildren: 0.1 } },
           }}
         >
           <div className="page_root">
@@ -137,16 +159,37 @@ function Credits() {
               >
                 {credit_display("Ron Weasley", credits_data.ron_weasley)}
                 {credit_display("Romione", credits_data.romione)}
-                {credit_display("Golden Trio", credits_data.ron_weasley)}
+                {credit_display("Golden Trio", credits_data.golden_trio)}
+                {credit_display("Weasley Family", credits_data.weasley_family)}
+                {credit_display(
+                  "Ron and Lavender",
+                  credits_data.ron_and_lavender
+                )}
+                {credit_display("Ron and Harry", credits_data.ron_and_harry)}
+                {credit_display("Ron and Luna", credits_data.ron_and_luna)}
               </Col>
             </Row>
           </div>
         </motion.div>
+        <Modal
+          centered
+          width={640}
+          visible={showImageModal}
+          footer={null}
+          onCancel={() => setShowImageModal(false)}
+        >
+          <img src={imageURL} alt="art" className="modal_image" />
+        </Modal>
       </SecondaryLayout>
       <style jsx>
         {`
           .page_root {
             margin: 48px 0;
+          }
+          .modal_image {
+            max-width: 90%;
+            display: block;
+            margin: auto;
           }
         `}
       </style>
