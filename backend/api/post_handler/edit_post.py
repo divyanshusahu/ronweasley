@@ -115,6 +115,10 @@ def update_post(post_type, post_id):
             400,
         )
 
+    post_summary = request.json.get("post_summary", "")
+    if len(post_summary) == 0:
+        return (jsonify({"success": False, "message": "Bad request"}), 400)
+
     post_secret = request.json.get("post_secret", "")
 
     try:
@@ -125,7 +129,8 @@ def update_post(post_type, post_id):
             UpdateExpression="""SET post_title = :post_title,
                                     post_author = :post_author,
                                     post_author_link = :post_author_link,
-                                    post_content = :post_content""",
+                                    post_content = :post_content,
+                                    post_summary = :post_summary""",
             ExpressionAttributeValues={
                 ":post_type": {"S": post_type},
                 ":post_id": {"S": post_id},
@@ -133,6 +138,7 @@ def update_post(post_type, post_id):
                 ":post_author": {"S": post_author},
                 ":post_author_link": {"S": post_author_link},
                 ":post_content": {"S": post_content},
+                ":post_summary": {"S": post_summary},
             },
         )
     except db.exceptions.ConditionalCheckFailedException:
