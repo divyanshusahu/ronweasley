@@ -79,9 +79,9 @@ function Fanart(props) {
                   post_date={props.post.post_date["S"]}
                   post_image={props.post.post_image["L"]}
                   post_description={
-                    isEmpty(props.post_description)
+                    isEmpty(props.post.post_description)
                       ? ""
-                      : props.post_description["S"]
+                      : props.post.post_description["S"]
                   }
                 />
               </Col>

@@ -10,12 +10,13 @@ import {
   SolutionOutlined,
   UserOutlined,
   LinkOutlined,
-  SaveOutlined
+  SaveOutlined,
 } from "@ant-design/icons";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
 import DraftJSEditor from "../../../components/DraftJSEditor";
+import getPostSummary from "../../../hooks/getPostSummary";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -60,7 +61,7 @@ function EditPost(props) {
   const post = props.post;
 
   const [editorContent, setEditorContent] = React.useState("");
-  const handleEditorContent = content => {
+  const handleEditorContent = (content) => {
     setEditorContent(content);
   };
 
@@ -68,14 +69,16 @@ function EditPost(props) {
     message.loading({
       content: "Action in progress",
       duration: 0,
-      key: "editPostMessage"
+      key: "editPostMessage",
     });
+    let post_summary = getPostSummary(editorContent);
     let post_data = {
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
-      post_content: editorContent
+      post_content: editorContent,
+      post_summary: post_summary,
     };
     fetch(
       `${BASE_URL}/edit_post/update/${post.post_type["S"]}/${post.post_id["S"]}`,
@@ -83,13 +86,13 @@ function EditPost(props) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${props.access_token}`
+          Authorization: `Bearer ${props.access_token}`,
         },
-        body: JSON.stringify(post_data)
+        body: JSON.stringify(post_data),
       }
     )
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           message.success({ content: data.message, key: "editPostMessage" });
           Router.replace(
@@ -111,13 +114,13 @@ function EditPost(props) {
             scale: 1,
             y: 0,
             opacity: 1,
-            transition: { duration: 0.5 }
+            transition: { duration: 0.5 },
           }}
           exit={{
             scale: 0.6,
             y: 50,
             opacity: 0,
-            transition: { duration: 0.2 }
+            transition: { duration: 0.2 },
           }}
         >
           <div className="edit_post">
@@ -222,7 +225,7 @@ function EditPost(props) {
   );
 }
 
-EditPost.getInitialProps = async ctx => {
+EditPost.getInitialProps = async (ctx) => {
   const post_type = ctx.query.post_type;
   const post_id = ctx.query.post_id;
   const r1 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
@@ -233,9 +236,9 @@ EditPost.getInitialProps = async ctx => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${access_token}`
+        Authorization: `Bearer ${access_token}`,
       },
-      body: JSON.stringify({ post_id: post_id })
+      body: JSON.stringify({ post_id: post_id }),
     });
     const d2 = await r2.json();
     if (d2.success) {
@@ -243,7 +246,7 @@ EditPost.getInitialProps = async ctx => {
         post_exist: true,
         authorized: true,
         post: d1.post,
-        access_token: access_token
+        access_token: access_token,
       };
     } else {
       return { post_exist: true, authorized: false };
