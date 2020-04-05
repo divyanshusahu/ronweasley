@@ -12,13 +12,17 @@ function getPostSummary(content) {
     if (summary_characters.length >= max_characters) {
       break;
     }
+    let current_block_text = content["blocks"][i]["text"];
+    let remaining_length = max_characters - summary_characters.length;
+    let block_insert_string = current_block_text.substr(0, remaining_length);
     summary_characters += content["blocks"][i]["text"];
+    content["blocks"][i]["text"] = block_insert_string;
     summary_array.push(content["blocks"][i]);
   }
 
   return JSON.stringify({
     blocks: summary_array,
-    entityMap: content.entityMap
+    entityMap: content.entityMap,
   });
 }
 
