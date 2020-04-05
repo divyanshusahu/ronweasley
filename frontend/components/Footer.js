@@ -5,7 +5,7 @@ import {
   GithubOutlined,
   TwitterOutlined,
   GoogleOutlined,
-  InstagramOutlined
+  InstagramOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
@@ -18,11 +18,37 @@ function Footer() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Ron Weasley" />
         <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto"
         />
         <link
-          href="https://fonts.googleapis.com/css?family=Allerta"
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Karla"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Proza+Libre"
           rel="stylesheet"
         />
         <link
@@ -36,9 +62,10 @@ function Footer() {
           <Paragraph
             style={{
               textAlign: "center",
-              fontSize: "1rem",
+              fontSize: "18px",
               color: "#f0f0f0",
-              fontFamily: "Allerta"
+              fontWeight: "400",
+              fontFamily: "Karla",
             }}
           >
             A website inspired by the excellent work of Ron Weasley Defense
@@ -53,7 +80,7 @@ function Footer() {
             fontSize: "16px",
             color: "rgba(240,240,240,0.6)",
             marginRight: "8px",
-            fontFamily: "Allerta"
+            fontFamily: "Karla",
           }}
         >
           Contact admin

@@ -6,14 +6,14 @@ import {
   EditOutlined,
   DeleteOutlined,
   FlagOutlined,
-  ExclamationCircleOutlined
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
 import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
 import {
   handleEditFanart,
   handleDeletePost,
-  handleReportPost
+  handleReportPost,
 } from "../hooks/postActionsUtils";
 
 const { confirm } = Modal;
@@ -51,10 +51,10 @@ function DisplayFanart(props) {
           return message.error({
             content:
               "Fanart edit not supported. To edit, delete current post and make a new one.",
-            duration: 5
+            duration: 5,
           });
         }
-      }
+      },
     });
   };
 
@@ -81,27 +81,27 @@ function DisplayFanart(props) {
         message.loading({
           content: "Action in progress",
           duration: 0,
-          key: "handleDeleteMessage"
+          key: "handleDeleteMessage",
         });
         handleDeletePost(
           document.getElementById("delete_input_post_secret").value,
           props.post_type,
           props.post_id
-        ).then(data => {
+        ).then((data) => {
           if (data.success) {
             message.success({
               content: data.message,
-              key: "handleDeleteMessage"
+              key: "handleDeleteMessage",
             });
             setDeleteAlertDisplay("block");
           } else {
             message.error({
               content: data.message,
-              key: "handleDeleteMessage"
+              key: "handleDeleteMessage",
             });
           }
         });
-      }
+      },
     });
   };
 
@@ -126,34 +126,34 @@ function DisplayFanart(props) {
         message.loading({
           content: "Action in progress",
           duration: 0,
-          key: "handleReportMessage"
+          key: "handleReportMessage",
         });
         handleReportPost(
           document.getElementById("input_post_report_reason").value,
           props.post_type,
           props.post_id
-        ).then(data => {
+        ).then((data) => {
           if (data.success) {
             message.success({
               content: data.message,
-              key: "handleReportMessage"
+              key: "handleReportMessage",
             });
             setReportAlertDisplay("block");
           } else {
             message.error({
               content: data.message,
-              key: "handleReportMessage"
+              key: "handleReportMessage",
             });
           }
         });
-      }
+      },
     });
   };
 
   const actions = [
     <EditOutlined title="Edit Post" onClick={showEditConfirm} />,
     <DeleteOutlined title="Delete Post" onClick={showDeleteConfirm} />,
-    <FlagOutlined title="Report Post" onClick={showReportConfirm} />
+    <FlagOutlined title="Report Post" onClick={showReportConfirm} />,
   ];
 
   return (
@@ -181,15 +181,15 @@ function DisplayFanart(props) {
           title={
             props.is_layout ? null : (
               <span>
-                <Typography.Paragraph strong style={{ fontSize: 16 }}>
+                <Typography.Paragraph strong style={{ fontSize: 18 }}>
                   {props.post_title}
                 </Typography.Paragraph>
-                <Typography.Text type="secondary">
-                  Author:{" "}
+                <Typography.Text type="secondary" style={{ fontSize: 14 }}>
+                  Artist:{" "}
                   <a
                     href={props.post_author_link}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: "inherit", fontWeight: "bold" }}
                   >
                     {props.post_author}
                   </a>
@@ -217,7 +217,7 @@ function DisplayFanart(props) {
           {props.is_layout ? (
             <Card.Meta
               title={props.post_title}
-              description={`Author: ${props.post_author}`}
+              description={`Artist: ${props.post_author}`}
             />
           ) : null}
           {props.is_layout ? null : (
@@ -232,7 +232,7 @@ function DisplayFanart(props) {
                       display: "block",
                       marginLeft: "auto",
                       marginRight: "auto",
-                      marginBottom: "64px"
+                      marginBottom: "64px",
                     }}
                   />
                 </div>
@@ -240,7 +240,7 @@ function DisplayFanart(props) {
             </div>
           )}
           {props.is_layout ? null : (
-            <div>
+            <div className="art_description">
               {isEmpty(props.post_description)
                 ? null
                 : getHTMLFromDraftJS(props.post_description)}
@@ -261,6 +261,10 @@ function DisplayFanart(props) {
           .display_post_card {
             margin-bottom: 48px;
             box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
+          }
+          .art_description {
+            font-size: 16px;
+            font-family: "Open Sans";
           }
         `}
       </style>

@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 
 import clsx from "clsx";
@@ -25,12 +24,13 @@ function NavigationBar(props) {
             <p
               style={{
                 fontSize: "16px",
+                fontWeight: "600",
                 lineHeight: "64px",
-                fontFamily: "Capriola",
+                fontFamily: "Proza Libre",
                 color: "#000",
                 marginBottom: 0,
                 border: "1px solid rgba(128,128,128,0.25)",
-                borderTop: "none"
+                borderTop: "none",
               }}
             >
               Golden Trio
@@ -44,12 +44,13 @@ function NavigationBar(props) {
             <p
               style={{
                 fontSize: "16px",
+                fontWeight: "600",
                 lineHeight: "64px",
-                fontFamily: "Capriola",
+                fontFamily: "Proza Libre",
                 color: "#000",
                 marginBottom: 0,
                 border: "1px solid rgba(128,128,128,0.25)",
-                borderTop: "none"
+                borderTop: "none",
               }}
             >
               Weasley Family
@@ -68,12 +69,13 @@ function NavigationBar(props) {
             <p
               style={{
                 fontSize: "16px",
+                fontWeight: "600",
                 lineHeight: "64px",
-                fontFamily: "Capriola",
+                fontFamily: "Proza Libre",
                 color: "#000",
                 marginBottom: 0,
                 border: "1px solid rgba(128,128,128,0.25)",
-                borderTop: "none"
+                borderTop: "none",
               }}
             >
               Ron-Lavender
@@ -87,12 +89,13 @@ function NavigationBar(props) {
             <p
               style={{
                 fontSize: "16px",
+                fontWeight: "600",
                 lineHeight: "64px",
-                fontFamily: "Capriola",
+                fontFamily: "Proza Libre",
                 color: "#000",
                 marginBottom: 0,
                 border: "1px solid rgba(128,128,128,0.25)",
-                borderTop: "none"
+                borderTop: "none",
               }}
             >
               Ron-Harry
@@ -106,12 +109,13 @@ function NavigationBar(props) {
             <p
               style={{
                 fontSize: "16px",
+                fontWeight: "600",
                 lineHeight: "64px",
-                fontFamily: "Capriola",
+                fontFamily: "Proza Libre",
                 color: "#000",
                 marginBottom: 0,
                 border: "1px solid rgba(128,128,128,0.25)",
-                borderTop: "none"
+                borderTop: "none",
               }}
             >
               Ron-Luna
@@ -126,19 +130,9 @@ function NavigationBar(props) {
     <div
       className={clsx({
         dark: props.dark,
-        light: props.light
+        light: props.light,
       })}
     >
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css?family=Capriola"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Shojumaru"
-          rel="stylesheet"
-        />
-      </Head>
       <div>
         <Row>
           <Col xs={{ span: 22, offset: 1 }}>
@@ -210,7 +204,15 @@ function NavigationBar(props) {
                   <Drawer
                     title={
                       <Link href="/">
-                        <a>King Weasley</a>
+                        <a
+                          style={{
+                            fontFamily: "Proza Libre",
+                            fontWeight: 800,
+                            fontSize: 24,
+                          }}
+                        >
+                          King Weasley
+                        </a>
                       </Link>
                     }
                     placement="left"
@@ -218,7 +220,11 @@ function NavigationBar(props) {
                     onClose={handleDrawerClose}
                     destroyOnClose
                   >
-                    <Menu mode="inline" style={{ border: "none" }}>
+                    <Menu
+                      mode="inline"
+                      style={{ border: "none" }}
+                      style={{ fontFamily: "Proza Libre", fontWeight: 600 }}
+                    >
                       <SubMenu title="Friendships">
                         <Item>
                           <Link href="/friendships/golden_trio">
@@ -315,8 +321,9 @@ function NavigationBar(props) {
           }
           .navigation_logo_text {
             line-height: 64px;
-            font-size: 24px;
-            font-family: "Shojumaru";
+            font-size: 28px;
+            font-family: "Proza Libre";
+            font-weight: 800;
             margin-bottom: 0;
           }
           .navigation_links {
@@ -337,7 +344,8 @@ function NavigationBar(props) {
           .navigation_text {
             line-height: 64px;
             font-size: 16px;
-            font-family: "Capriola";
+            font-weight: 600;
+            font-family: "Proza Libre";
             margin-bottom: 0;
           }
         `}

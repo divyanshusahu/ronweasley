@@ -9,14 +9,14 @@ import {
   EditOutlined,
   DeleteOutlined,
   FlagOutlined,
-  ExclamationCircleOutlined
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
 import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
 import {
   handleEditPost,
   handleDeletePost,
-  handleReportPost
+  handleReportPost,
 } from "../hooks/postActionsUtils";
 
 const { confirm } = Modal;
@@ -43,28 +43,28 @@ function DisplayPost(props) {
         message.loading({
           content: "Action in progress",
           duration: 0,
-          key: "handleEditMessage"
+          key: "handleEditMessage",
         });
         handleEditPost(
           document.getElementById("edit_input_post_secret").value,
           props.post_type,
           props.post_id
-        ).then(data => {
+        ).then((data) => {
           if (data.success) {
             message.success({
               content: data.message,
-              key: "handleEditMessage"
+              key: "handleEditMessage",
             });
-            document.cookie = `${post_id}=${data.access_token}; path=/`;
+            document.cookie = `${props.post_id}=${data.access_token}; path=/`;
             Router.push(
               "/edit_post/[post_type]/[post_id]",
-              `/edit_post/${post_type}/${post_id}`
+              `/edit_post/${props.post_type}/${props.post_id}`
             );
           } else {
             message.error({ content: data.message, key: "handleEditMessage" });
           }
         });
-      }
+      },
     });
   };
 
@@ -91,27 +91,27 @@ function DisplayPost(props) {
         message.loading({
           content: "Action in progress",
           duration: 0,
-          key: "handleDeleteMessage"
+          key: "handleDeleteMessage",
         });
         handleDeletePost(
           document.getElementById("delete_input_post_secret").value,
           props.post_type,
           props.post_id
-        ).then(data => {
+        ).then((data) => {
           if (data.success) {
             message.success({
               content: data.message,
-              key: "handleDeleteMessage"
+              key: "handleDeleteMessage",
             });
             setDeleteAlertDisplay("block");
           } else {
             message.error({
               content: data.message,
-              key: "handleDeleteMessage"
+              key: "handleDeleteMessage",
             });
           }
         });
-      }
+      },
     });
   };
 
@@ -136,34 +136,34 @@ function DisplayPost(props) {
         message.loading({
           content: "Action in progress",
           duration: 0,
-          key: "handleReportMessage"
+          key: "handleReportMessage",
         });
         handleReportPost(
           document.getElementById("input_post_report_reason").value,
           props.post_type,
           props.post_id
-        ).then(data => {
+        ).then((data) => {
           if (data.success) {
             message.success({
               content: data.message,
-              key: "handleReportMessage"
+              key: "handleReportMessage",
             });
             setReportAlertDisplay("block");
           } else {
             message.error({
               content: data.message,
-              key: "handleReportMessage"
+              key: "handleReportMessage",
             });
           }
         });
-      }
+      },
     });
   };
 
   const actions = [
     <EditOutlined title="Edit Post" onClick={showEditConfirm} />,
     <DeleteOutlined title="Delete Post" onClick={showDeleteConfirm} />,
-    <FlagOutlined title="Report Post" onClick={showReportConfirm} />
+    <FlagOutlined title="Report Post" onClick={showReportConfirm} />,
   ];
 
   const post_url =
@@ -200,15 +200,15 @@ function DisplayPost(props) {
           type={props.inner ? "inner" : null}
           title={
             <span>
-              <Typography.Paragraph strong style={{ fontSize: 16 }}>
+              <Typography.Paragraph strong style={{ fontSize: 18 }}>
                 {props.post_title}
               </Typography.Paragraph>
-              <Typography.Text type="secondary">
+              <Typography.Text type="secondary" style={{ fontSize: 14 }}>
                 Author:{" "}
                 <a
                   href={props.post_author_link}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "inherit", fontWeight: "bold" }}
                 >
                   {props.post_author}
                 </a>
@@ -219,7 +219,7 @@ function DisplayPost(props) {
           actions={props.showActions ? actions : null}
         >
           {
-            <div>
+            <div className="post_text">
               {isEmpty(props.post_summary)
                 ? getHTMLFromDraftJS(props.post_content)
                 : getHTMLFromDraftJS(props.post_summary)}
@@ -247,6 +247,11 @@ function DisplayPost(props) {
           .display_post_card {
             margin-bottom: 48px;
             box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
+          }
+          .post_text {
+            font-size: 16px;
+            font-family: "Open Sans";
+            color: rgba(0, 0, 0, 0.75);
           }
         `}
       </style>
