@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 import boto3
 import os
 from datetime import datetime, timezone
+import uuid
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -156,5 +157,75 @@ def reply_post(post_type, post_id):
         return jsonify({"success": True, "message": "Successfully Replied"}), 200
     except db.exceptions.ConditionalCheckFailedException:
         return jsonify({"success": False, "message": "Post does not exist"}), 404
+
+    return jsonify({"success": False, "message": "Bad Request"}), 400
+
+
+@admin.route("/add_story", methods=["POST"])
+@jwt_required
+def add_story():
+    if request.is_json == False:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
+
+    identity = get_jwt_identity()
+
+    if identity != os.environ["ADMIN_USERNAME"]:
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+
+    post_title = request.json.get("post_title", "")
+    if len(post_title) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    post_author = request.json.get("post_author", "")
+    if len(post_author) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    post_type = request.json.get("post_type", "")
+    if len(post_type) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    story_status = request.json.get("story_status", "")
+    if len(story_status) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    story_type = request.json.get("story_type", "")
+    if len(story_type) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    story_url = request.json.get("story_url", "")
+    if len(story_url) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    chapters_url = request.json.get("chapters_url", "")
+    if len(chapters_url) == 0:
+        return jsonify({"success": False, "message": "Bad request"}), 400
+
+    post_id = uuid.uuid1().hex
+
+    allowed_types = ["checkmated"]
+
+    if post_type not in allowed_types:
+        return jsonify({"success": False, "message": "Bad Request"}), 400
+
+    for i in range(len(chapters_url)):
+        chapters_url[i] = {"S": chapters_url[i]}
+
+    try:
+        db.put_item(
+            TableName=os.environ["POST_TABLE"],
+            Item={
+                "post_type": {"S": post_type},
+                "post_id": {"S": post_id},
+                "post_title": {"S": post_title},
+                "post_author": {"S": post_author},
+                "story_status": {"S": story_status},
+                "story_type": {"S": story_type},
+                "story_url": {"S": story_url},
+                "chapters_url": {"L": chapters_url},
+            },
+        )
+        return jsonify({"success": True, "message": "Story added successfully"}), 200
+    except:
+        return jsonify({"success": False, "message": "Unexpected error occurred"}), 500
 
     return jsonify({"success": False, "message": "Bad Request"}), 400

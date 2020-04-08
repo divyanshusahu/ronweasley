@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 
 from api.post_handler.new_post import new_post
 from api.post_handler.get_post import get_post
+from api.post_handler.get_story import get_story
 from api.post_handler.delete_post import delete_post
 from api.post_handler.report_post import report_post
 from api.post_handler.edit_post import edit_post
@@ -25,6 +26,7 @@ jwt = JWTManager(app)
 
 app.register_blueprint(new_post)
 app.register_blueprint(get_post)
+app.register_blueprint(get_story)
 app.register_blueprint(delete_post)
 app.register_blueprint(report_post)
 app.register_blueprint(edit_post)
