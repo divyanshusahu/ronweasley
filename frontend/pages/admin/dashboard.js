@@ -251,6 +251,17 @@ function Dashboard(props) {
           exit={{ opacity: 0 }}
         >
           <div className="admin_area">
+            <Link href="/admin/story">
+              <a>
+                <Button
+                  size="large"
+                  type="primary"
+                  style={{ margin: "0 0 32px 32px" }}
+                >
+                  Add Story
+                </Button>
+              </a>
+            </Link>
             <Row gutter={[0, 32]}>
               <Col xs={{ span: 22, offset: 1 }} lg={{ span: 9, offset: 1 }}>
                 <Card title="Reported Post">
