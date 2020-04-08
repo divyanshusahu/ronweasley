@@ -125,7 +125,7 @@ function RonAndLuna(props) {
   );
 }
 
-RonAndLuna.getInitialProps = async ({ query }) => {
+RonAndLuna.getInitialProps = ({ query }) => {
   return { query: query };
 };
 

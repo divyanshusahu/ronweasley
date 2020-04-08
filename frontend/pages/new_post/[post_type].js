@@ -6,7 +6,7 @@ import {
   SaveOutlined,
   SolutionOutlined,
   UserOutlined,
-  LinkOutlined
+  LinkOutlined,
 } from "@ant-design/icons";
 
 import fetch from "isomorphic-unfetch";
@@ -34,7 +34,7 @@ function NewPost({ query }) {
     "ron_and_harry_appreciation",
     "ron_and_harry_fanart",
     "ron_and_luna_appreciation",
-    "ron_and_luna_fanart"
+    "ron_and_luna_fanart",
   ];
 
   const BASE_URL =
@@ -42,7 +42,7 @@ function NewPost({ query }) {
       ? "http://localhost:5000"
       : "https://api.ronweasley.co";
 
-  if (allowedQuery.findIndex(q => q == query) === -1) {
+  if (allowedQuery.findIndex((q) => q == query) === -1) {
     return (
       <ErrorLayout
         status="404"
@@ -62,12 +62,12 @@ function NewPost({ query }) {
   let title = query.replace(/_/g, " ");
 
   const [editorContent, setEditorContent] = React.useState("");
-  const handleEditorContent = content => {
+  const handleEditorContent = (content) => {
     setEditorContent(content);
   };
 
   const [imageList, setImageList] = React.useState([]);
-  const handleImageList = list => {
+  const handleImageList = (list) => {
     setImageList(list);
   };
 
@@ -96,21 +96,21 @@ function NewPost({ query }) {
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
       post_content: editorContent,
-      post_summary: post_summary
+      post_summary: post_summary,
     };
     message.loading({
       content: "Action in progress...",
-      key: "newPostLoading"
+      key: "newPostLoading",
     });
     fetch(BASE_URL + "/new_post/" + query, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(post_data)
+      body: JSON.stringify(post_data),
     })
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           message.success({ content: data.message, key: "newPostLoading" });
           Router.replace(
@@ -127,10 +127,10 @@ function NewPost({ query }) {
     message.loading({
       content: "Action in progress...",
       duration: 0,
-      key: "newFanart"
+      key: "newFanart",
     });
     let post_data = new FormData();
-    imageList.forEach(file => {
+    imageList.forEach((file) => {
       post_data.append("files", file);
     });
     post_data.append("post_type", query);
@@ -151,10 +151,10 @@ function NewPost({ query }) {
 
     fetch(`${BASE_URL}/new_fanart/${query}`, {
       method: "POST",
-      body: post_data
+      body: post_data,
     })
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           message.success({ content: data.message, key: "newFanart" });
           Router.replace(
@@ -189,13 +189,13 @@ function NewPost({ query }) {
             scale: 1,
             y: 0,
             opacity: 1,
-            transition: { duration: 0.5 }
+            transition: { duration: 0.5 },
           }}
           exit={{
             scale: 0.6,
             y: 50,
             opacity: 0,
-            transition: { duration: 0.2 }
+            transition: { duration: 0.2 },
           }}
         >
           <div className="page_root">
@@ -286,7 +286,7 @@ function NewPost({ query }) {
   );
 }
 
-NewPost.getInitialProps = async ({ query }) => {
+NewPost.getInitialProps = ({ query }) => {
   return { query: query.post_type };
 };
 

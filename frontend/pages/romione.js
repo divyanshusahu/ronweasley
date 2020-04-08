@@ -17,7 +17,7 @@ function Romione(props) {
   const router = useRouter();
   const tab_search_list = [
     { key: "1", tab: "appreciation" },
-    { key: "2", tab: "fanart" }
+    { key: "2", tab: "fanart" },
   ];
 
   const [selectedTab, setSelectedTab] = React.useState(null);
@@ -48,8 +48,8 @@ function Romione(props) {
     if (!selectedTab) return;
 
     fetch(BASE_URL + "/get_post/romione_" + selectedTab)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           getPosts(data.posts);
         }
@@ -63,13 +63,13 @@ function Romione(props) {
         <Link href="?tab=appreciation" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Appreciation
           </a>
         </Link>
-      )
+      ),
     },
     {
       key: "2",
@@ -77,17 +77,17 @@ function Romione(props) {
         <Link href="?tab=fanart" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Fanart
           </a>
         </Link>
-      )
-    }
+      ),
+    },
   ];
 
-  const handleOnTabChange = key => {
+  const handleOnTabChange = (key) => {
     setActiveTabKey(key);
     getPosts([]);
     if (key === "1") {
@@ -123,7 +123,7 @@ function Romione(props) {
   );
 }
 
-Romione.getInitialProps = async ({ query }) => {
+Romione.getInitialProps = ({ query }) => {
   return { query: query };
 };
 

@@ -18,7 +18,7 @@ function Index(props) {
   const tab_search_list = [
     { key: "1", tab: "appreciation" },
     { key: "2", tab: "defense" },
-    { key: "3", tab: "fanart" }
+    { key: "3", tab: "fanart" },
   ];
 
   const [selectedTab, setSelectedTab] = React.useState(null);
@@ -49,8 +49,8 @@ function Index(props) {
     if (!selectedTab) return;
 
     fetch(BASE_URL + "/get_post/ron_weasley_" + selectedTab)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           getPosts(data.posts);
         }
@@ -64,13 +64,13 @@ function Index(props) {
         <Link href="?tab=appreciation" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Appreciation
           </a>
         </Link>
-      )
+      ),
     },
     {
       key: "2",
@@ -78,13 +78,13 @@ function Index(props) {
         <Link href="?tab=defense" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Defense
           </a>
         </Link>
-      )
+      ),
     },
     {
       key: "3",
@@ -92,17 +92,17 @@ function Index(props) {
         <Link href="?tab=fanart" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 3 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 3 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Fanart
           </a>
         </Link>
-      )
-    }
+      ),
+    },
   ];
 
-  const handleOnTabChange = key => {
+  const handleOnTabChange = (key) => {
     setActiveTabKey(key);
     getPosts([]);
     if (key === "1") {
@@ -143,7 +143,7 @@ function Index(props) {
   );
 }
 
-Index.getInitialProps = async ({ query }) => {
+Index.getInitialProps = ({ query }) => {
   return { query: query };
 };
 

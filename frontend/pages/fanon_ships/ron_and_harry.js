@@ -17,7 +17,7 @@ function RonAndHarry(props) {
   const router = useRouter();
   const tab_search_list = [
     { key: "1", tab: "appreciation" },
-    { key: "2", tab: "fanart" }
+    { key: "2", tab: "fanart" },
   ];
 
   const [selectedTab, setSelectedTab] = React.useState("appreciation");
@@ -46,8 +46,8 @@ function RonAndHarry(props) {
 
   React.useEffect(() => {
     fetch(BASE_URL + "/get_post/ron_and_harry_" + selectedTab)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           getPosts(data.posts);
         }
@@ -61,13 +61,13 @@ function RonAndHarry(props) {
         <Link href="?tab=appreciation" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Appreciation
           </a>
         </Link>
-      )
+      ),
     },
     {
       key: "2",
@@ -75,17 +75,17 @@ function RonAndHarry(props) {
         <Link href="?tab=fanart" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)"
+              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)",
             }}
           >
             Fanart
           </a>
         </Link>
-      )
-    }
+      ),
+    },
   ];
 
-  const handleOnTabChange = key => {
+  const handleOnTabChange = (key) => {
     setActiveTabKey(key);
     getPosts([]);
     if (key === "1") {
@@ -126,7 +126,7 @@ function RonAndHarry(props) {
   );
 }
 
-RonAndHarry.getInitialProps = async ({ query }) => {
+RonAndHarry.getInitialProps = ({ query }) => {
   return { query: query };
 };
 
