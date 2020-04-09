@@ -152,7 +152,7 @@ function NavigationBar(props) {
                         placement="bottomCenter"
                         overlay={FriendshipsMenu}
                         trigger={["hover", "click"]}
-                        overlayStyle={{ width: "150px" }}
+                        overlayStyle={{ width: "128px" }}
                         getPopupContainer={() =>
                           document.getElementsByClassName("navigation_item")[0]
                         }
@@ -172,13 +172,20 @@ function NavigationBar(props) {
                         placement="bottomCenter"
                         overlay={FanonshipMenu}
                         trigger={["hover", "click"]}
-                        overlayStyle={{ width: "150px" }}
+                        overlayStyle={{ width: "128px" }}
                         getPopupContainer={() =>
                           document.getElementsByClassName("navigation_item")[2]
                         }
                       >
                         <p className="navigation_text">Fanon Ships</p>
                       </Dropdown>
+                    </li>
+                    <li className="navigation_item">
+                      <Link href="/fanfiction">
+                        <a>
+                          <p className="navigation_text">Fanfiction</p>
+                        </a>
+                      </Link>
                     </li>
                     <li className="navigation_item">
                       <Link href="/suggestions">
@@ -260,6 +267,11 @@ function NavigationBar(props) {
                         </Item>
                       </SubMenu>
                       <Item>
+                        <Link href="/fanfiction">
+                          <a>Fanfiction</a>
+                        </Link>
+                      </Item>
+                      <Item>
                         <Link href="/suggestions">
                           <a>Suggestions</a>
                         </Link>
@@ -333,7 +345,7 @@ function NavigationBar(props) {
           }
           .navigation_item {
             cursor: pointer;
-            width: 150px;
+            width: 128px;
             text-align: center;
             transition: 0.5s;
           }
