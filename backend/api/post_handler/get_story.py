@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import boto3
 import os
 
@@ -23,17 +23,34 @@ def get_story_by_post_type(post_type):
         "post_type, post_id, post_title, post_author, story_type, story_status"
     )
 
+    last_post_id = request.args.get("last_post_id", "0")
+
     try:
         result = db.query(
             TableName=os.environ["POST_TABLE"],
             ProjectionExpression=projectionExpression,
             KeyConditionExpression="post_type = :post_type",
             ExpressionAttributeValues={":post_type": {"S": post_type}},
+            ExclusiveStartKey={
+                "post_type": {"S": post_type},
+                "post_id": {"S": last_post_id},
+            },
+            Limit=100,
         )
 
+        if "LastEvaluatedKey" in result:
+            return (
+                jsonify(
+                    {
+                        "success": True,
+                        "stories": result["Items"],
+                        "last_key": result["LastEvaluatedKey"],
+                    }
+                ),
+                200,
+            )
         return jsonify({"success": True, "stories": result["Items"]}), 200
-    except Exception as e:
-        print(e)
+    except:
         return jsonify({"success": False, "message": "Bad Request"}), 400
 
 

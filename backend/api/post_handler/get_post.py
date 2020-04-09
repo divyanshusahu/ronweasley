@@ -61,8 +61,7 @@ def get_post_by_type(post_type):
         )
 
         return jsonify({"success": True, "posts": send_result}), 200
-    except Exception as e:
-        print(e)
+    except:
         return jsonify({"success": False, "message": "An error occurred"}), 500
 
 
