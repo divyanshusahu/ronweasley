@@ -22,6 +22,7 @@ function WeasleyFamily(props) {
 
   const [selectedTab, setSelectedTab] = React.useState("appreciation");
   const [activeTabKey, setActiveTabKey] = React.useState("1");
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const result = postTabHook(tab_search_list, props.query);
@@ -45,12 +46,16 @@ function WeasleyFamily(props) {
   const [posts, getPosts] = React.useState([]);
 
   React.useEffect(() => {
+    if (!selectedTab) return;
+
+    setLoading(true);
     fetch(BASE_URL + "/get_post/weasley_family_" + selectedTab)
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
           getPosts(data.posts);
         }
+        setLoading(false);
       });
   }, [selectedTab]);
 
@@ -120,6 +125,7 @@ function WeasleyFamily(props) {
         tabBarExtraContent={tabBarExtraContent}
         posts={posts}
         type={selectedTab}
+        loading={loading}
       />
     </div>
   );

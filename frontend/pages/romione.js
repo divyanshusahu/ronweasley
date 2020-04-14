@@ -22,6 +22,7 @@ function Romione(props) {
 
   const [selectedTab, setSelectedTab] = React.useState(null);
   const [activeTabKey, setActiveTabKey] = React.useState("1");
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const result = postTabHook(tab_search_list, props.query);
@@ -47,12 +48,14 @@ function Romione(props) {
   React.useEffect(() => {
     if (!selectedTab) return;
 
+    setLoading(true);
     fetch(BASE_URL + "/get_post/romione_" + selectedTab)
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
           getPosts(data.posts);
         }
+        setLoading(false);
       });
   }, [selectedTab]);
 
@@ -119,6 +122,7 @@ function Romione(props) {
       tabBarExtraContent={tabBarExtraContent}
       posts={posts}
       type={selectedTab}
+      loading={loading}
     />
   );
 }

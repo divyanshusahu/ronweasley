@@ -22,7 +22,7 @@ function Layout(props) {
   const variants = {
     initial: { scale: 0.9, opacity: 0 },
     enter: { scale: 1, opacity: 1, transition: { duration: 0.5 } },
-    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } }
+    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } },
   };
 
   if (props.type === "fanart") {
@@ -32,13 +32,14 @@ function Layout(props) {
         animate="enter"
         exit="exit"
         variants={{
-          enter: { transition: { staggerChildren: 0.1 } }
+          enter: { transition: { staggerChildren: 0.1 } },
         }}
       >
         <List
+          loading={props.loading}
           grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }}
           dataSource={props.posts}
-          renderItem={p => (
+          renderItem={(p) => (
             <List.Item>
               <Link
                 href="/fanart/[post_type]/[post_id]"
@@ -78,14 +79,15 @@ function Layout(props) {
         animate="enter"
         exit="exit"
         variants={{
-          enter: { transition: { staggerChildren: 0.1 } }
+          enter: { transition: { staggerChildren: 0.1 } },
         }}
       >
         <List
+          loading={props.loading}
           itemLayout="vertical"
           split={false}
           dataSource={props.posts}
-          renderItem={p => (
+          renderItem={(p) => (
             <List.Item>
               <motion.div variants={variants} whileHover={{ scale: 1.01 }}>
                 <DisplayPost
@@ -122,7 +124,7 @@ function Layout(props) {
             style={{
               padding: 0,
               background: "transparent",
-              zIndex: 10
+              zIndex: 10,
             }}
           >
             <NavigationBar dark={true} />
@@ -149,17 +151,17 @@ function Layout(props) {
                   <Card
                     tabList={props.tabList}
                     activeTabKey={props.activeTabKey}
-                    onTabChange={key => {
+                    onTabChange={(key) => {
                       props.onTabChange(key);
                     }}
                     tabBarExtraContent={props.tabBarExtraContent}
                     bodyStyle={{
                       paddingLeft: 8,
                       paddingRight: 8,
-                      backgroundColor: "rgb(244, 248, 251)"
+                      backgroundColor: "rgb(244, 248, 251)",
                     }}
                     headStyle={{
-                      backgroundColor: "rgb(244, 248, 251)"
+                      backgroundColor: "rgb(244, 248, 251)",
                     }}
                     bordered={false}
                   >
