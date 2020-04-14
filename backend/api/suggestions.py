@@ -3,6 +3,7 @@ import boto3
 import os
 import uuid
 from datetime import datetime, timezone
+import requests
 
 suggestions = Blueprint("suggestions", __name__, url_prefix="/new_suggestion")
 
@@ -20,6 +21,23 @@ def add_suggestions(suggestion_type):
         return jsonify({"success": False, "message": "Bad Request"}), 400
 
     post_content = request.json.get("post_content", "")
+    g_recaptcha_response = request.json.get("g-recaptcha-response", "")
+
+    recaptcha = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={
+            "secret": os.environ["RECAPTCHA_SECRET_KEY"],
+            "response": g_recaptcha_response,
+        },
+    )
+    recaptcha_response = recaptcha.json()
+
+    if recaptcha_response["success"] != True:
+        return (
+            jsonify({"success": False, "message": "Captcha verification failed"}),
+            400,
+        )
+
     if len(post_content) < 4:
         return (
             jsonify(

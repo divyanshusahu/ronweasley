@@ -44,6 +44,7 @@ provider:
     ADMIN_USERNAME: ${${self:custom.config}:ADMIN_USERNAME}
     ADMIN_PASSWORD: ${${self:custom.config}:ADMIN_PASSWORD}
     BUCKET_NAME: ${${self:custom.config}:BUCKET_NAME}
+    RECAPTCHA_SECRET_KEY: ${${self:custom.config}:RECAPTCHA_SECRET_KEY}
 
 functions:
   app:

@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime, timezone
 import validators
 import hashlib
+import requests
 
 new_post = Blueprint("new_post", __name__, url_prefix="/new_post")
 
@@ -65,6 +66,23 @@ def insert_post(post_type):
 
     post_data = request.json
     error = valid_inputs(post_data)
+
+    g_recaptcha_response = post_data["g-recaptcha-response"]
+    recaptcha = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={
+            "secret": os.environ["RECAPTCHA_SECRET_KEY"],
+            "response": g_recaptcha_response,
+        },
+    )
+
+    recaptcha_response = recaptcha.json()
+
+    if recaptcha_response["success"] != True:
+        return (
+            jsonify({"success": False, "message": "Captcha verification failed"}),
+            400,
+        )
 
     if error["error"] == True:
         return jsonify({"success": False, "message": "Invalid Input Fields"}), 400

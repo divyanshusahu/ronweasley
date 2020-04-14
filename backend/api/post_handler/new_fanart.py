@@ -5,6 +5,7 @@ import uuid
 import hashlib
 from datetime import datetime, timezone
 import validators
+import requests
 
 new_fanart = Blueprint("new_fanart", __name__, url_prefix="/new_fanart")
 
@@ -35,9 +36,25 @@ def upload_fanart(post_type):
     if "files" not in request.files:
         return jsonify({"success": False, "message": "No image to upload"}), 400
 
-    post_type = request.form["post_type"]
     if post_type not in allowed_types:
         return jsonify({"success": False, "message": "Invalid Post type"}), 400
+
+    g_recaptcha_response = request.form["g-recaptcha-response"]
+    recaptcha = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={
+            "secret": os.environ["RECAPTCHA_SECRET_KEY"],
+            "response": g_recaptcha_response,
+        },
+    )
+
+    recaptcha_response = recaptcha.json()
+
+    if recaptcha_response["success"] != True:
+        return (
+            jsonify({"success": False, "message": "Captcha verification failed"}),
+            400,
+        )
 
     post_title = request.form["post_title"] if "post_title" in request.form else ""
     if len(post_title) < 3:
@@ -76,7 +93,9 @@ def upload_fanart(post_type):
         )
     post_secret = hashlib.sha256(post_secret.encode()).hexdigest()
 
-    post_description = request.form["post_description"] if "post_description" in request.form else ""
+    post_description = (
+        request.form["post_description"] if "post_description" in request.form else ""
+    )
 
     post_id = uuid.uuid1().hex
     post_date = datetime.now(timezone.utc).isoformat()

@@ -4,6 +4,7 @@ import boto3
 import os
 from datetime import datetime, timezone
 import uuid
+import requests
 
 admin = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -22,6 +23,23 @@ def login():
 
     username = request.json.get("username", "")
     password = request.json.get("password", "")
+    g_recaptcha_response = request.json.get("g-recaptcha-response", "")
+
+    recaptcha = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={
+            "secret": os.environ["RECAPTCHA_SECRET_KEY"],
+            "response": g_recaptcha_response,
+        },
+    )
+
+    recaptcha_response = recaptcha.json()
+
+    if recaptcha_response["success"] != True:
+        return (
+            jsonify({"success": False, "message": "Captcha verification failed"}),
+            400,
+        )
 
     if len(username) == 0:
         return jsonify({"success": False, "message": "Username must not be empty"}), 400
