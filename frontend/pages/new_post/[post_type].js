@@ -8,6 +8,7 @@ import {
   UserOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import fetch from "isomorphic-unfetch";
 import { motion } from "framer-motion";
@@ -17,6 +18,9 @@ import DraftJSEditor from "../../components/DraftJSEditor";
 import UploadImage from "../../components/UploadImage";
 import ErrorLayout from "../../components/ErrorLayout";
 import getPostSummary from "../../hooks/getPostSummary";
+
+let post_type;
+let response;
 
 function NewPost({ query }) {
   const allowedQuery = [
@@ -61,6 +65,8 @@ function NewPost({ query }) {
 
   let title = query.replace(/_/g, " ");
 
+  const recaptchaInstance = React.useRef();
+
   const [editorContent, setEditorContent] = React.useState("");
   const handleEditorContent = (content) => {
     setEditorContent(content);
@@ -87,16 +93,21 @@ function NewPost({ query }) {
       />
     );
 
+  const executeCaptcha = () => {
+    recaptchaInstance.current.reset();
+    recaptchaInstance.current.execute();
+  };
+
   const add_new_post = () => {
     let post_summary = getPostSummary(editorContent);
     let post_data = {
-      post_type: query,
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
       post_content: editorContent,
       post_summary: post_summary,
+      "g-recaptcha-response": response,
     };
     message.loading({
       content: "Action in progress...",
@@ -133,7 +144,6 @@ function NewPost({ query }) {
     imageList.forEach((file) => {
       post_data.append("files", file);
     });
-    post_data.append("post_type", query);
     post_data.append("post_title", document.getElementById("post_title").value);
     post_data.append(
       "post_author",
@@ -148,6 +158,7 @@ function NewPost({ query }) {
       document.getElementById("post_secret").value
     );
     post_data.append("post_description", editorContent);
+    post_data.append("g-recaptcha-response", response);
 
     fetch(`${BASE_URL}/new_fanart/${query}`, {
       method: "POST",
@@ -167,14 +178,37 @@ function NewPost({ query }) {
       });
   };
 
+  const post_submit = () => {
+    if (post_type === "fanart") {
+      add_new_fanart();
+    } else if (post_type === "post") {
+      add_new_post();
+    }
+  };
+
+  const verifyCaptcha = () => {
+    response = recaptchaInstance.current.getValue();
+    post_submit();
+  };
+
   const newPostButton =
     query.indexOf("fanart") > 0 ? (
-      <Button onClick={add_new_fanart}>
+      <Button
+        onClick={() => {
+          post_type = "fanart";
+          executeCaptcha();
+        }}
+      >
         <SaveOutlined />
         Create Post
       </Button>
     ) : (
-      <Button onClick={add_new_post}>
+      <Button
+        onClick={() => {
+          post_type = "post";
+          executeCaptcha();
+        }}
+      >
         <SaveOutlined />
         Create Post
       </Button>
@@ -263,6 +297,13 @@ function NewPost({ query }) {
             </Row>
           </div>
         </motion.div>
+        <ReCAPTCHA
+          ref={recaptchaInstance}
+          sitekey="6LeWVukUAAAAAK0uVPEuSOXo16450MgzzrhM9HDt"
+          onChange={verifyCaptcha}
+          size="invisible"
+          theme="dark"
+        />
       </SecondaryLayout>
       <style jsx>
         {`

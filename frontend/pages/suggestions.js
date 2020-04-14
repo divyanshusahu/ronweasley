@@ -1,6 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import TimeAgo from "react-timeago";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import {
   Row,
@@ -11,7 +12,7 @@ import {
   Comment,
   Avatar,
   Empty,
-  message
+  message,
 } from "antd";
 
 import {
@@ -19,7 +20,7 @@ import {
   QuestionCircleOutlined,
   ExclamationCircleOutlined,
   EnterOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 
 import { motion } from "framer-motion";
@@ -31,6 +32,8 @@ const BASE_URL =
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
+let post_type;
+
 function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
   const [bugs, setBugs] = React.useState(pageLoadBugs);
   const [suggestions, setSuggestions] = React.useState(pageLoadSuggestions);
@@ -40,10 +43,12 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
   const [suggestionInputValue, setSuggestionInputValue] = React.useState("");
   const [feedbackInputValue, setFeedbackInputValue] = React.useState("");
 
-  const refreshFeed = type => {
+  const recaptchaInstance = React.useRef();
+
+  const refreshFeed = (type) => {
     fetch(BASE_URL + "/get_post/" + type)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           if (type === "bug") {
             setBugs(data.posts);
@@ -59,41 +64,52 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
       });
   };
 
-  const post_user_feedback = type => {
+  const executeCaptcha = () => {
+    recaptchaInstance.current.reset();
+    recaptchaInstance.current.execute();
+  };
+
+  const post_user_feedback = (type, response) => {
     let post_data = {
-      post_content: document.getElementById(`input-${type}`).value
+      post_content: document.getElementById(`input-${type}`).value,
+      "g-recaptcha-response": response,
     };
     message.loading({
       content: "Action in progress...",
       key: "handlePostMessage",
-      duration: 0
+      duration: 0,
     });
     fetch(BASE_URL + "/new_suggestion/" + type, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(post_data)
+      body: JSON.stringify(post_data),
     })
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         if (data.success) {
           message.success({
             content: data.message,
-            key: "handlePostMessage"
+            key: "handlePostMessage",
           });
           refreshFeed(type);
         } else {
           message.error({
             content: data.message,
-            key: "handlePostMessage"
+            key: "handlePostMessage",
           });
         }
       });
   };
 
+  const verifyCaptcha = () => {
+    let response = recaptchaInstance.current.getValue();
+    post_user_feedback(post_type, response);
+  };
+
   const variants = {
     initial: { x: 30, scale: 0.9, opacity: 0 },
     enter: { x: 0, scale: 1, opacity: 1, transition: { duration: 0.5 } },
-    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } }
+    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } },
   };
 
   return (
@@ -105,7 +121,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
           exit="exit"
           variants={{
             enter: { transition: { staggerChildren: 0.1 } },
-            exit: { transition: { staggerChildren: 0.1 } }
+            exit: { transition: { staggerChildren: 0.1 } },
           }}
         >
           {/*<div className="display_suggestions">
@@ -195,23 +211,29 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         placeholder="Report Bug here"
                         addonAfter={
                           <EnterOutlined
-                            onClick={() => post_user_feedback("bug")}
+                            onClick={() => {
+                              post_type = "bug";
+                              executeCaptcha();
+                            }}
                           />
                         }
-                        onPressEnter={() => post_user_feedback("bug")}
+                        onPressEnter={() => {
+                          post_type = "bug";
+                          executeCaptcha();
+                        }}
                         value={bugInputValue}
-                        onChange={e => setBugInputValue(e.target.value)}
-                      />
+                        onChange={(e) => setBugInputValue(e.target.value)}
+                      />,
                     ]}
                     style={{
-                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)"
+                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
                     }}
                   >
                     <div className="user_feedback_card_content">
                       {isEmpty(bugs) ? (
                         <Empty />
                       ) : (
-                        bugs.map(b => (
+                        bugs.map((b) => (
                           <Comment
                             content={b.post_content["S"]}
                             datetime={<TimeAgo date={b.post_date["S"]} />}
@@ -261,23 +283,31 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         placeholder="Enter suggestions here"
                         addonAfter={
                           <EnterOutlined
-                            onClick={() => post_user_feedback("suggestion")}
+                            onClick={() => {
+                              post_type = "suggestion";
+                              executeCaptcha();
+                            }}
                           />
                         }
-                        onPressEnter={() => post_user_feedback("suggestion")}
+                        onPressEnter={() => {
+                          post_type = "suggestion";
+                          executeCaptcha();
+                        }}
                         value={suggestionInputValue}
-                        onChange={e => setSuggestionInputValue(e.target.value)}
-                      />
+                        onChange={(e) =>
+                          setSuggestionInputValue(e.target.value)
+                        }
+                      />,
                     ]}
                     style={{
-                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)"
+                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
                     }}
                   >
                     <div className="user_feedback_card_content">
                       {isEmpty(suggestions) ? (
                         <Empty />
                       ) : (
-                        suggestions.map(sug => (
+                        suggestions.map((sug) => (
                           <Comment
                             content={sug.post_content["S"]}
                             datetime={<TimeAgo date={sug.post_date["S"]} />}
@@ -332,23 +362,29 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
                         placeholder="Leave feedback here"
                         addonAfter={
                           <EnterOutlined
-                            onClick={() => post_user_feedback("feedback")}
+                            onClick={() => {
+                              post_type = "feedback";
+                              executeCaptcha();
+                            }}
                           />
                         }
-                        onPressEnter={() => post_user_feedback("feedback")}
+                        onPressEnter={() => {
+                          post_type = "feedback";
+                          executeCaptcha();
+                        }}
                         value={feedbackInputValue}
-                        onChange={e => setFeedbackInputValue(e.target.value)}
-                      />
+                        onChange={(e) => setFeedbackInputValue(e.target.value)}
+                      />,
                     ]}
                     style={{
-                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)"
+                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
                     }}
                   >
                     <div className="user_feedback_card_content">
                       {isEmpty(feedbacks) ? (
                         <Empty />
                       ) : (
-                        feedbacks.map(fed => (
+                        feedbacks.map((fed) => (
                           <Comment
                             content={fed.post_content["S"]}
                             datetime={<TimeAgo date={fed.post_date["S"]} />}
@@ -365,6 +401,13 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
             </Row>
           </div>
         </motion.div>
+        <ReCAPTCHA
+          ref={recaptchaInstance}
+          sitekey="6LeWVukUAAAAAK0uVPEuSOXo16450MgzzrhM9HDt"
+          onChange={verifyCaptcha}
+          size="invisible"
+          theme="dark"
+        />
       </SecondaryLayout>
       <style jsx>
         {`
@@ -413,7 +456,7 @@ Suggestions.getInitialProps = async () => {
   return {
     pageLoadBugs: pageLoadBugs,
     pageLoadSuggestions: pageLoadSuggestions,
-    pageLoadFeedbacks: pageLoadFeedbacks
+    pageLoadFeedbacks: pageLoadFeedbacks,
   };
 };
 
