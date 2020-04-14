@@ -23,7 +23,7 @@ function NavigationBar(props) {
           <a>
             <p
               style={{
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "600",
                 lineHeight: "64px",
                 fontFamily: "Proza Libre",
@@ -43,7 +43,7 @@ function NavigationBar(props) {
           <a>
             <p
               style={{
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "600",
                 lineHeight: "64px",
                 fontFamily: "Proza Libre",
@@ -68,7 +68,7 @@ function NavigationBar(props) {
           <a>
             <p
               style={{
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "600",
                 lineHeight: "64px",
                 fontFamily: "Proza Libre",
@@ -88,7 +88,7 @@ function NavigationBar(props) {
           <a>
             <p
               style={{
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "600",
                 lineHeight: "64px",
                 fontFamily: "Proza Libre",
@@ -108,7 +108,7 @@ function NavigationBar(props) {
           <a>
             <p
               style={{
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "600",
                 lineHeight: "64px",
                 fontFamily: "Proza Libre",
