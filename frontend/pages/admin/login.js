@@ -45,7 +45,9 @@ function LoginForm() {
 
   const verifyCaptcha = () => {
     response = recaptchaInstance.current.getValue();
-    handleFormSubmit();
+    if (response) {
+      handleFormSubmit();
+    }
   };
 
   return (

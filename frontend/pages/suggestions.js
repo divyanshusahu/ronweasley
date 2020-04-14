@@ -103,7 +103,9 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
 
   const verifyCaptcha = () => {
     let response = recaptchaInstance.current.getValue();
-    post_user_feedback(post_type, response);
+    if (response) {
+      post_user_feedback(post_type, response);
+    }
   };
 
   const variants = {

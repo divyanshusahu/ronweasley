@@ -188,7 +188,9 @@ function NewPost({ query }) {
 
   const verifyCaptcha = () => {
     response = recaptchaInstance.current.getValue();
-    post_submit();
+    if (response) {
+      post_submit();
+    }
   };
 
   const newPostButton =
