@@ -14,6 +14,7 @@ flask-cors = "*"
 flask-jwt-extended = "*"
 boto3 = "*"
 validators = "*"
+requests = "*"
 
 [requires]
 python_version = "3.8"
