@@ -37,6 +37,7 @@ function Layout(props) {
       >
         <List
           loading={props.loading}
+          pagination={{ pageSize: 24, hideOnSinglePage: true }}
           grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }}
           dataSource={props.posts}
           renderItem={(p) => (
@@ -84,6 +85,7 @@ function Layout(props) {
       >
         <List
           loading={props.loading}
+          pagination={{ pageSize: 10, hideOnSinglePage: true }}
           itemLayout="vertical"
           split={false}
           dataSource={props.posts}
