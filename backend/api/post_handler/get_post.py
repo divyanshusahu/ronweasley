@@ -56,8 +56,20 @@ def get_post_by_type(post_type):
             ExpressionAttributeValues={":post_type": {"S": post_type}},
         )
 
+        data = result["Items"]
+
+        while "LastEvaluatedKey" in result:
+            result = db.query(
+                TableName=os.environ["POST_TABLE"],
+                ProjectionExpression=projectionExpression,
+                KeyConditionExpression="post_type = :post_type",
+                ExpressionAttributeValues={":post_type": {"S": post_type}},
+                ExclusiveStartKey=result["LastEvaluatedKey"],
+            )
+            data.extend(result["Items"])
+
         send_result = sorted(
-            result["Items"], key=lambda x: x["post_date"]["S"], reverse=True
+            data, key=lambda x: x["post_date"]["S"], reverse=True
         )
 
         return jsonify({"success": True, "posts": send_result}), 200
