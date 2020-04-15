@@ -65,6 +65,11 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
   };
 
   const executeCaptcha = () => {
+    message.loading({
+      content: "Action in progress...",
+      key: "handlePostMessage",
+      duration: 0,
+    });
     recaptchaInstance.current.reset();
     recaptchaInstance.current.execute();
   };
@@ -74,11 +79,6 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
       post_content: document.getElementById(`input-${type}`).value,
       "g-recaptcha-response": response,
     };
-    message.loading({
-      content: "Action in progress...",
-      key: "handlePostMessage",
-      duration: 0,
-    });
     fetch(BASE_URL + "/new_suggestion/" + type, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

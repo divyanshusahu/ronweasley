@@ -94,6 +94,11 @@ function NewPost({ query }) {
     );
 
   const executeCaptcha = () => {
+    message.loading({
+      content: "Action in progress...",
+      duration: 0,
+      key: "newPostLoading",
+    });
     recaptchaInstance.current.reset();
     recaptchaInstance.current.execute();
   };
@@ -109,10 +114,6 @@ function NewPost({ query }) {
       post_summary: post_summary,
       "g-recaptcha-response": response,
     };
-    message.loading({
-      content: "Action in progress...",
-      key: "newPostLoading",
-    });
     fetch(BASE_URL + "/new_post/" + query, {
       method: "POST",
       headers: {
@@ -135,11 +136,6 @@ function NewPost({ query }) {
   };
 
   const add_new_fanart = () => {
-    message.loading({
-      content: "Action in progress...",
-      duration: 0,
-      key: "newFanart",
-    });
     let post_data = new FormData();
     imageList.forEach((file) => {
       post_data.append("files", file);
@@ -167,13 +163,13 @@ function NewPost({ query }) {
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
-          message.success({ content: data.message, key: "newFanart" });
+          message.success({ content: data.message, key: "newPostLoading" });
           Router.replace(
             "/fanart/[post_type]/[post_id]",
             `/fanart/${query}/${data.post_id}`
           );
         } else {
-          message.error({ content: data.message, key: "newFanart" });
+          message.error({ content: data.message, key: "newPostLoading" });
         }
       });
   };
