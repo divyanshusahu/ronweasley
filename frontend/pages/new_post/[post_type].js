@@ -305,6 +305,8 @@ function NewPost({ query }) {
           onChange={verifyCaptcha}
           size="invisible"
           theme="dark"
+          badge="inline"
+          style={{ display: "none" }}
         />
       </SecondaryLayout>
       <style jsx>

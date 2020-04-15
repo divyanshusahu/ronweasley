@@ -409,6 +409,8 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
           onChange={verifyCaptcha}
           size="invisible"
           theme="dark"
+          badge="inline"
+          style={{ display: "none" }}
         />
       </SecondaryLayout>
       <style jsx>
