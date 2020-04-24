@@ -52,7 +52,7 @@ function Layout(props) {
                 scroll={false}
               >
                 <a>
-                  <motion.div whileHover={{ scale: 1.025 }} variants={variants}>
+                  <motion.div whileHover={{ scale: 1.02 }} variants={variants}>
                     <DisplayFanart
                       inner={false}
                       bordered={true}
@@ -166,16 +166,14 @@ function Layout(props) {
                     }}
                     tabBarExtraContent={props.tabBarExtraContent}
                     bodyStyle={{
-                      paddingLeft: 0,
-                      paddingRight: 0,
+                      paddingLeft: 8,
+                      paddingRight: 8,
                       paddingBottom: 0,
                       paddingTop: 16,
                       backgroundColor: "rgb(244, 248, 251)",
                     }}
                     headStyle={{
                       backgroundColor: "rgb(244, 248, 251)",
-                      paddingLeft: 0,
-                      paddingRight: 0,
                     }}
                     bordered={false}
                   >
