@@ -156,6 +156,10 @@ function DisplayFanart(props) {
     <FlagOutlined title="Report Post" onClick={showReportConfirm} />,
   ];
 
+  const cover_url = isEmpty(props.post_image)
+    ? null
+    : `${img_url}/${props.post_type}/${props.post_id}/${props.post_image[0]["S"]}`;
+
   return (
     <div>
       <div className="alert_div">
@@ -199,16 +203,7 @@ function DisplayFanart(props) {
           }
           cover={
             props.is_layout ? (
-              <img
-                alt={props.post_title}
-                src={
-                  isEmpty(props.post_image)
-                    ? null
-                    : `${img_url}/${props.post_type}/${props.post_id}/${props.post_image[0]["S"]}`
-                }
-                width="100%"
-                height="400px"
-              />
+              <div className="show_image_background"></div>
             ) : null
           }
           extra={<TimeAgo date={props.post_date} />}
@@ -265,6 +260,12 @@ function DisplayFanart(props) {
           .art_description {
             font-size: 16px;
             font-family: "Open Sans";
+          }
+          .show_image_background {
+            width: 100%;
+            height: 400px;
+            background-image: url(${cover_url});
+            background-size: cover;
           }
         `}
       </style>
