@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import isEmpty from "is-empty";
 import { motion } from "framer-motion";
@@ -17,6 +18,7 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
+  const router = useRouter();
   let display;
 
   const variants = {
@@ -38,9 +40,16 @@ function Layout(props) {
         <List
           loading={props.loading}
           pagination={{
+            current: parseInt(props.paginationpage),
             pageSize: 24,
             hideOnSinglePage: true,
             showSizeChanger: false,
+            onChange: (page) => {
+              router.push({
+                pathname: router.pathname,
+                query: { tab: props.type, page: page },
+              });
+            },
           }}
           grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 3 }}
           dataSource={props.posts}
@@ -90,9 +99,16 @@ function Layout(props) {
         <List
           loading={props.loading}
           pagination={{
+            current: parseInt(props.paginationpage),
             pageSize: 10,
             hideOnSinglePage: true,
             showSizeChanger: false,
+            onChange: (page) => {
+              router.push({
+                pathname: router.pathname,
+                query: { tab: props.type, page: page },
+              });
+            },
           }}
           itemLayout="vertical"
           split={false}

@@ -158,6 +158,8 @@ function Index(props) {
     setFilteredPosts(posts.filter(filter_function));
   }, [searchField]);
 
+  const page = isEmpty(props.query.page) ? 1 : props.query.page;
+
   return (
     <Layout
       title="Ron Weasley"
@@ -175,6 +177,7 @@ function Index(props) {
       loading={loading}
       searchbar={(value) => setSearchField(value)}
       searchvalue={searchField}
+      paginationpage={page}
     />
   );
 }
