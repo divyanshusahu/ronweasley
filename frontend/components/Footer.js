@@ -51,11 +51,6 @@ function Footer() {
           href="https://fonts.googleapis.com/css?family=Proza+Libre"
           rel="stylesheet"
         />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/antd@4.0.2/dist/antd.min.css"
-          type="text/css"
-        />
       </Head>
       <Row>
         <Col sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }}>
