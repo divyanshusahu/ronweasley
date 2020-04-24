@@ -155,7 +155,7 @@ function GoldenTrio(props) {
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
-        posts={posts}
+        posts={filteredPosts}
         type={selectedTab}
         loading={loading}
         searchbar={(value) => setSearchField(value)}
