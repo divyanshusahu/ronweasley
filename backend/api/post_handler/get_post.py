@@ -42,10 +42,10 @@ def get_post_by_type(post_type):
         return jsonify({"success": False, "message": "Invalid Request"}), 400
 
     if post_type in suggestions_types:
-        projectionExpression = """post_type, post_id, post_date, post_content, 
-        reported_post_type, reported_post_id, reported_post_reason"""
+        projectionExpression = """post_type, post_id, post_date, post_content, post_reply,
+        post_reply_time, reported_post_type, reported_post_id, reported_post_reason"""
     else:
-        projectionExpression = """post_type, post_id, post_title, post_author, 
+        projectionExpression = """post_type, post_id, post_title, post_author,
         post_author_link, post_date, post_summary, post_image"""
 
     try:
@@ -68,9 +68,7 @@ def get_post_by_type(post_type):
             )
             data.extend(result["Items"])
 
-        send_result = sorted(
-            data, key=lambda x: x["post_date"]["S"], reverse=True
-        )
+        send_result = sorted(data, key=lambda x: x["post_date"]["S"], reverse=True)
 
         return jsonify({"success": True, "posts": send_result}), 200
     except:
