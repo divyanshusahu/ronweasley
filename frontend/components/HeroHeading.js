@@ -13,7 +13,7 @@ function HeroHeading(props) {
       variants={variants}
       style={{
         fontFamily: "Karla",
-        fontSize: "48px",
+        fontSize: "40px",
         fontWeight: "700",
         color: "#fff",
         display: c === " " ? "inline" : "inline-block",
