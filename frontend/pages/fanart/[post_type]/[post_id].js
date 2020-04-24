@@ -58,7 +58,7 @@ function Fanart(props) {
                 xs={{ span: 22, offset: 1 }}
                 md={{ span: 20, offset: 2 }}
                 lg={{ span: 18, offset: 3 }}
-                xl={{ span: 16, offset: 4 }}
+                xxl={{ span: 16, offset: 4 }}
               >
                 <DisplayFanart
                   inner={false}

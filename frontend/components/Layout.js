@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import isEmpty from "is-empty";
 import { motion } from "framer-motion";
 
-import { Row, Col, Card, Layout as AntLayout, List } from "antd";
+import { Row, Col, Card, Layout as AntLayout, List, Input } from "antd";
 
 import NavigationBar from "./NavigationBar";
 import HeroHeading from "./HeroHeading";
@@ -17,6 +18,7 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function Layout(props) {
+  const router = useRouter();
   let display;
 
   const variants = {
@@ -38,11 +40,18 @@ function Layout(props) {
         <List
           loading={props.loading}
           pagination={{
+            current: parseInt(props.paginationpage),
             pageSize: 24,
             hideOnSinglePage: true,
             showSizeChanger: false,
+            onChange: (page) => {
+              router.push({
+                pathname: router.pathname,
+                query: { tab: props.type, page: page },
+              });
+            },
           }}
-          grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }}
+          grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 3 }}
           dataSource={props.posts}
           renderItem={(p) => (
             <List.Item>
@@ -52,7 +61,7 @@ function Layout(props) {
                 scroll={false}
               >
                 <a>
-                  <motion.div whileHover={{ scale: 1.05 }} variants={variants}>
+                  <motion.div whileHover={{ scale: 1.02 }} variants={variants}>
                     <DisplayFanart
                       inner={false}
                       bordered={true}
@@ -90,9 +99,16 @@ function Layout(props) {
         <List
           loading={props.loading}
           pagination={{
+            current: parseInt(props.paginationpage),
             pageSize: 10,
             hideOnSinglePage: true,
             showSizeChanger: false,
+            onChange: (page) => {
+              router.push({
+                pathname: router.pathname,
+                query: { tab: props.type, page: page },
+              });
+            },
           }}
           itemLayout="vertical"
           split={false}
@@ -156,7 +172,7 @@ function Layout(props) {
                   xs={{ span: 22, offset: 1 }}
                   md={{ span: 20, offset: 2 }}
                   lg={{ span: 18, offset: 3 }}
-                  xl={{ span: 16, offset: 4 }}
+                  xxl={{ span: 16, offset: 4 }}
                 >
                   <Card
                     tabList={props.tabList}
@@ -168,6 +184,8 @@ function Layout(props) {
                     bodyStyle={{
                       paddingLeft: 8,
                       paddingRight: 8,
+                      paddingBottom: 0,
+                      paddingTop: 16,
                       backgroundColor: "rgb(244, 248, 251)",
                     }}
                     headStyle={{
@@ -175,6 +193,25 @@ function Layout(props) {
                     }}
                     bordered={false}
                   >
+                    <div className="searchbar">
+                      <Row>
+                        <Col
+                          xs={{ span: 24, offset: 0 }}
+                          md={{ span: 24, offset: 0 }}
+                          lg={{ span: 8, offset: 16 }}
+                          xxl={{ span: 6, offset: 18 }}
+                        >
+                          <Input.Search
+                            placeholder="Search"
+                            size="large"
+                            value={props.searchvalue}
+                            onChange={(event) =>
+                              props.searchbar(event.target.value)
+                            }
+                          />
+                        </Col>
+                      </Row>
+                    </div>
                     <div className="page_posts">{display}</div>
                   </Card>
                 </Col>
@@ -211,7 +248,7 @@ function Layout(props) {
             align-items: center;
           }
           .page_content {
-            padding: 80px 0;
+            padding: 64px 0 40px 0;
             background-color: rgb(244, 248, 251);
           }
           .toolbar {
@@ -223,6 +260,9 @@ function Layout(props) {
           }
           .page_posts {
             min-height: 160px;
+          }
+          .searchbar {
+            margin-bottom: 16px;
           }
           @media only screen and (orientation: portrait) {
             .main {

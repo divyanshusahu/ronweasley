@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import fetch from "isomorphic-unfetch";
+import isEmpty from "is-empty";
 
 import { Button } from "antd";
 
@@ -44,6 +45,7 @@ function WeasleyFamily(props) {
   }, []);
 
   const [posts, getPosts] = React.useState([]);
+  const [filteredPosts, setFilteredPosts] = React.useState([]);
 
   React.useEffect(() => {
     if (!selectedTab) return;
@@ -54,6 +56,7 @@ function WeasleyFamily(props) {
       .then((data) => {
         if (data.success) {
           getPosts(data.posts);
+          setFilteredPosts(data.posts);
         }
         setLoading(false);
       });
@@ -93,6 +96,8 @@ function WeasleyFamily(props) {
   const handleOnTabChange = (key) => {
     setActiveTabKey(key);
     getPosts([]);
+    setFilteredPosts([]);
+    setSearchField("");
     if (key === "1") {
       setSelectedTab("appreciation");
     } else if (key === "2") {
@@ -111,6 +116,34 @@ function WeasleyFamily(props) {
     </Link>
   );
 
+  const [searchField, setSearchField] = React.useState("");
+
+  React.useEffect(() => {
+    const filter_function = (x) => {
+      let post_title = x["post_title"]["S"].toLowerCase();
+      let post_author = x["post_author"]["S"].toLowerCase();
+      let post_summary = isEmpty(x["post_summary"])
+        ? ""
+        : x["post_summary"]["S"].toLowerCase();
+      let post_description = isEmpty(x["post_description"])
+        ? ""
+        : x["post_description"]["S"].toLowerCase();
+      let search = searchField.toLowerCase();
+      if (search === "") {
+        return true;
+      }
+      return (
+        post_title.indexOf(search) >= 0 ||
+        post_author.indexOf(search) >= 0 ||
+        post_summary.indexOf(search) >= 0 ||
+        post_description.indexOf(search) >= 0
+      );
+    };
+    setFilteredPosts(posts.filter(filter_function));
+  }, [searchField]);
+
+  const page = isEmpty(props.query.page) ? 1 : props.query.page;
+
   return (
     <div>
       <Layout
@@ -123,9 +156,12 @@ function WeasleyFamily(props) {
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
-        posts={posts}
+        posts={filteredPosts}
         type={selectedTab}
         loading={loading}
+        searchbar={(value) => setSearchField(value)}
+        searchvalue={searchField}
+        paginationpage={page}
       />
     </div>
   );

@@ -138,7 +138,7 @@ function StoryDomain(props) {
                 xs={{ span: 22, offset: 1 }}
                 md={{ span: 20, offset: 2 }}
                 lg={{ span: 14, offset: 5 }}
-                xl={{ span: 12, offset: 6 }}
+                xxl={{ span: 12, offset: 6 }}
               >
                 <Table
                   columns={columns}
