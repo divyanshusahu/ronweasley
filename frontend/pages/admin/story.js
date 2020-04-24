@@ -93,7 +93,7 @@ function AddStory(props) {
                 xs={{ span: 22, offset: 1 }}
                 md={{ xs: 20, offset: 2 }}
                 lg={{ span: 16, offset: 4 }}
-                xl={{ span: 14, offset: 5 }}
+                xxl={{ span: 14, offset: 5 }}
               >
                 <Card title="Add Story">
                   <Form
