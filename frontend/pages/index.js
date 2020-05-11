@@ -70,6 +70,7 @@ function Index(props) {
           <a
             style={{
               color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)",
+              padding: "19px 0",
             }}
           >
             Appreciation
@@ -84,6 +85,7 @@ function Index(props) {
           <a
             style={{
               color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)",
+              padding: "19px 0",
             }}
           >
             Defense
@@ -98,6 +100,7 @@ function Index(props) {
           <a
             style={{
               color: activeTabKey == 3 ? "inherit" : "rgba(0,0,0,0.65)",
+              padding: "19px 0",
             }}
           >
             Fanart
