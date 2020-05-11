@@ -36,19 +36,39 @@ function Footer() {
         />
         <link rel="manifest" href="/site.webmanifest" />
         <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto"
+          rel="preload"
+          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          as="style"
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Karla"
+          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
         />
         <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans"
+          rel="preload"
+          href="https://fonts.googleapis.com/css?family=Karla&display=swap"
+          as="style"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Karla&display=swap"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          as="style"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
           rel="stylesheet"
         />
         <link
-          href="https://fonts.googleapis.com/css?family=Proza+Libre"
+          rel="preload"
+          href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
+          as="style"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
           rel="stylesheet"
         />
       </Head>

@@ -40,7 +40,9 @@ function Layout(props) {
         <List
           loading={props.loading}
           pagination={{
-            current: parseInt(props.paginationpage),
+            current: parseInt(props.paginationpage)
+              ? parseInt(props.paginationpage)
+              : 1,
             pageSize: 24,
             hideOnSinglePage: true,
             showSizeChanger: false,
@@ -99,7 +101,9 @@ function Layout(props) {
         <List
           loading={props.loading}
           pagination={{
-            current: parseInt(props.paginationpage),
+            current: parseInt(props.paginationpage)
+              ? parseInt(props.paginationpage)
+              : 1,
             pageSize: 10,
             hideOnSinglePage: true,
             showSizeChanger: false,

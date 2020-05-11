@@ -225,13 +225,13 @@ function EditPost(props) {
   );
 }
 
-EditPost.getInitialProps = async (ctx) => {
-  const post_type = ctx.query.post_type;
-  const post_id = ctx.query.post_id;
+export async function getServerSideProps(context) {
+  const post_type = context.query.post_type;
+  const post_id = context.query.post_id;
   const r1 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
   const d1 = await r1.json();
   if (d1.success) {
-    const access_token = cookies(ctx)[post_id];
+    const access_token = cookies(context)[post_id];
     const r2 = await fetch(`${BASE_URL}/edit_post/identity_check`, {
       method: "POST",
       headers: {
@@ -243,17 +243,19 @@ EditPost.getInitialProps = async (ctx) => {
     const d2 = await r2.json();
     if (d2.success) {
       return {
-        post_exist: true,
-        authorized: true,
-        post: d1.post,
-        access_token: access_token,
+        props: {
+          post_exist: true,
+          authorized: true,
+          post: d1.post,
+          access_token: access_token,
+        },
       };
     } else {
-      return { post_exist: true, authorized: false };
+      return { props: { post_exist: true, authorized: false } };
     }
   } else {
-    return { post_exist: false };
+    return { props: { post_exist: false } };
   }
-};
+}
 
 export default EditPost;

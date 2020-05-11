@@ -1,41 +1,19 @@
-import Link from "next/link";
+import { Row, Col } from "antd";
 
+import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 
-import { Button, Row, Col } from "antd";
-
-import { motion } from "framer-motion";
-
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import DisplayPost from "../../../components/DisplayPost";
-import ErrorLayout from "../../../components/ErrorLayout";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function Posts({ data }) {
-  if (!data.success) {
-    return (
-      <ErrorLayout
-        status="404"
-        title="404"
-        subTitle="Sorry, the page you visited does not exist."
-        extra={
-          <Link href="/">
-            <a>
-              <Button type="primary">Back Home</Button>
-            </a>
-          </Link>
-        }
-      />
-    );
-  }
-
-  const post = data.post;
-
+function Posts(props) {
+  const post = props.post;
   return (
     <div>
       <SecondaryLayout title={`Post: ${post.post_title["S"]}`}>
@@ -45,13 +23,13 @@ function Posts({ data }) {
             scale: 1,
             y: 0,
             opacity: 1,
-            transition: { duration: 0.5 }
+            transition: { duration: 0.5 },
           }}
           exit={{
             scale: 0.6,
             y: 50,
             opacity: 0,
-            transition: { duration: 0.2 }
+            transition: { duration: 0.2 },
           }}
         >
           <div className="display_post">
@@ -96,15 +74,36 @@ function Posts({ data }) {
   );
 }
 
-Posts.getInitialProps = async ({ query }) => {
-  const post_type = query.post_type;
-  if (post_type.indexOf("fanart") > 0) {
-    return { data: { success: false } };
+export async function getStaticPaths() {
+  const types = [
+    "ron_weasley_appreciation",
+    "ron_weasley_defense",
+    "romione_appreciation",
+    "golden_trio_appreciation",
+    "weasley_family_appreciation",
+    "ron_and_lavender_appreciation",
+    "ron_and_harry_appreciation",
+    "ron_and_luna_appreciation",
+  ];
+  let pages = [];
+  for (let i = 0; i < types.length; i++) {
+    const r1 = await fetch(`${BASE_URL}/get_post/${types[i]}`);
+    const d1 = await r1.json();
+    if (d1.success) {
+      d1.posts.forEach((p) => {
+        pages.push(`/post/${types[i]}/${p["post_id"]["S"]}`);
+      });
+    }
   }
-  const post_id = query.post_id;
-  const r = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
-  const data = await r.json();
-  return { data: data };
-};
+  return { paths: pages, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const post_type = context.params["post_type"];
+  const post_id = context.params["post_id"];
+  const r2 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
+  const d2 = await r2.json();
+  return { props: d2 };
+}
 
 export default Posts;

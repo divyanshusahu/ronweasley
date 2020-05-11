@@ -1,14 +1,10 @@
-import Link from "next/link";
+import { Row, Col } from "antd";
 
+import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 
-import { Button, Row, Col } from "antd";
-
-import { motion } from "framer-motion";
-
 import SecondaryLayout from "../../../components/SecondaryLayout";
-import ErrorLayout from "../../../components/ErrorLayout";
 import DisplayFanart from "../../../components/DisplayFanart";
 
 const BASE_URL =
@@ -17,23 +13,6 @@ const BASE_URL =
     : "https://api.ronweasley.co";
 
 function Fanart(props) {
-  if (!props.success) {
-    return (
-      <ErrorLayout
-        status="404"
-        title="404"
-        subTitle="Sorry, the page you visited does not exist."
-        extra={
-          <Link href="/">
-            <a>
-              <Button type="primary">Back Home</Button>
-            </a>
-          </Link>
-        }
-      />
-    );
-  }
-
   return (
     <div>
       <SecondaryLayout title={`Fanart: ${props.post.post_title["S"]}`}>
@@ -43,13 +22,13 @@ function Fanart(props) {
             scale: 1,
             y: 0,
             opacity: 1,
-            transition: { duration: 0.5 }
+            transition: { duration: 0.5 },
           }}
           exit={{
             scale: 0.6,
             y: 50,
             opacity: 0,
-            transition: { duration: 0.2 }
+            transition: { duration: 0.2 },
           }}
         >
           <div className="display_post">
@@ -100,15 +79,35 @@ function Fanart(props) {
   );
 }
 
-Fanart.getInitialProps = async ctx => {
-  const post_type = ctx.query.post_type;
-  if (post_type.indexOf("fanart") === -1) {
-    return { success: false };
+export async function getStaticPaths() {
+  const types = [
+    "ron_weasley_fanart",
+    "romione_fanart",
+    "golden_trio_fanart",
+    "weasley_family_fanart",
+    "ron_and_lavender_fanart",
+    "ron_and_harry_fanart",
+    "ron_and_luna_fanart",
+  ];
+  let pages = [];
+  for (let i = 0; i < types.length; i++) {
+    const r1 = await fetch(`${BASE_URL}/get_post/${types[i]}`);
+    const d1 = await r1.json();
+    if (d1.success) {
+      d1.posts.forEach((p) => {
+        pages.push(`/fanart/${types[i]}/${p["post_id"]["S"]}`);
+      });
+    }
   }
-  const post_id = ctx.query.post_id;
-  const r = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
-  const d = await r.json();
-  return d;
-};
+  return { paths: pages, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const post_type = context.params["post_type"];
+  const post_id = context.params["post_id"];
+  const r2 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
+  const d2 = await r2.json();
+  return { props: d2 };
+}
 
 export default Fanart;

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
 
 import SecondaryLayout from "../../../../components/SecondaryLayout";
-import ErrorLayout from "../../../../components/ErrorLayout";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -12,21 +11,6 @@ const BASE_URL =
     : "https://api.ronweasley.co";
 
 function Story(props) {
-  if (!props.success) {
-    <ErrorLayout
-      status="404"
-      title="404"
-      subTitle="Sorry, the page you visited does not exist."
-      extra={
-        <Link href="/">
-          <a>
-            <Button type="primary">Back Home</Button>
-          </a>
-        </Link>
-      }
-    />;
-  }
-
   const columns = [
     {
       title: "Chapter",
@@ -146,12 +130,27 @@ function Story(props) {
   );
 }
 
-Story.getInitialProps = async ({ query }) => {
-  const r1 = await fetch(
-    `${BASE_URL}/get_story/${query.post_type}/${query.post_id}`
-  );
-  const data = await r1.json();
-  return data;
-};
+export async function getStaticPaths() {
+  const types = ["checkmated"];
+  let pages = [];
+  for (let i = 0; i < types.length; i++) {
+    const r1 = await fetch(`${BASE_URL}/get_story/${types[i]}`);
+    const d1 = await r1.json();
+    if (d1.success) {
+      d1.stories.forEach((s) => {
+        pages.push(`/fanfiction/${types[i]}/${s["post_id"]["S"]}`);
+      });
+    }
+  }
+  return { paths: pages, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const post_type = context.params["post_type"];
+  const post_id = context.params["post_id"];
+  const r1 = await fetch(`${BASE_URL}/get_story/${post_type}/${post_id}`);
+  const d1 = await r1.json();
+  return { props: d1 };
+}
 
 export default Story;
