@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 import { Button, Row, Col, Card, Input, Typography, message } from "antd";
 import {
@@ -12,6 +12,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import fetch from "isomorphic-unfetch";
 import { motion } from "framer-motion";
+import queryString from "query-string";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 import DraftJSEditor from "../../components/DraftJSEditor";
@@ -22,7 +23,10 @@ import getPostSummary from "../../hooks/getPostSummary";
 let post_type;
 let response;
 
-function NewPost({ query }) {
+function NewPost() {
+  const router = useRouter();
+  const { query } = queryString.parseUrl(router.asPath);
+
   const allowedQuery = [
     "ron_weasley_appreciation",
     "ron_weasley_defense",
@@ -46,7 +50,7 @@ function NewPost({ query }) {
       ? "http://localhost:5000"
       : "https://api.ronweasley.co";
 
-  if (allowedQuery.findIndex((q) => q == query) === -1) {
+  if (allowedQuery.findIndex((q) => q == query.post_type) === -1) {
     return (
       <ErrorLayout
         status="404"
@@ -63,7 +67,7 @@ function NewPost({ query }) {
     );
   }
 
-  let title = query.replace(/_/g, " ");
+  let title = query.post_type.replace(/_/g, " ");
 
   const recaptchaInstance = React.useRef();
 
@@ -78,7 +82,7 @@ function NewPost({ query }) {
   };
 
   const display =
-    query.indexOf("fanart") > 0 ? (
+    query.post_type.indexOf("fanart") > 0 ? (
       <div>
         <UploadImage handleImageList={handleImageList} />
         <DraftJSEditor
@@ -114,7 +118,7 @@ function NewPost({ query }) {
       post_summary: post_summary,
       "g-recaptcha-response": response,
     };
-    fetch(BASE_URL + "/new_post/" + query, {
+    fetch(BASE_URL + "/new_post/" + query.post_type, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -125,9 +129,9 @@ function NewPost({ query }) {
       .then((data) => {
         if (data.success) {
           message.success({ content: data.message, key: "newPostLoading" });
-          Router.replace(
+          router.push(
             "/post/[post_type]/[post_id]",
-            `/post/${query}/${data.post_id}`
+            `/post/${query.post_type}/${data.post_id}`
           );
         } else {
           message.error({ content: data.message, key: "newPostLoading" });
@@ -156,7 +160,7 @@ function NewPost({ query }) {
     post_data.append("post_description", editorContent);
     post_data.append("g-recaptcha-response", response);
 
-    fetch(`${BASE_URL}/new_fanart/${query}`, {
+    fetch(`${BASE_URL}/new_fanart/${query.post_type}`, {
       method: "POST",
       body: post_data,
     })
@@ -164,9 +168,9 @@ function NewPost({ query }) {
       .then((data) => {
         if (data.success) {
           message.success({ content: data.message, key: "newPostLoading" });
-          Router.replace(
+          router.push(
             "/fanart/[post_type]/[post_id]",
-            `/fanart/${query}/${data.post_id}`
+            `/fanart/${query.post_type}/${data.post_id}`
           );
         } else {
           message.error({ content: data.message, key: "newPostLoading" });
@@ -190,7 +194,7 @@ function NewPost({ query }) {
   };
 
   const newPostButton =
-    query.indexOf("fanart") > 0 ? (
+    query.post_type.indexOf("fanart") > 0 ? (
       <Button
         onClick={() => {
           post_type = "fanart";
@@ -326,9 +330,5 @@ function NewPost({ query }) {
     </div>
   );
 }
-
-NewPost.getInitialProps = ({ query }) => {
-  return { query: query.post_type };
-};
 
 export default NewPost;

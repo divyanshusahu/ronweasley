@@ -450,16 +450,16 @@ function Dashboard(props) {
   );
 }
 
-Dashboard.getInitialProps = async (ctx) => {
-  const { access_token } = cookies(ctx);
+export async function getServerSideProps(context) {
+  const { access_token } = cookies(context);
   const r1 = await fetch(BASE_URL + "/admin/identity_check", {
     headers: { Authorization: `Bearer ${access_token}` },
   });
   const result = await r1.json();
   if (result.success) {
-    return { authorized: true, access_token: access_token };
+    return { props: { authorized: true, access_token: access_token } };
   }
-  return { authorized: false };
-};
+  return { props: { authorized: false } };
+}
 
 export default Dashboard;

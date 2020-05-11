@@ -438,7 +438,7 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
   );
 }
 
-Suggestions.getInitialProps = async () => {
+export async function getStaticProps() {
   const r1 = await fetch(BASE_URL + "/get_post/bug");
   let pageLoadBugs = await r1.json();
   if (pageLoadBugs.success) {
@@ -458,10 +458,12 @@ Suggestions.getInitialProps = async () => {
   }
 
   return {
-    pageLoadBugs: pageLoadBugs,
-    pageLoadSuggestions: pageLoadSuggestions,
-    pageLoadFeedbacks: pageLoadFeedbacks,
+    props: {
+      pageLoadBugs: pageLoadBugs,
+      pageLoadSuggestions: pageLoadSuggestions,
+      pageLoadFeedbacks: pageLoadFeedbacks,
+    },
   };
-};
+}
 
 export default Suggestions;

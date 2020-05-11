@@ -6,33 +6,13 @@ import { motion } from "framer-motion";
 import isEmpty from "is-empty";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
-import ErrorLayout from "../../../components/ErrorLayout";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-const allowed_type = ["checkmated"];
-
 function StoryDomain(props) {
-  if (!allowed_type.includes(props.post_type)) {
-    return (
-      <ErrorLayout
-        status="404"
-        title="404"
-        subTitle="Sorry, the page you visited does not exist."
-        extra={
-          <Link href="/">
-            <a>
-              <Button type="primary">Back Home</Button>
-            </a>
-          </Link>
-        }
-      />
-    );
-  }
-
   const [isLoading, setLoading] = React.useState(true);
   const [tableData, setTableData] = React.useState(null);
   const [showLoadMore, setShowLoadMore] = React.useState(false);
@@ -173,8 +153,15 @@ function StoryDomain(props) {
   );
 }
 
-StoryDomain.getInitialProps = ({ query }) => {
-  return query;
-};
+export async function getStaticPaths() {
+  const types = ["checkmated"];
+  const pages = types.map((p) => `/fanfiction/${p}`);
+  return { paths: pages, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const post_type = context.params;
+  return { props: post_type };
+}
 
 export default StoryDomain;
