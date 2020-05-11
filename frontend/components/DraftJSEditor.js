@@ -7,12 +7,10 @@ import {
   convertToRaw,
   convertFromRaw,
   getDefaultKeyBinding,
-  KeyBindingUtil
+  KeyBindingUtil,
 } from "draft-js";
 
-import Head from "next/head";
-
-import { Row, Col, Radio, Button, Popover, Input } from "antd";
+import { Row, Col, Radio, Button, Popover, Input, Divider, Upload } from "antd";
 import {
   UndoOutlined,
   RedoOutlined,
@@ -27,7 +25,8 @@ import {
   BlockOutlined,
   LinkOutlined,
   EnterOutlined,
-  FileImageOutlined
+  FileImageOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
 
 import clsx from "clsx";
@@ -35,7 +34,7 @@ import isEmpty from "is-empty";
 
 function DraftJSEditor(props) {
   const findLinkEntities = (contentBlock, callback, contentState) => {
-    contentBlock.findEntityRanges(character => {
+    contentBlock.findEntityRanges((character) => {
       const entityKey = character.getEntity();
       return (
         entityKey !== null &&
@@ -44,7 +43,7 @@ function DraftJSEditor(props) {
     }, callback);
   };
 
-  const Link = props => {
+  const Link = (props) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
     return (
       <a href={url} target="_blank" rel="noopener noreferrer">
@@ -54,7 +53,7 @@ function DraftJSEditor(props) {
   };
 
   const decorator = new CompositeDecorator([
-    { strategy: findLinkEntities, component: Link }
+    { strategy: findLinkEntities, component: Link },
   ]);
 
   const [editorState, setEditorState] = React.useState(
@@ -76,14 +75,14 @@ function DraftJSEditor(props) {
 
   const styleMap = {
     STRIKETHROUGH: {
-      textDecoration: "line-through"
+      textDecoration: "line-through",
     },
     HIGHLIGHT: {
-      background: "#ffff00"
-    }
+      background: "#ffff00",
+    },
   };
 
-  const myKeyBindingFn = event => {
+  const myKeyBindingFn = (event) => {
     if (event.keyCode === 72 && KeyBindingUtil.hasCommandModifier(event)) {
       return "custom-command-highlight";
     } else if (
@@ -95,7 +94,7 @@ function DraftJSEditor(props) {
     return getDefaultKeyBinding(event);
   };
 
-  const handleKeyCommand = command => {
+  const handleKeyCommand = (command) => {
     if (command === "custom-command-highlight") {
       setEditorState(RichUtils.toggleInlineStyle(editorState, "HIGHLIGHT"));
       return "handled";
@@ -118,54 +117,54 @@ function DraftJSEditor(props) {
     setEditorState(EditorState.redo(editorState));
   };
 
-  const handleBoldClick = event => {
+  const handleBoldClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
   };
 
-  const handleItalicClick = event => {
+  const handleItalicClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"));
   };
 
-  const handleStrikeClick = event => {
+  const handleStrikeClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "STRIKETHROUGH"));
   };
 
-  const handleUnderlineClick = event => {
+  const handleUnderlineClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"));
   };
 
-  const handleHighlightClick = event => {
+  const handleHighlightClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleInlineStyle(editorState, "HIGHLIGHT"));
   };
 
-  const handleULClick = event => {
+  const handleULClick = (event) => {
     event.preventDefault();
     setEditorState(
       RichUtils.toggleBlockType(editorState, "unordered-list-item")
     );
   };
 
-  const handleOLClick = event => {
+  const handleOLClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"));
   };
 
-  const handleBlockqouteClick = event => {
+  const handleBlockqouteClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleBlockType(editorState, "blockquote"));
   };
 
-  const handleCodeblockClick = event => {
+  const handleCodeblockClick = (event) => {
     event.preventDefault();
     setEditorState(RichUtils.toggleBlockType(editorState, "code-block"));
   };
 
-  const handleHeaderClick = event => {
+  const handleHeaderClick = (event) => {
     setEditorState(RichUtils.toggleBlockType(editorState, event.target.value));
   };
 
@@ -173,11 +172,11 @@ function DraftJSEditor(props) {
     let es = editorState;
     let contentState = es.getCurrentContent();
     let contentStateWithEntity = contentState.createEntity("LINK", "MUTABLE", {
-      url: document.getElementById("link-url-field").value
+      url: document.getElementById("link-url-field").value,
     });
     let entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     let newEditorState = EditorState.set(es, {
-      currentContent: contentStateWithEntity
+      currentContent: contentStateWithEntity,
     });
     setEditorState(
       RichUtils.toggleLink(
@@ -188,17 +187,17 @@ function DraftJSEditor(props) {
     );
   };
 
-  const mediaBlockRenderer = block => {
+  const mediaBlockRenderer = (block) => {
     if (block.getType() === "atomic") {
       return {
         component: Media,
-        editable: false
+        editable: false,
       };
     }
     return null;
   };
 
-  const Image = props => (
+  const Image = (props) => (
     <img
       src={props.src}
       alt="An error occurred"
@@ -206,7 +205,7 @@ function DraftJSEditor(props) {
     />
   );
 
-  const Media = props => {
+  const Media = (props) => {
     const entity = props.contentState.getEntity(props.block.getEntityAt(0));
     let d;
     try {
@@ -232,16 +231,44 @@ function DraftJSEditor(props) {
       "IMAGE",
       "IMMUTABLE",
       {
-        src: urlValue
+        src: urlValue,
       }
     );
     let entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     let newEditorState = EditorState.set(es, {
-      currentContent: contentStateWithEntity
+      currentContent: contentStateWithEntity,
     });
     setEditorState(
       AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
     );
+  };
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const confirm_media_file = async (file) => {
+    let image_src = await getBase64(file);
+    let es = editorState;
+    let contentState = es.getCurrentContent();
+    let contentStateWithEntity = contentState.createEntity(
+      "IMAGE",
+      "IMMUTABLE",
+      { src: image_src }
+    );
+    let entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    let newEditorState = EditorState.set(es, {
+      currentContent: contentStateWithEntity,
+    });
+    setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ")
+    );
+    return false;
   };
 
   if (true) {
@@ -249,7 +276,7 @@ function DraftJSEditor(props) {
     props.handleEditorContent(JSON.stringify(currentContent));
   }
 
-  const myBlockStyleFn = contentBlock => {
+  const myBlockStyleFn = (contentBlock) => {
     let type = contentBlock.getType();
     if (type === "blockquote") {
       return "editorBlockQuote";
@@ -258,12 +285,6 @@ function DraftJSEditor(props) {
 
   return (
     <div className="root">
-      <Head>
-        <link
-          href="https://cdn.jsdelivr.net/npm/draft-js@0.11.3/dist/Draft.css"
-          rel="stylesheet"
-        />
-      </Head>
       <div className="toolbar">
         <Row justify="start" gutter={[16, 16]}>
           <Col style={{ display: "inline-block" }}>
@@ -295,7 +316,7 @@ function DraftJSEditor(props) {
                   "ant-radio-button-wrapper-checked":
                     typeof currentInlineStyles === "object"
                       ? currentInlineStyles.has("BOLD")
-                      : false
+                      : false,
                 })}
               />
             </span>
@@ -307,7 +328,7 @@ function DraftJSEditor(props) {
                   "ant-radio-button-wrapper-checked":
                     typeof currentInlineStyles === "object"
                       ? currentInlineStyles.has("ITALIC")
-                      : false
+                      : false,
                 })}
               />
             </span>
@@ -319,7 +340,7 @@ function DraftJSEditor(props) {
                   "ant-radio-button-wrapper-checked":
                     typeof currentInlineStyles === "object"
                       ? currentInlineStyles.has("UNDERLINE")
-                      : false
+                      : false,
                 })}
               />
             </span>
@@ -331,7 +352,7 @@ function DraftJSEditor(props) {
                   "ant-radio-button-wrapper-checked":
                     typeof currentInlineStyles === "object"
                       ? currentInlineStyles.has("STRIKETHROUGH")
-                      : false
+                      : false,
                 })}
               />
             </span>
@@ -343,7 +364,7 @@ function DraftJSEditor(props) {
                   "ant-radio-button-wrapper-checked":
                     typeof currentInlineStyles === "object"
                       ? currentInlineStyles.has("HIGHLIGHT")
-                      : false
+                      : false,
                 })}
               />
             </span>
@@ -355,7 +376,7 @@ function DraftJSEditor(props) {
                 title="Unordered List"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
-                    currentBlockType === "unordered-list-item" ? true : false
+                    currentBlockType === "unordered-list-item" ? true : false,
                 })}
               />
             </span>
@@ -365,7 +386,7 @@ function DraftJSEditor(props) {
                 title="Ordered List"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
-                    currentBlockType === "ordered-list-item" ? true : false
+                    currentBlockType === "ordered-list-item" ? true : false,
                 })}
               />
             </span>
@@ -375,7 +396,7 @@ function DraftJSEditor(props) {
                 title="Code Block"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
-                    currentBlockType === "code-block" ? true : false
+                    currentBlockType === "code-block" ? true : false,
                 })}
               />
             </span>
@@ -385,7 +406,7 @@ function DraftJSEditor(props) {
                 title="Blockquote"
                 className={clsx({
                   "ant-radio-button-wrapper-checked":
-                    currentBlockType === "blockquote" ? true : false
+                    currentBlockType === "blockquote" ? true : false,
                 })}
               />
             </span>
@@ -393,7 +414,7 @@ function DraftJSEditor(props) {
           <Col style={{ display: "inline-block" }}>
             <Popover
               trigger="click"
-              placement="top"
+              placement="bottom"
               content={
                 <Input
                   id="link-url-field"
@@ -408,15 +429,28 @@ function DraftJSEditor(props) {
             </Popover>
             <Popover
               trigger="click"
-              placement="top"
+              placement="bottom"
               content={
-                <Input
-                  id="image-url-field"
-                  placeholder="Insert Image Link"
-                  prefix={<FileImageOutlined />}
-                  addonAfter={<EnterOutlined onClick={confirm_media} />}
-                  onPressEnter={confirm_media}
-                />
+                <div style={{ width: "100%", maxWidth: "400px" }}>
+                  <Input
+                    id="image-url-field"
+                    placeholder="Insert Image Link"
+                    prefix={<FileImageOutlined />}
+                    addonAfter={<EnterOutlined onClick={confirm_media} />}
+                    onPressEnter={confirm_media}
+                  />
+                  <Divider>OR</Divider>
+                  <Upload
+                    accept="image/*"
+                    beforeUpload={(file) => confirm_media_file(file)}
+                    showUploadList={false}
+                  >
+                    <Button>
+                      <UploadOutlined />
+                      Select File
+                    </Button>
+                  </Upload>
+                </div>
               }
             >
               <Button icon={<FileImageOutlined />} title="Insert Image" />
