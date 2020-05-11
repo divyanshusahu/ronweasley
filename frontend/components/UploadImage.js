@@ -27,7 +27,7 @@ function UploadImage(props) {
       return false;
     },
     listType: "picture-card",
-    multiple: true,
+    multiple: false,
     onPreview: async file => {
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj);
