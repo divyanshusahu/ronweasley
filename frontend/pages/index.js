@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
+import queryString from "query-string";
 
 import { Button } from "antd";
 
@@ -14,8 +15,9 @@ const BASE_URL =
     ? "http://localhost:5000"
     : "https://api.ronweasley.co";
 
-function Index(props) {
+function Index() {
   const router = useRouter();
+  const { query } = queryString.parseUrl(router.asPath);
   const tab_search_list = [
     { key: "1", tab: "appreciation" },
     { key: "2", tab: "defense" },
@@ -27,7 +29,7 @@ function Index(props) {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const result = postTabHook(tab_search_list, props.query);
+    const result = postTabHook(tab_search_list, query);
     if (result.result === -1) {
       setSelectedTab("appreciation");
       return;
@@ -161,7 +163,7 @@ function Index(props) {
     setFilteredPosts(posts.filter(filter_function));
   }, [searchField]);
 
-  const page = isEmpty(props.query.page) ? 1 : props.query.page;
+  const page = isEmpty(query.page) ? 1 : query.page;
 
   return (
     <Layout
@@ -184,9 +186,5 @@ function Index(props) {
     />
   );
 }
-
-Index.getInitialProps = ({ query }) => {
-  return { query: query };
-};
 
 export default Index;
