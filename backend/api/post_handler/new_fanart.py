@@ -111,7 +111,13 @@ def upload_fanart(post_type):
         key = "%s/%s/%s" % (post_type, post_id, name["S"])
         try:
             s3.upload_fileobj(
-                img, os.environ["BUCKET_NAME"], key, {"ACL": "public-read"}
+                img,
+                os.environ["BUCKET_NAME"],
+                key,
+                {"ACL": "public-read"},
+                ExtraArgs={
+                    "Metadata": {"Cache-Control": "public, max-age=31536000, immutable"}
+                },
             )
         except:
             return jsonify({"success": False, "message": "Upload image failed"}), 500

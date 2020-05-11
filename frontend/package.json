@@ -19,14 +19,14 @@
     "url": "https://github.com/divyanshusahu/ronweasley/issues"
   },
   "dependencies": {
-    "antd": "^4.1.3",
+    "antd": "^4.2.2",
     "clsx": "^1.1.0",
     "draft-js": "^0.11.5",
     "draft-js-export-html": "^1.4.1",
     "framer-motion": "^1.10.3",
     "is-empty": "^1.2.0",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.3.5",
+    "next": "^9.4.0",
     "next-cookies": "^2.0.3",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
@@ -37,6 +37,6 @@
     "react-timeago": "^4.4.0"
   },
   "devDependencies": {
-    "serverless-next.js": "^1.9.10"
+    "serverless-next.js": "^1.11.5"
   }
 }
