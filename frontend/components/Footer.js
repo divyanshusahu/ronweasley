@@ -73,7 +73,7 @@ function Footer() {
         />
       </Head>
       <Row>
-        <Col sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }}>
+        <Col sm={{ span: 20, offset: 2 }} md={{ span: 12, offset: 6 }}>
           <Paragraph
             style={{
               textAlign: "center",
@@ -86,7 +86,7 @@ function Footer() {
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
           </Paragraph>
-          <Divider style={{ borderTopColor: "rgba(240,240,240,0.25)" }} />
+          <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
         </Col>
       </Row>
       <div className="contact_admin_div">
