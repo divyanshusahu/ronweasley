@@ -1,4 +1,4 @@
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 import { Row, Col, Card, Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -18,6 +18,7 @@ let formValues;
 let response;
 
 function LoginForm() {
+  const router = useRouter();
   const recaptchaInstance = React.useRef();
 
   const executeCaptcha = (values) => {
@@ -38,7 +39,7 @@ function LoginForm() {
           message.error({ content: data.message });
         } else {
           document.cookie = `access_token=${data.access_token}; path=/admin`;
-          Router.replace("/admin/dashboard");
+          router.push("/admin/dashboard");
         }
       });
   };
