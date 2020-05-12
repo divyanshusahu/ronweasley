@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 import { Row, Col, Typography, Divider } from "antd";
 import {
@@ -85,6 +86,17 @@ function Footer() {
           >
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
+          </Paragraph>
+          <Paragraph
+            style={{
+              textAlign: "center",
+              fontSize: "16px",
+              color: "#f0f0f0",
+              fontWeight: "400",
+              fontFamily: "Karla",
+            }}
+          >
+            Important Links: <Link href="/timeline"><a>Timeline</a></Link>
           </Paragraph>
           <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
         </Col>
