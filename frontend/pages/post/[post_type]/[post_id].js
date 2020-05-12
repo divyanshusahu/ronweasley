@@ -1,4 +1,7 @@
-import { Row, Col } from "antd";
+import { useRouter } from "next/router";
+import Link from "next/link";
+
+import { Row, Col, Button } from "antd";
 
 import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
@@ -6,6 +9,8 @@ import isEmpty from "is-empty";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import DisplayPost from "../../../components/DisplayPost";
+import LoadingComponent from "../../../components/LoadingComponent";
+import ErrorLayout from "../../../components/ErrorLayout";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -13,6 +18,28 @@ const BASE_URL =
     : "https://api.ronweasley.co";
 
 function Posts(props) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <LoadingComponent />;
+  }
+
+  if (!props.success) {
+    return (
+      <ErrorLayout
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist."
+        extra={
+          <Link href="/">
+            <a>
+              <Button type="primary">Back Home</Button>
+            </a>
+          </Link>
+        }
+      />
+    );
+  }
+
   const post = props.post;
   return (
     <div>
@@ -32,7 +59,7 @@ function Posts(props) {
             transition: { duration: 0.2 },
           }}
         >
-          <div className="display_post">
+          <div className="page_root">
             <Row>
               <Col
                 xs={{ span: 22, offset: 1 }}
@@ -65,7 +92,7 @@ function Posts(props) {
       </SecondaryLayout>
       <style jsx>
         {`
-          .display_post {
+          .page_root {
             margin: 64px 0 16px 0;
           }
         `}
@@ -91,11 +118,13 @@ export async function getStaticPaths() {
     const d1 = await r1.json();
     if (d1.success) {
       d1.posts.forEach((p) => {
-        pages.push(`/post/${types[i]}/${p["post_id"]["S"]}`);
+        pages.push({
+          params: { post_type: types[i], post_id: p["post_id"]["S"] },
+        });
       });
     }
   }
-  return { paths: pages, fallback: false };
+  return { paths: pages, fallback: true };
 }
 
 export async function getStaticProps(context) {
@@ -103,7 +132,10 @@ export async function getStaticProps(context) {
   const post_id = context.params["post_id"];
   const r2 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
   const d2 = await r2.json();
-  return { props: d2 };
+  if (!d2.success) {
+    return { unstable_revalidate: 1, props: { success: false } };
+  }
+  return { unstable_revalidate: 1, props: d2 };
 }
 
 export default Posts;

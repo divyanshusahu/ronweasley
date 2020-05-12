@@ -86,7 +86,7 @@ function Footer() {
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
           </Paragraph>
-          <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
+          <Divider style={{ borderTopColor: "rgba(240,240,240,0.25)" }} />
         </Col>
       </Row>
       <div className="contact_admin_div">

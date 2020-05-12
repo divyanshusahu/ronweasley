@@ -1,9 +1,14 @@
+import { useRouter } from "next/router";
+import Link from "next/link";
+
 import { Row, Col, Descriptions, Card, Table, Button, Tag } from "antd";
 
 import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
 
 import SecondaryLayout from "../../../../components/SecondaryLayout";
+import LoadingComponent from "../../../../components/LoadingComponent";
+import ErrorLayout from "../../../../components/ErrorLayout";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -11,6 +16,28 @@ const BASE_URL =
     : "https://api.ronweasley.co";
 
 function Story(props) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <LoadingComponent />;
+  }
+
+  if (!props.success) {
+    return (
+      <ErrorLayout
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist."
+        extra={
+          <Link href="/">
+            <a>
+              <Button type="primary">Back Home</Button>
+            </a>
+          </Link>
+        }
+      />
+    );
+  }
+
   const columns = [
     {
       title: "Chapter",
@@ -138,11 +165,13 @@ export async function getStaticPaths() {
     const d1 = await r1.json();
     if (d1.success) {
       d1.stories.forEach((s) => {
-        pages.push(`/fanfiction/${types[i]}/${s["post_id"]["S"]}`);
+        pages.push({
+          params: { post_type: types[i], post_id: s["post_id"]["S"] },
+        });
       });
     }
   }
-  return { paths: pages, fallback: false };
+  return { paths: pages, fallback: true };
 }
 
 export async function getStaticProps(context) {
@@ -150,7 +179,10 @@ export async function getStaticProps(context) {
   const post_id = context.params["post_id"];
   const r1 = await fetch(`${BASE_URL}/get_story/${post_type}/${post_id}`);
   const d1 = await r1.json();
-  return { props: d1 };
+  if (!d1.success) {
+    return { unstable_revalidate: 1, props: { success: false } };
+  }
+  return { unstable_revalidate: 1, props: d1 };
 }
 
 export default Story;

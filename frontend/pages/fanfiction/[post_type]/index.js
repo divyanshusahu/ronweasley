@@ -155,7 +155,7 @@ function StoryDomain(props) {
 
 export async function getStaticPaths() {
   const types = ["checkmated"];
-  const pages = types.map((p) => `/fanfiction/${p}`);
+  const pages = types.map((p) => ({ params: { post_type: p } }));
   return { paths: pages, fallback: false };
 }
 

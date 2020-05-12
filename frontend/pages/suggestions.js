@@ -458,6 +458,7 @@ export async function getStaticProps() {
   }
 
   return {
+    unstable_revalidate: 1,
     props: {
       pageLoadBugs: pageLoadBugs,
       pageLoadSuggestions: pageLoadSuggestions,
