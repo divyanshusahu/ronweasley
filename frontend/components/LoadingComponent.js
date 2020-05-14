@@ -12,7 +12,7 @@ function LoadingComponent() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div class="page_root">
+        <div className="page_root">
           <Row>
             <Col
               xs={{ span: 22, offset: 1 }}

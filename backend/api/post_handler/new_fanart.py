@@ -114,9 +114,11 @@ def upload_fanart(post_type):
                 img,
                 os.environ["BUCKET_NAME"],
                 key,
-                {"ACL": "public-read"},
-                ExtraArgs={
-                    "Metadata": {"Cache-Control": "public, max-age=31536000, immutable"}
+                {
+                    "ACL": "public-read",
+                    "Metadata": {
+                        "Cache-Control": "public, max-age=31536000, immutable"
+                    },
                 },
             )
         except:
