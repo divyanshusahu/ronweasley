@@ -271,10 +271,10 @@ function DraftJSEditor(props) {
     return false;
   };
 
-  if (true) {
+  /*if (true) {
     const currentContent = convertToRaw(editorState.getCurrentContent());
     props.handleEditorContent(JSON.stringify(currentContent));
-  }
+  }*/
 
   const myBlockStyleFn = (contentBlock) => {
     let type = contentBlock.getType();

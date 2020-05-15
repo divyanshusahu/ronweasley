@@ -16,6 +16,7 @@ import {
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
 import DraftJSEditor from "../../../components/DraftJSEditor";
+import TinyMCEEditor from "../../../components/TinyMCEEditor";
 import getPostSummary from "../../../hooks/getPostSummary";
 
 const BASE_URL =
@@ -71,7 +72,7 @@ function EditPost(props) {
       duration: 0,
       key: "editPostMessage",
     });
-    let post_summary = getPostSummary(editorContent);
+    let post_summary = post.post_content["S"];
     let post_data = {
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
@@ -80,6 +81,7 @@ function EditPost(props) {
       post_content: editorContent,
       post_summary: post_summary,
     };
+    console.log(editorContent);
     fetch(
       `${BASE_URL}/edit_post/update/${post.post_type["S"]}/${post.post_id["S"]}`,
       {
@@ -200,8 +202,12 @@ function EditPost(props) {
                       }
                     >
                       <DraftJSEditor
-                        handleEditorContent={handleEditorContent}
+                        //handleEditorContent={handleEditorContent}
                         post_content={post.post_content["S"]}
+                      />
+                      <TinyMCEEditor
+                        initialContent=""
+                        handleEditorContent={handleEditorContent}
                       />
                     </Card>
                   </div>

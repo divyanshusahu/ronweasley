@@ -13,9 +13,10 @@ import fetch from "isomorphic-unfetch";
 import { motion } from "framer-motion";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
-import DraftJSEditor from "../../components/DraftJSEditor";
+//import DraftJSEditor from "../../components/DraftJSEditor";
+import TinyMCEEditor from "../../components/TinyMCEEditor";
 import UploadImage from "../../components/UploadImage";
-import getPostSummary from "../../hooks/getPostSummary";
+//import getPostSummary from "../../hooks/getPostSummary";
 
 const allowedQuery = [
   "ron_weasley_appreciation",
@@ -64,16 +65,26 @@ function NewPost(props) {
     props.post_type.indexOf("fanart") > 0 ? (
       <div>
         <UploadImage handleImageList={handleImageList} />
-        <DraftJSEditor
+        {/*<DraftJSEditor
           handleEditorContent={handleEditorContent}
           placeholder="Fanart description (optional)"
+        />*/}
+        <TinyMCEEditor
+          initialContent=""
+          handleEditorContent={handleEditorContent}
         />
       </div>
     ) : (
-      <DraftJSEditor
-        handleEditorContent={handleEditorContent}
-        placeholder="Begin your post here..."
-      />
+      <div>
+        {/*<DraftJSEditor
+          handleEditorContent={handleEditorContent}
+          placeholder="Begin your post here..."
+        />*/}
+        <TinyMCEEditor
+          initialContent=""
+          handleEditorContent={handleEditorContent}
+        />
+      </div>
     );
 
   const executeCaptcha = () => {
@@ -87,14 +98,14 @@ function NewPost(props) {
   };
 
   const add_new_post = () => {
-    let post_summary = getPostSummary(editorContent);
+    //let post_summary = getPostSummary(editorContent);
     let post_data = {
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
       post_content: editorContent,
-      post_summary: post_summary,
+      //post_summary: post_summary,
       "g-recaptcha-response": response,
     };
     fetch(BASE_URL + "/new_post/" + props.post_type, {
@@ -225,6 +236,7 @@ function NewPost(props) {
                   title="New Post"
                   extra={title}
                   style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
+                  actions={[newPostButton]}
                 >
                   <Row gutter={[16, 16]}>
                     <Col xs={24} lg={12}>
@@ -269,9 +281,10 @@ function NewPost(props) {
                     </Col>
                   </Row>
                   <div className="editor_area">
-                    <Card type="inner" extra={newPostButton}>
+                    {/*<Card type="inner" extra={newPostButton}>
                       {display}
-                    </Card>
+                    </Card>*/}
+                    {display}
                   </div>
                 </Card>
               </Col>

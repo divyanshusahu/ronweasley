@@ -19,6 +19,7 @@
     "url": "https://github.com/divyanshusahu/ronweasley/issues"
   },
   "dependencies": {
+    "@tinymce/tinymce-react": "^3.6.0",
     "antd": "^4.1.3",
     "clsx": "^1.1.0",
     "draft-js": "^0.11.5",
