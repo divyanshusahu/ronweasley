@@ -1,8 +1,9 @@
 import Router from "next/router";
-import Link from "next/link";
+//import Link from "next/link";
 
 import TimeAgo from "react-timeago";
-import isEmpty from "is-empty";
+//import isEmpty from "is-empty";
+import ReactHtmlParser from "react-html-parser";
 
 import { Card, Typography, Modal, Input, Alert, message } from "antd";
 import {
@@ -12,7 +13,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
-import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
+//import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
 import {
   handleEditPost,
   handleDeletePost,
@@ -218,20 +219,25 @@ function DisplayPost(props) {
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
         >
-          {
+          {/*
             <div className="post_text">
               {isEmpty(props.post_summary)
                 ? getHTMLFromDraftJS(props.post_content)
                 : getHTMLFromDraftJS(props.post_summary)}
             </div>
-          }
-          {isEmpty(props.post_summary) ? null : (
+              */}
+          {/*isEmpty(props.post_summary) ? null : (
             <div style={{ float: "right" }}>
               <Link href={post_url} as={post_as} scroll={false}>
                 <a>View</a>
               </Link>
             </div>
-          )}
+          )*/}
+          {
+            <div className="post_text">
+              {ReactHtmlParser(props.post_content)}
+            </div>
+          }
         </Card>
       </div>
       <style jsx>
@@ -246,7 +252,6 @@ function DisplayPost(props) {
           }
           .display_post_card {
             margin-bottom: 48px;
-            box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
           }
           .post_text {
             font-size: 16px;
@@ -258,5 +263,7 @@ function DisplayPost(props) {
     </div>
   );
 }
+
+// box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
 
 export default DisplayPost;

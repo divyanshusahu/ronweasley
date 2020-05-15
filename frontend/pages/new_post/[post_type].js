@@ -63,7 +63,7 @@ function NewPost(props) {
 
   const display =
     props.post_type.indexOf("fanart") > 0 ? (
-      <div>
+      <div style={{ paddingTop: 16 }}>
         <UploadImage handleImageList={handleImageList} />
         {/*<DraftJSEditor
           handleEditorContent={handleEditorContent}
@@ -75,16 +75,10 @@ function NewPost(props) {
         />
       </div>
     ) : (
-      <div>
-        {/*<DraftJSEditor
-          handleEditorContent={handleEditorContent}
-          placeholder="Begin your post here..."
-        />*/}
-        <TinyMCEEditor
-          initialContent=""
-          handleEditorContent={handleEditorContent}
-        />
-      </div>
+      <TinyMCEEditor
+        initialContent=""
+        handleEditorContent={handleEditorContent}
+      />
     );
 
   const executeCaptcha = () => {
@@ -186,6 +180,7 @@ function NewPost(props) {
   const newPostButton =
     props.post_type.indexOf("fanart") > 0 ? (
       <Button
+        shape="round"
         onClick={() => {
           post_type = "fanart";
           executeCaptcha();
@@ -196,6 +191,7 @@ function NewPost(props) {
       </Button>
     ) : (
       <Button
+        shape="round"
         onClick={() => {
           post_type = "post";
           executeCaptcha();
@@ -236,7 +232,6 @@ function NewPost(props) {
                   title="New Post"
                   extra={title}
                   style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
-                  actions={[newPostButton]}
                 >
                   <Row gutter={[16, 16]}>
                     <Col xs={24} lg={12}>
@@ -281,10 +276,14 @@ function NewPost(props) {
                     </Col>
                   </Row>
                   <div className="editor_area">
-                    {/*<Card type="inner" extra={newPostButton}>
+                    <Card
+                      type="inner"
+                      bordered={false}
+                      extra={newPostButton}
+                      bodyStyle={{ padding: 0 }}
+                    >
                       {display}
-                    </Card>*/}
-                    {display}
+                    </Card>
                   </div>
                 </Card>
               </Col>

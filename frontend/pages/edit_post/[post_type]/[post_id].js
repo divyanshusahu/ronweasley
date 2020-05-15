@@ -15,9 +15,9 @@ import {
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
-import DraftJSEditor from "../../../components/DraftJSEditor";
+//import DraftJSEditor from "../../../components/DraftJSEditor";
 import TinyMCEEditor from "../../../components/TinyMCEEditor";
-import getPostSummary from "../../../hooks/getPostSummary";
+//import getPostSummary from "../../../hooks/getPostSummary";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -72,16 +72,13 @@ function EditPost(props) {
       duration: 0,
       key: "editPostMessage",
     });
-    let post_summary = post.post_content["S"];
     let post_data = {
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
       post_content: editorContent,
-      post_summary: post_summary,
     };
-    console.log(editorContent);
     fetch(
       `${BASE_URL}/edit_post/update/${post.post_type["S"]}/${post.post_id["S"]}`,
       {
@@ -106,6 +103,13 @@ function EditPost(props) {
         }
       });
   };
+
+  const updateButton = (
+    <Button shape="round" onClick={handlePostUpdate}>
+      <SaveOutlined />
+      Save Post
+    </Button>
+  );
 
   return (
     <div>
@@ -193,20 +197,16 @@ function EditPost(props) {
                   </Row>
                   <div className="editor_area">
                     <Card
-                      type="inner"
-                      extra={
-                        <Button onClick={handlePostUpdate}>
-                          <SaveOutlined />
-                          Save Post
-                        </Button>
-                      }
+                      extra={updateButton}
+                      bordered={false}
+                      bodyStyle={{ padding: 0 }}
                     >
-                      <DraftJSEditor
+                      {/*<DraftJSEditor
                         //handleEditorContent={handleEditorContent}
                         post_content={post.post_content["S"]}
-                      />
+                      />*/}
                       <TinyMCEEditor
-                        initialContent=""
+                        initialContent={post.post_content["S"]}
                         handleEditorContent={handleEditorContent}
                       />
                     </Card>
