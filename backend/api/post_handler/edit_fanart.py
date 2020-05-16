@@ -5,7 +5,7 @@ import os
 import hashlib
 import validators
 
-edit_post = Blueprint("edit_post", __name__, url_prefix="/edit_post")
+edit_fanart = Blueprint("edit_fanart", __name__, url_prefix="/edit_fanart")
 
 if os.getenv("ENV") == "development":
     db = boto3.client(
@@ -15,63 +15,7 @@ else:
     db = boto3.client("dynamodb", region_name=os.environ["REGION_NAME"])
 
 
-@edit_post.route("/<post_type>/<post_id>", methods=["POST"])
-def secret_check(post_type, post_id):
-    if request.is_json == False:
-        return jsonify({"success": False, "message": "Bad Request"}), 400
-
-    post_secret = request.json.get("post_secret", "")
-
-    if len(post_secret) == 0:
-        return (
-            jsonify({"success": False, "message": "Post secret cannot be empty"}),
-            400,
-        )
-
-    result = db.get_item(
-        TableName=os.environ["POST_TABLE"],
-        Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
-        AttributesToGet=["post_secret"],
-    )
-
-    if "Item" in result:
-        if (
-            result["Item"]["post_secret"]["S"]
-            == hashlib.sha256(post_secret.encode()).hexdigest()
-        ):
-            access_token = create_access_token(identity=post_id)
-            return (
-                jsonify(
-                    {
-                        "success": True,
-                        "message": "Post secret verified",
-                        "access_token": access_token,
-                    }
-                ),
-                200,
-            )
-        else:
-            return jsonify({"success": False, "message": "Wrong post secret"}), 400
-    else:
-        return jsonify({"success": False, "message": "No post exists."}), 400
-
-    return jsonify({"success": False, "message": "Bad Request"}), 400
-
-
-@edit_post.route("/identity_check", methods=["POST"])
-@jwt_required
-def identity_check():
-    if request.is_json == False:
-        return jsonify({"success": False, "message": "Bad Request"}), 400
-
-    post_id = request.json.get("post_id", "")
-    identity = get_jwt_identity()
-    if post_id == identity:
-        return jsonify({"success": True}), 200
-    return jsonify({"success": False, "message": "Unauthorized"}), 403
-
-
-@edit_post.route("/update/<post_type>/<post_id>", methods=["POST"])
+@edit_fanart.route("/update/<post_type>/<post_id>", methods=["POST"])
 @jwt_required
 def update_post(post_type, post_id):
     if request.is_json == False:
@@ -108,32 +52,31 @@ def update_post(post_type, post_id):
     if len(post_author_link) == 0:
         post_author_link = "/anonymous/anon.jpg"
 
-    post_content = request.json.get("post_content", "")
-    if len(post_content) == 0:
-        return (
-            jsonify({"success": False, "message": "Post content must not be empty"}),
-            400,
-        )
+    post_description = request.json.get("post_description", "")
 
     post_secret = request.json.get("post_secret", "")
+
+    update_expression = "SET post_title = :post_title, post_author = :post_author, \
+    post_author_link = :post_author_link"
+
+    expression_attribute_values = {}
+    expression_attribute_values[":post_type"] = {"S": post_type}
+    expression_attribute_values[":post_id"] = {"S": post_id}
+    expression_attribute_values[":post_title"] = {"S": post_title}
+    expression_attribute_values[":post_author"] = {"S": post_author}
+    expression_attribute_values[":post_author_link"] = {"S": post_author_link}
+
+    if len(post_description):
+        update_expression += ", post_description = :post_description"
+        expression_attribute_values[":post_description"] = {"S": post_description}
 
     try:
         db.update_item(
             TableName=os.environ["POST_TABLE"],
             Key={"post_type": {"S": post_type}, "post_id": {"S": post_id}},
             ConditionExpression="post_type = :post_type AND post_id = :post_id",
-            UpdateExpression="""SET post_title = :post_title,
-                                    post_author = :post_author,
-                                    post_author_link = :post_author_link,
-                                    post_content = :post_content""",
-            ExpressionAttributeValues={
-                ":post_type": {"S": post_type},
-                ":post_id": {"S": post_id},
-                ":post_title": {"S": post_title},
-                ":post_author": {"S": post_author},
-                ":post_author_link": {"S": post_author_link},
-                ":post_content": {"S": post_content},
-            },
+            UpdateExpression=update_expression,
+            ExpressionAttributeValues=expression_attribute_values,
         )
     except db.exceptions.ConditionalCheckFailedException:
         return jsonify({"success": False, "message": "Post does not exist"}), 404
