@@ -1,7 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import "antd/dist/antd.min.css";
-import "draft-js/dist/Draft.css";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
