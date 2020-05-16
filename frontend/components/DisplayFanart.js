@@ -2,7 +2,6 @@ import Router from "next/router";
 
 import TimeAgo from "react-timeago";
 import isEmpty from "is-empty";
-import ReactHtmlParser from "react-html-parser";
 
 import { Card, Modal, Input, Alert, Typography, message } from "antd";
 import {
@@ -17,6 +16,7 @@ import {
   handleDeletePost,
   handleReportPost,
 } from "../hooks/postActionsUtils";
+import parseHtml from "../hooks/parseHtml";
 
 const { confirm } = Modal;
 
@@ -250,11 +250,9 @@ function DisplayFanart(props) {
           )}
           {props.is_layout ? null : (
             <div className="art_description">
-              {
-                isEmpty(props.post_description)
-                  ? null
-                  : ReactHtmlParser(props.post_description)
-              }
+              {isEmpty(props.post_description)
+                ? null
+                : parseHtml(props.post_description)}
             </div>
           )}
         </Card>

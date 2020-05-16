@@ -1,7 +1,6 @@
 import Router from "next/router";
 
 import TimeAgo from "react-timeago";
-import ReactHtmlParser from "react-html-parser";
 
 import { Card, Typography, Modal, Input, Alert, message } from "antd";
 import {
@@ -16,6 +15,7 @@ import {
   handleDeletePost,
   handleReportPost,
 } from "../hooks/postActionsUtils";
+import parseHtml from "../hooks/parseHtml";
 
 const { confirm } = Modal;
 
@@ -206,7 +206,7 @@ function DisplayPost(props) {
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
         >
-          <div className="post_text">{ReactHtmlParser(props.post_content)}</div>
+          <div className="post_text">{parseHtml(props.post_content)}</div>
         </Card>
       </div>
       <style jsx>
