@@ -116,28 +116,27 @@ def upload_fanart(post_type):
                 key,
                 {
                     "ACL": "public-read",
-                    "Metadata": {
-                        "Cache-Control": "public, max-age=31536000, immutable"
-                    },
+                    "CacheControl": "public, max-age=31536000, immutable",
                 },
             )
         except:
             return jsonify({"success": False, "message": "Upload image failed"}), 500
 
+    put_item = {}
+    put_item["post_type"] = {"S": post_type}
+    put_item["post_id"] = {"S": post_id}
+    put_item["post_title"] = {"S": post_title}
+    put_item["post_author"] = {"S": post_author}
+    put_item["post_author_link"] = {"S": post_author_link}
+    put_item["post_secret"] = {"S": post_secret}
+    put_item["post_date"] = {"S": post_date}
+    put_item["post_image"] = {"L": image_key_list}
+    if len(post_description):
+        put_item["post_description"] = {"S": post_description}
+
     try:
         db.put_item(
-            TableName=os.environ["POST_TABLE"],
-            Item={
-                "post_type": {"S": post_type},
-                "post_id": {"S": post_id},
-                "post_title": {"S": post_title},
-                "post_author": {"S": post_author},
-                "post_author_link": {"S": post_author_link},
-                "post_secret": {"S": post_secret},
-                "post_date": {"S": post_date},
-                "post_description": {"S": post_description},
-                "post_image": {"L": image_key_list},
-            },
+            TableName=os.environ["POST_TABLE"], Item=put_item,
         )
         return (
             jsonify(
