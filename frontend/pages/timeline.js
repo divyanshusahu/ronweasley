@@ -27,7 +27,7 @@ function WebsiteTimeline() {
                 <Steps
                   direction="vertical"
                   progressDot={false}
-                  current={5}
+                  current={6}
                   status="finish"
                 >
                   <Steps.Step
@@ -53,6 +53,10 @@ function WebsiteTimeline() {
                   <Steps.Step
                     title="May 13, 2020"
                     description="Caching method optimized for smooth user experience."
+                  />
+                  <Steps.Step
+                    title="May 16, 2020"
+                    description="DraftJS replaced with TinyMCE. Beta support to edit fanart."
                   />
                 </Steps>
               </Card>
