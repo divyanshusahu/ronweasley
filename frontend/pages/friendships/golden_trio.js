@@ -23,7 +23,7 @@ function GoldenTrio() {
     { key: "2", tab: "fanart" },
   ];
 
-  const [selectedTab, setSelectedTab] = React.useState("appreciation");
+  const [selectedTab, setSelectedTab] = React.useState(null);
   const [activeTabKey, setActiveTabKey] = React.useState("1");
   const [loading, setLoading] = React.useState(true);
 

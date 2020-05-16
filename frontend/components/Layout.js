@@ -63,23 +63,33 @@ function Layout(props) {
                 scroll={false}
               >
                 <a>
-                  <motion.div whileHover={{ scale: 1.02 }} variants={variants}>
-                    <DisplayFanart
-                      inner={false}
-                      bordered={true}
-                      showActions={false}
-                      is_layout={true}
-                      key={p.post_id["S"]}
-                      post_type={p.post_type["S"]}
-                      post_id={p.post_id["S"]}
-                      post_title={p.post_title["S"]}
-                      post_author={p.post_author["S"]}
-                      post_author_link={p.post_author_link["S"]}
-                      post_date={p.post_date["S"]}
-                      post_image={
-                        isEmpty(p.post_image) ? null : p.post_image["L"]
-                      }
-                    />
+                  <motion.div
+                    whileHover={{
+                      scale: 1.005,
+                      boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
+                    }}
+                    variants={variants}
+                  >
+                    <div
+                      style={{ boxShadow: "0 6px 15px rgba(36, 37, 38, 0.08)" }}
+                    >
+                      <DisplayFanart
+                        inner={false}
+                        bordered={true}
+                        showActions={false}
+                        is_layout={true}
+                        key={p.post_id["S"]}
+                        post_type={p.post_type["S"]}
+                        post_id={p.post_id["S"]}
+                        post_title={p.post_title["S"]}
+                        post_author={p.post_author["S"]}
+                        post_author_link={p.post_author_link["S"]}
+                        post_date={p.post_date["S"]}
+                        post_image={
+                          isEmpty(p.post_image) ? null : p.post_image["L"]
+                        }
+                      />
+                    </div>
                   </motion.div>
                 </a>
               </Link>
@@ -128,8 +138,8 @@ function Layout(props) {
                   <motion.div
                     variants={variants}
                     whileHover={{
-                      scale: 1.01,
-                      boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.1)",
+                      scale: 1.005,
+                      boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
                     }}
                   >
                     <div
@@ -138,6 +148,7 @@ function Layout(props) {
                         overflow: "hidden",
                         marginBottom: 36,
                         backgroundColor: "#fff",
+                        boxShadow: "0 6px 15px rgba(36, 37,38, 0.08)",
                       }}
                     >
                       <DisplayPost
@@ -151,9 +162,6 @@ function Layout(props) {
                         post_author={p.post_author["S"]}
                         post_author_link={p.post_author_link["S"]}
                         post_date={p.post_date["S"]}
-                        /*post_summary={
-                    isEmpty(p.post_summary) ? null : p.post_summary["S"]
-                  }*/
                         post_content={p.post_content["S"]}
                       />
                     </div>
@@ -214,10 +222,10 @@ function Layout(props) {
                       paddingRight: 8,
                       paddingBottom: 0,
                       paddingTop: 16,
-                      backgroundColor: "rgb(244, 248, 251)",
+                      backgroundColor: "rgb(246, 246, 246)",
                     }}
                     headStyle={{
-                      backgroundColor: "rgb(244, 248, 251)",
+                      backgroundColor: "rgb(246, 246, 246)",
                     }}
                     bordered={false}
                   >
@@ -277,7 +285,7 @@ function Layout(props) {
           }
           .page_content {
             padding: 64px 0 40px 0;
-            background-color: rgb(244, 248, 251);
+            background-color: rgb(246, 246, 246);
           }
           .toolbar {
             padding: 32px 16px 0 16px;
