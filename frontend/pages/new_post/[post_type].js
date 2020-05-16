@@ -13,9 +13,8 @@ import fetch from "isomorphic-unfetch";
 import { motion } from "framer-motion";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
-import DraftJSEditor from "../../components/DraftJSEditor";
+import TinyMCEEditor from "../../components/TinyMCEEditor";
 import UploadImage from "../../components/UploadImage";
-import getPostSummary from "../../hooks/getPostSummary";
 
 const allowedQuery = [
   "ron_weasley_appreciation",
@@ -62,17 +61,17 @@ function NewPost(props) {
 
   const display =
     props.post_type.indexOf("fanart") > 0 ? (
-      <div>
+      <div style={{ paddingTop: 16 }}>
         <UploadImage handleImageList={handleImageList} />
-        <DraftJSEditor
+        <TinyMCEEditor
+          initialContent=""
           handleEditorContent={handleEditorContent}
-          placeholder="Fanart description (optional)"
         />
       </div>
     ) : (
-      <DraftJSEditor
+      <TinyMCEEditor
+        initialContent=""
         handleEditorContent={handleEditorContent}
-        placeholder="Begin your post here..."
       />
     );
 
@@ -87,14 +86,12 @@ function NewPost(props) {
   };
 
   const add_new_post = () => {
-    let post_summary = getPostSummary(editorContent);
     let post_data = {
       post_title: document.getElementById("post_title").value,
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
       post_content: editorContent,
-      post_summary: post_summary,
       "g-recaptcha-response": response,
     };
     fetch(BASE_URL + "/new_post/" + props.post_type, {
@@ -175,6 +172,7 @@ function NewPost(props) {
   const newPostButton =
     props.post_type.indexOf("fanart") > 0 ? (
       <Button
+        shape="round"
         onClick={() => {
           post_type = "fanart";
           executeCaptcha();
@@ -185,6 +183,7 @@ function NewPost(props) {
       </Button>
     ) : (
       <Button
+        shape="round"
         onClick={() => {
           post_type = "post";
           executeCaptcha();
@@ -269,7 +268,11 @@ function NewPost(props) {
                     </Col>
                   </Row>
                   <div className="editor_area">
-                    <Card type="inner" extra={newPostButton}>
+                    <Card
+                      bordered={false}
+                      extra={newPostButton}
+                      bodyStyle={{ padding: 0 }}
+                    >
                       {display}
                     </Card>
                   </div>
@@ -299,7 +302,7 @@ function NewPost(props) {
             margin-bottom: 0;
           }
           .page_root {
-            margin: 40px 0 80px 0;
+            padding: 64px 0 64px 0;
           }
           .editor_area {
             margin-top: 32px;

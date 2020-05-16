@@ -119,23 +119,47 @@ function Layout(props) {
           dataSource={props.posts}
           renderItem={(p) => (
             <List.Item>
-              <motion.div variants={variants} whileHover={{ scale: 1.01 }}>
-                <DisplayPost
-                  inner={false}
-                  bordered={true}
-                  showActions={false}
-                  key={p.post_id["S"]}
-                  post_type={p.post_type["S"]}
-                  post_id={p.post_id["S"]}
-                  post_title={p.post_title["S"]}
-                  post_author={p.post_author["S"]}
-                  post_author_link={p.post_author_link["S"]}
-                  post_date={p.post_date["S"]}
-                  post_summary={
+              <Link
+                href="/post/[post_type]/[post_id]"
+                as={`/post/${p.post_type["S"]}/${p.post_id["S"]}`}
+                scroll={false}
+              >
+                <a>
+                  <motion.div
+                    variants={variants}
+                    whileHover={{
+                      scale: 1.01,
+                      boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.1)",
+                    }}
+                  >
+                    <div
+                      style={{
+                        maxHeight: 320,
+                        overflow: "hidden",
+                        marginBottom: 36,
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      <DisplayPost
+                        inner={false}
+                        bordered={false}
+                        showActions={false}
+                        key={p.post_id["S"]}
+                        post_type={p.post_type["S"]}
+                        post_id={p.post_id["S"]}
+                        post_title={p.post_title["S"]}
+                        post_author={p.post_author["S"]}
+                        post_author_link={p.post_author_link["S"]}
+                        post_date={p.post_date["S"]}
+                        /*post_summary={
                     isEmpty(p.post_summary) ? null : p.post_summary["S"]
-                  }
-                />
-              </motion.div>
+                  }*/
+                        post_content={p.post_content["S"]}
+                      />
+                    </div>
+                  </motion.div>
+                </a>
+              </Link>
             </List.Item>
           )}
         />

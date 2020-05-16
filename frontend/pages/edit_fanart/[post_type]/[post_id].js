@@ -59,7 +59,7 @@ function EditPost(props) {
 
   const post = props.post;
 
-  const [editorContent, setEditorContent] = React.useState(post.post_content["S"]);
+  const [editorContent, setEditorContent] = React.useState(post.post_description["S"]);
   const handleEditorContent = (content) => {
     setEditorContent(content);
   };
@@ -75,10 +75,10 @@ function EditPost(props) {
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
-      post_content: editorContent,
+      post_description: editorContent,
     };
     fetch(
-      `${BASE_URL}/edit_post/update/${post.post_type["S"]}/${post.post_id["S"]}`,
+      `${BASE_URL}/edit_fanart/update/${post.post_type["S"]}/${post.post_id["S"]}`,
       {
         method: "POST",
         headers: {
@@ -93,8 +93,8 @@ function EditPost(props) {
         if (data.success) {
           message.success({ content: data.message, key: "editPostMessage" });
           Router.replace(
-            "/post/[post_type]/[post_id]",
-            `/post/${post.post_type["S"]}/${post.post_id["S"]}`
+            "/fanart/[post_type]/[post_id]",
+            `/fanart/${post.post_type["S"]}/${post.post_id["S"]}`
           );
         } else {
           message.error({ content: data.message, key: "editPostMessage" });
@@ -200,7 +200,7 @@ function EditPost(props) {
                       bodyStyle={{ padding: 0 }}
                     >
                       <TinyMCEEditor
-                        initialContent={post.post_content["S"]}
+                        initialContent={post.post_description["S"]}
                         handleEditorContent={handleEditorContent}
                       />
                     </Card>

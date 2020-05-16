@@ -1,5 +1,8 @@
+import Router from "next/router";
+
 import TimeAgo from "react-timeago";
 import isEmpty from "is-empty";
+import ReactHtmlParser from "react-html-parser";
 
 import { Card, Modal, Input, Alert, Typography, message } from "antd";
 import {
@@ -9,9 +12,8 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
-import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
 import {
-  handleEditFanart,
+  handleEditPost,
   handleDeletePost,
   handleReportPost,
 } from "../hooks/postActionsUtils";
@@ -42,18 +44,30 @@ function DisplayFanart(props) {
       cancelText: "No",
       icon: <ExclamationCircleOutlined />,
       onOk() {
-        let result = handleEditFanart(
+        message.loading({
+          content: "Action in progress",
+          duration: 0,
+          key: "handleEditMessage",
+        });
+        handleEditPost(
           document.getElementById("edit_input_post_secret").value,
           props.post_type,
           props.post_id
-        );
-        if (!result.success) {
-          return message.error({
-            content:
-              "Fanart edit not supported. To edit, delete current post and make a new one.",
-            duration: 5,
-          });
-        }
+        ).then((data) => {
+          if (data.success) {
+            message.success({
+              content: data.message,
+              key: "handleEditMessage",
+            });
+            document.cookie = `${props.post_id}=${data.access_token}; path=/`;
+            Router.push(
+              "/edit_fanart/[post_type]/[post_id]",
+              `/edit_fanart/${props.post_type}/${props.post_id}`
+            );
+          } else {
+            message.error({ content: data.message, key: "handleEditMessage" });
+          }
+        });
       },
     });
   };
@@ -236,9 +250,11 @@ function DisplayFanart(props) {
           )}
           {props.is_layout ? null : (
             <div className="art_description">
-              {isEmpty(props.post_description)
-                ? null
-                : getHTMLFromDraftJS(props.post_description)}
+              {
+                isEmpty(props.post_description)
+                  ? null
+                  : ReactHtmlParser(props.post_description)
+              }
             </div>
           )}
         </Card>
@@ -255,7 +271,6 @@ function DisplayFanart(props) {
           }
           .display_post_card {
             margin-bottom: 48px;
-            box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
           }
           .art_description {
             font-size: 16px;
