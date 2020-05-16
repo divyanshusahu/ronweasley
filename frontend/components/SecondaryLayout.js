@@ -16,12 +16,12 @@ function SecondaryLayout(props) {
         <title>{props.title}</title>
       </Head>
       <AntLayout style={{ minHeight: "100vh" }}>
-        <AntHeader
-          style={{ padding: 0, zIndex: 10 }}
-        >
+        <AntHeader style={{ padding: 0, zIndex: 10 }}>
           <NavigationBar light={true} />
         </AntHeader>
-        <AntContent>{props.children}</AntContent>
+        <AntContent style={{ backgroundColor: "rgb(246, 246, 246)" }}>
+          {props.children}
+        </AntContent>
         <AntFooter style={{ padding: 0 }}>
           <Footer />
         </AntFooter>
