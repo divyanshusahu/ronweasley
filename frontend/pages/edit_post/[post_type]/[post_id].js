@@ -15,9 +15,7 @@ import {
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
 import ErrorLayout from "../../../components/ErrorLayout";
-//import DraftJSEditor from "../../../components/DraftJSEditor";
 import TinyMCEEditor from "../../../components/TinyMCEEditor";
-//import getPostSummary from "../../../hooks/getPostSummary";
 
 const BASE_URL =
   process.env.NODE_ENV === "development"
@@ -61,7 +59,7 @@ function EditPost(props) {
 
   const post = props.post;
 
-  const [editorContent, setEditorContent] = React.useState("");
+  const [editorContent, setEditorContent] = React.useState(post.post_content["S"]);
   const handleEditorContent = (content) => {
     setEditorContent(content);
   };
@@ -201,10 +199,6 @@ function EditPost(props) {
                       bordered={false}
                       bodyStyle={{ padding: 0 }}
                     >
-                      {/*<DraftJSEditor
-                        //handleEditorContent={handleEditorContent}
-                        post_content={post.post_content["S"]}
-                      />*/}
                       <TinyMCEEditor
                         initialContent={post.post_content["S"]}
                         handleEditorContent={handleEditorContent}
@@ -220,7 +214,7 @@ function EditPost(props) {
       <style jsx>
         {`
           .edit_post {
-            margin: 40px 0 80px 0;
+            padding: 64px 0 64px 0;
           }
           .editor_area {
             margin-top: 32px;

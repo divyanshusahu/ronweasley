@@ -64,30 +64,32 @@ function Fanart(props) {
                 lg={{ span: 18, offset: 3 }}
                 xxl={{ span: 16, offset: 4 }}
               >
-                <DisplayFanart
-                  inner={false}
-                  bordered={true}
-                  showActions={true}
-                  is_layout={false}
-                  post_reported={
-                    isEmpty(props.post.post_reported)
-                      ? false
-                      : props.post.post_reported["BOOL"]
-                  }
-                  key={props.post.post_id["S"]}
-                  post_type={props.post.post_type["S"]}
-                  post_id={props.post.post_id["S"]}
-                  post_title={props.post.post_title["S"]}
-                  post_author={props.post.post_author["S"]}
-                  post_author_link={props.post.post_author_link["S"]}
-                  post_date={props.post.post_date["S"]}
-                  post_image={props.post.post_image["L"]}
-                  post_description={
-                    isEmpty(props.post.post_description)
-                      ? ""
-                      : props.post.post_description["S"]
-                  }
-                />
+                <div className="display_card">
+                  <DisplayFanart
+                    inner={false}
+                    bordered={true}
+                    showActions={true}
+                    is_layout={false}
+                    post_reported={
+                      isEmpty(props.post.post_reported)
+                        ? false
+                        : props.post.post_reported["BOOL"]
+                    }
+                    key={props.post.post_id["S"]}
+                    post_type={props.post.post_type["S"]}
+                    post_id={props.post.post_id["S"]}
+                    post_title={props.post.post_title["S"]}
+                    post_author={props.post.post_author["S"]}
+                    post_author_link={props.post.post_author_link["S"]}
+                    post_date={props.post.post_date["S"]}
+                    post_image={props.post.post_image["L"]}
+                    post_description={
+                      isEmpty(props.post.post_description)
+                        ? null
+                        : props.post.post_description["S"]
+                    }
+                  />
+                </div>
               </Col>
             </Row>
           </div>
@@ -96,7 +98,10 @@ function Fanart(props) {
       <style jsx>
         {`
           .page_root {
-            margin: 64px 0 16px 0;
+            padding: 64px 0 16px 0;
+          }
+          .display_card {
+            box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
           }
         `}
       </style>

@@ -1,8 +1,6 @@
 import Router from "next/router";
-//import Link from "next/link";
 
 import TimeAgo from "react-timeago";
-//import isEmpty from "is-empty";
 import ReactHtmlParser from "react-html-parser";
 
 import { Card, Typography, Modal, Input, Alert, message } from "antd";
@@ -13,7 +11,6 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 
-//import getHTMLFromDraftJS from "../hooks/getHTMLFromDraftJS";
 import {
   handleEditPost,
   handleDeletePost,
@@ -167,16 +164,6 @@ function DisplayPost(props) {
     <FlagOutlined title="Report Post" onClick={showReportConfirm} />,
   ];
 
-  const post_url =
-    props.post_type.indexOf("fanart") > 0
-      ? "/fanart/[post_type]/[post_id]"
-      : "/post/[post_type]/[post_id]";
-
-  const post_as =
-    props.post_type.indexOf("fanart") > 0
-      ? `/fanart/${props.post_type}/${props.post_id}`
-      : `/post/${props.post_type}/${props.post_id}`;
-
   return (
     <div>
       <div className="alert_div">
@@ -219,25 +206,7 @@ function DisplayPost(props) {
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
         >
-          {/*
-            <div className="post_text">
-              {isEmpty(props.post_summary)
-                ? getHTMLFromDraftJS(props.post_content)
-                : getHTMLFromDraftJS(props.post_summary)}
-            </div>
-              */}
-          {/*isEmpty(props.post_summary) ? null : (
-            <div style={{ float: "right" }}>
-              <Link href={post_url} as={post_as} scroll={false}>
-                <a>View</a>
-              </Link>
-            </div>
-          )*/}
-          {
-            <div className="post_text">
-              {ReactHtmlParser(props.post_content)}
-            </div>
-          }
+          <div className="post_text">{ReactHtmlParser(props.post_content)}</div>
         </Card>
       </div>
       <style jsx>
@@ -263,7 +232,5 @@ function DisplayPost(props) {
     </div>
   );
 }
-
-// box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
 
 export default DisplayPost;

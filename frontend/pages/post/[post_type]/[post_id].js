@@ -67,24 +67,26 @@ function Posts(props) {
                 lg={{ span: 18, offset: 3 }}
                 xxl={{ span: 16, offset: 4 }}
               >
-                <DisplayPost
-                  inner={false}
-                  bordered={true}
-                  showActions={true}
-                  post_reported={
-                    isEmpty(post.post_reported)
-                      ? false
-                      : post.post_reported["BOOL"]
-                  }
-                  key={post.post_id["S"]}
-                  post_type={post.post_type["S"]}
-                  post_id={post.post_id["S"]}
-                  post_title={post.post_title["S"]}
-                  post_author={post.post_author["S"]}
-                  post_author_link={post.post_author_link["S"]}
-                  post_date={post.post_date["S"]}
-                  post_content={post.post_content["S"]}
-                />
+                <div className="display_card">
+                  <DisplayPost
+                    inner={false}
+                    bordered={true}
+                    showActions={true}
+                    post_reported={
+                      isEmpty(post.post_reported)
+                        ? false
+                        : post.post_reported["BOOL"]
+                    }
+                    key={post.post_id["S"]}
+                    post_type={post.post_type["S"]}
+                    post_id={post.post_id["S"]}
+                    post_title={post.post_title["S"]}
+                    post_author={post.post_author["S"]}
+                    post_author_link={post.post_author_link["S"]}
+                    post_date={post.post_date["S"]}
+                    post_content={post.post_content["S"]}
+                  />
+                </div>
               </Col>
             </Row>
           </div>
@@ -93,7 +95,10 @@ function Posts(props) {
       <style jsx>
         {`
           .page_root {
-            margin: 64px 0 16px 0;
+            padding: 64px 0 16px 0;
+          }
+          .display_card {
+            box-shadow: 8px 14px 38px rgba(40, 40, 40, 0.1);
           }
         `}
       </style>

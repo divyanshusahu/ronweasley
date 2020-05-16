@@ -18,10 +18,6 @@ const handleEditPost = async (post_secret, post_type, post_id) => {
   return data;
 };
 
-const handleEditFanart = () => {
-  return { success: false };
-};
-
 const handleDeletePost = async (post_secret, post_type, post_id) => {
   let post_data = {
     post_secret: post_secret
@@ -50,4 +46,4 @@ const handleReportPost = async (reported_post_reason, post_type, post_id) => {
   return data;
 };
 
-export { handleEditPost, handleDeletePost, handleReportPost, handleEditFanart };
+export { handleEditPost, handleDeletePost, handleReportPost };
