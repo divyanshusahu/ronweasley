@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -20,15 +22,16 @@ CORS(
     resources={
         r"*": {
             "origins": [
-                "http://localhost:3000",
                 "https://ronweasley.co",
-                "https://*.ronweasley.co",
-            ]
+                "https://vercel.ronweasley.co",
+                "https://aws.ronweasley.co",
+            ],
+            "allow_headers": "*",
         }
     },
 )
 
-app.config["JWT_SECRET_KEY"] = "secret"
+app.config["JWT_SECRET_KEY"] = os.environ["JWT_SECRET_KEY"]
 app.config["JWT_ERROR_MESSAGE_KEY"] = "message"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
 jwt = JWTManager(app)
