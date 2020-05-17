@@ -4,7 +4,6 @@ service: ronweasley-backend
 plugins:
   - serverless-python-requirements
   - serverless-wsgi
-  - serverless-apigw-binary
 
 custom:
   wsgi:
@@ -13,15 +12,16 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
   config: file(./secret.json)
-  apigwBinary:
-    types:
-      - "*/*"
 
 provider:
   name: aws
   runtime: python3.8
   stage: prod
   region: ${${self:custom.config}:REGION_NAME}
+  apiGateway:
+    minimumCompressionSize: 1024
+    binaryMediaTypes:
+      - "*/*"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
