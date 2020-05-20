@@ -237,11 +237,12 @@ function DisplayFanart(props) {
                     alt="image"
                     src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
                     style={{
-                      maxWidth: "90%",
+                      maxWidth: "100%",
                       display: "block",
                       marginLeft: "auto",
                       marginRight: "auto",
-                      marginBottom: "64px",
+                      marginTop: "32px",
+                      marginBottom: "32px",
                     }}
                   />
                 </div>

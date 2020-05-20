@@ -4,6 +4,7 @@ import Router from "next/router";
 import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
 import { motion } from "framer-motion";
+import isEmpty from "is-empty";
 
 import { Button, Row, Col, Card, Input, Typography, message } from "antd";
 import {
@@ -59,7 +60,9 @@ function EditPost(props) {
 
   const post = props.post;
 
-  const [editorContent, setEditorContent] = React.useState(post.post_description["S"]);
+  const [editorContent, setEditorContent] = React.useState(
+    isEmpty(post.post_description) ? "" : post.post_description["S"]
+  );
   const handleEditorContent = (content) => {
     setEditorContent(content);
   };
@@ -200,7 +203,11 @@ function EditPost(props) {
                       bodyStyle={{ padding: 0 }}
                     >
                       <TinyMCEEditor
-                        initialContent={post.post_description["S"]}
+                        initialContent={
+                          isEmpty(post.post_description)
+                            ? ""
+                            : post.post_description["S"]
+                        }
                         handleEditorContent={handleEditorContent}
                       />
                     </Card>
