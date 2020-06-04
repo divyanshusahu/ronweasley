@@ -17,7 +17,11 @@ function Footer() {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Ron Weasley" />
+        <meta
+          name="description"
+          content="Ron Weasley Appreciation, Ron Weasley Defense, Romione Appreciation, Ron and Romione Fanarts"
+        />
+        <meta name="theme-color" content="#ffffff" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -96,7 +100,10 @@ function Footer() {
               fontFamily: "Karla",
             }}
           >
-            Important Links: <Link href="/timeline"><a>Timeline</a></Link>
+            Important Links:{" "}
+            <Link href="/timeline">
+              <a>Timeline</a>
+            </Link>
           </Paragraph>
           <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
         </Col>
