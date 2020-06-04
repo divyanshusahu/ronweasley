@@ -25,6 +25,7 @@ CORS(
                 "https://ronweasley.co",
                 "https://vercel.ronweasley.co",
                 "https://aws.ronweasley.co",
+                "https://dev.ronweasley.co",
             ],
             "allow_headers": "*",
         }

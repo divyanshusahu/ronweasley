@@ -196,7 +196,7 @@ function NewPost(props) {
 
   return (
     <div>
-      <SecondaryLayout title="New Post">
+      <SecondaryLayout title={`New Post: ${title}`}>
         <motion.div
           initial={{ scale: 0.9, y: 50, opacity: 0 }}
           animate={{
