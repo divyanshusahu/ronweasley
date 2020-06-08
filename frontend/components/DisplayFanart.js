@@ -24,7 +24,7 @@ function DisplayFanart(props) {
   let img_url =
     process.env.NODE_ENV === "development"
       ? "http://localhost:4572/fanart.ronweasley.co"
-      : "http://fanart.ronweasley.co";
+      : "https://fanart.ronweasley.co";
 
   const showEditConfirm = () => {
     confirm({

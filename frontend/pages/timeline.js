@@ -59,8 +59,8 @@ function WebsiteTimeline() {
                     description="DraftJS replaced with TinyMCE. Beta support to edit fanart."
                   />
                   <Steps.Step
-                    title="June 4, 2020"
-                    description="Service worker added for offline support."
+                    title="June 8, 2020"
+                    description="Service worker added for offline support and fanarts are distributed over HTTPS."
                   />
                 </Steps>
               </Card>
