@@ -41,7 +41,7 @@ function Footer() {
         />
         <link rel="manifest" href="/site.webmanifest" />
         <link
-          rel="preconnect"
+          rel="preload"
           href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
           as="style"
         />
@@ -50,7 +50,7 @@ function Footer() {
           href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
         />
         <link
-          rel="preconnect"
+          rel="preload"
           href="https://fonts.googleapis.com/css?family=Karla&display=swap"
           as="style"
         />
@@ -59,7 +59,7 @@ function Footer() {
           href="https://fonts.googleapis.com/css?family=Karla&display=swap"
         />
         <link
-          rel="preconnect"
+          rel="preload"
           href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
           as="style"
         />
@@ -68,7 +68,7 @@ function Footer() {
           rel="stylesheet"
         />
         <link
-          rel="preconnect"
+          rel="preload"
           href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
           as="style"
         />
