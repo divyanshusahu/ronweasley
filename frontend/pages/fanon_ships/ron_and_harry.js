@@ -154,8 +154,8 @@ function RonAndHarry() {
         main_heading="Ron-Harry"
         about_heading="Harry, you’ve got to come and stay with us. 
         I’ll fix it up with Mum and Dad, then I’ll call you. I know how to use a fellytone now."
-        landscape="/ron_and_harry/landscape.jpg"
-        portrait="/ron_and_harry/portrait.jpg"
+        landscape="/ron_and_harry/landscape.webp"
+        portrait="/ron_and_harry/portrait.webp"
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}

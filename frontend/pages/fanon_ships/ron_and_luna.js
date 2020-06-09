@@ -153,8 +153,8 @@ function RonAndLuna() {
         title="Ron-Luna"
         main_heading="Ron-Luna"
         about_heading="'She is great isn't she?' said Ron admiringly. 'Always good value.'"
-        landscape="/ron_and_luna/landscape.jpg"
-        portrait="/ron_and_luna/portrait.jpg"
+        landscape="/ron_and_luna/landscape.webp"
+        portrait="/ron_and_luna/portrait.webp"
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}

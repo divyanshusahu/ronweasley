@@ -171,8 +171,8 @@ function Index() {
       main_heading="Ron Weasley"
       about_heading="From now on, I don’t care if my tea leaves spell, ‘Die, Ron, die,’ 
       I’m chucking them in the bin where they belong."
-      landscape="/ron_weasley/landscape.jpg"
-      portrait="/ron_weasley/portrait.jpg"
+      landscape="/ron_weasley/landscape.webp"
+      portrait="/ron_weasley/portrait.webp"
       tabList={tabList}
       activeTabKey={activeTabKey}
       onTabChange={handleOnTabChange}
