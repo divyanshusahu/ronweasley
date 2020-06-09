@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import isEmpty from "is-empty";
 import { motion } from "framer-motion";
+import LazyLoad from "react-lazyload";
 
 import { Row, Col, Card, Layout as AntLayout, List, Input } from "antd";
 
@@ -23,20 +24,13 @@ function Layout(props) {
 
   const variants = {
     initial: { scale: 0.9, opacity: 0 },
-    enter: { scale: 1, opacity: 1, transition: { duration: 0.5 } },
-    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } },
+    enter: { scale: 1, opacity: 1, transition: { duration: 0.1 } },
+    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.1 } },
   };
 
   if (props.type === "fanart") {
     display = (
-      <motion.div
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={{
-          enter: { transition: { staggerChildren: 0.1 } },
-        }}
-      >
+      <motion.div initial="initial" animate="enter" exit="exit">
         <List
           loading={props.loading}
           pagination={{
@@ -57,42 +51,46 @@ function Layout(props) {
           dataSource={props.posts}
           renderItem={(p) => (
             <List.Item>
-              <Link
-                href="/fanart/[post_type]/[post_id]"
-                as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
-                scroll={false}
-              >
-                <a>
-                  <motion.div
-                    whileHover={{
-                      scale: 1.005,
-                      boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
-                    }}
-                    variants={variants}
-                  >
-                    <div
-                      style={{ boxShadow: "0 6px 15px rgba(36, 37, 38, 0.08)" }}
+              <LazyLoad height={400} placeholder={<Card loading={true} />} once>
+                <Link
+                  href="/fanart/[post_type]/[post_id]"
+                  as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
+                  scroll={false}
+                >
+                  <a>
+                    <motion.div
+                      whileHover={{
+                        scale: 1.005,
+                        boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
+                      }}
+                      variants={variants}
                     >
-                      <DisplayFanart
-                        inner={false}
-                        bordered={true}
-                        showActions={false}
-                        is_layout={true}
-                        key={p.post_id["S"]}
-                        post_type={p.post_type["S"]}
-                        post_id={p.post_id["S"]}
-                        post_title={p.post_title["S"]}
-                        post_author={p.post_author["S"]}
-                        post_author_link={p.post_author_link["S"]}
-                        post_date={p.post_date["S"]}
-                        post_image={
-                          isEmpty(p.post_image) ? null : p.post_image["L"]
-                        }
-                      />
-                    </div>
-                  </motion.div>
-                </a>
-              </Link>
+                      <div
+                        style={{
+                          boxShadow: "0 6px 15px rgba(36, 37, 38, 0.08)",
+                        }}
+                      >
+                        <DisplayFanart
+                          inner={false}
+                          bordered={true}
+                          showActions={false}
+                          is_layout={true}
+                          key={p.post_id["S"]}
+                          post_type={p.post_type["S"]}
+                          post_id={p.post_id["S"]}
+                          post_title={p.post_title["S"]}
+                          post_author={p.post_author["S"]}
+                          post_author_link={p.post_author_link["S"]}
+                          post_date={p.post_date["S"]}
+                          post_image={
+                            isEmpty(p.post_image) ? null : p.post_image["L"]
+                          }
+                        />
+                      </div>
+                    </motion.div>
+                  </a>
+                </Link>
+              </LazyLoad>
             </List.Item>
           )}
         />
@@ -100,14 +98,7 @@ function Layout(props) {
     );
   } else {
     display = (
-      <motion.div
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={{
-          enter: { transition: { staggerChildren: 0.1 } },
-        }}
-      >
+      <motion.div initial="initial" animate="enter" exit="exit">
         <List
           loading={props.loading}
           pagination={{
@@ -129,45 +120,47 @@ function Layout(props) {
           dataSource={props.posts}
           renderItem={(p) => (
             <List.Item>
-              <Link
-                href="/post/[post_type]/[post_id]"
-                as={`/post/${p.post_type["S"]}/${p.post_id["S"]}`}
-                scroll={false}
-              >
-                <a>
-                  <motion.div
-                    variants={variants}
-                    whileHover={{
-                      scale: 1.005,
-                      boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        maxHeight: 320,
-                        overflow: "hidden",
-                        marginBottom: 36,
-                        backgroundColor: "#fff",
-                        boxShadow: "0 6px 15px rgba(36, 37,38, 0.08)",
+              <LazyLoad height={320} placeholder={<Card loading={true} />} once>
+                <Link
+                  href="/post/[post_type]/[post_id]"
+                  as={`/post/${p.post_type["S"]}/${p.post_id["S"]}`}
+                  scroll={false}
+                >
+                  <a>
+                    <motion.div
+                      variants={variants}
+                      whileHover={{
+                        scale: 1.005,
+                        boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
                       }}
                     >
-                      <DisplayPost
-                        inner={false}
-                        bordered={false}
-                        showActions={false}
-                        key={p.post_id["S"]}
-                        post_type={p.post_type["S"]}
-                        post_id={p.post_id["S"]}
-                        post_title={p.post_title["S"]}
-                        post_author={p.post_author["S"]}
-                        post_author_link={p.post_author_link["S"]}
-                        post_date={p.post_date["S"]}
-                        post_content={p.post_content["S"]}
-                      />
-                    </div>
-                  </motion.div>
-                </a>
-              </Link>
+                      <div
+                        style={{
+                          maxHeight: 320,
+                          overflow: "hidden",
+                          marginBottom: 36,
+                          backgroundColor: "#fff",
+                          boxShadow: "0 6px 15px rgba(36, 37,38, 0.08)",
+                        }}
+                      >
+                        <DisplayPost
+                          inner={false}
+                          bordered={false}
+                          showActions={false}
+                          key={p.post_id["S"]}
+                          post_type={p.post_type["S"]}
+                          post_id={p.post_id["S"]}
+                          post_title={p.post_title["S"]}
+                          post_author={p.post_author["S"]}
+                          post_author_link={p.post_author_link["S"]}
+                          post_date={p.post_date["S"]}
+                          post_content={p.post_content["S"]}
+                        />
+                      </div>
+                    </motion.div>
+                  </a>
+                </Link>
+              </LazyLoad>
             </List.Item>
           )}
         />

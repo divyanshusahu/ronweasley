@@ -153,8 +153,8 @@ function WeasleyFamily() {
         title="Weasley Family"
         main_heading="Weasley Family"
         about_heading="The Weasleys were Harry’s favorite family in the world."
-        landscape="/weasley_family/landscape.jpg"
-        portrait="/weasley_family/portrait.jpg"
+        landscape="/weasley_family/landscape.webp"
+        portrait="/weasley_family/portrait.webp"
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}

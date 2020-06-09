@@ -150,8 +150,8 @@ function Romione() {
       main_heading="Romione"
       about_heading="'No' said Ron seriously, 'I mean we should tell them to get out. We dont want anymore Dobbys, do we? 
       We can't order them to die for us -'"
-      landscape="/romione/landscape.jpg"
-      portrait="/romione/portrait.jpg"
+      landscape="/romione/landscape.webp"
+      portrait="/romione/portrait.webp"
       tabList={tabList}
       activeTabKey={activeTabKey}
       onTabChange={handleOnTabChange}

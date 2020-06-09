@@ -154,8 +154,8 @@ function GoldenTrio() {
         main_heading="Golden Trio"
         about_heading="There are some things you can't share without ending up liking each other,
          and knocking out a twelve-foot mountain troll is one of them."
-        landscape="/golden_trio/landscape.jpg"
-        portrait="/golden_trio/portrait.jpg"
+        landscape="/golden_trio/landscape.webp"
+        portrait="/golden_trio/portrait.webp"
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}

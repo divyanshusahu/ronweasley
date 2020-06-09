@@ -5,7 +5,7 @@ function parseHtml(str) {
   const transform = (node) => {
     if (node.type === "tag" && node.name === "img") {
       if (isEmpty(node.attribs.style)) {
-        node.attribs["style"] = "max-width: 100%; height: auto";
+        node.attribs["style"] = "max-width: 100%; height: auto;";
       } else {
         node.attribs.style += " max-width: 100%; height: auto;";
       }

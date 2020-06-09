@@ -1,6 +1,7 @@
+const withPlugins = require("next-compose-plugins");
 const withOffline = require("next-offline");
 
-module.exports = withOffline({
+const offlineConfig = {
   workboxOpts: {
     swDest: process.env.NEXT_EXPORT
       ? "service-worker.js"
@@ -28,4 +29,11 @@ module.exports = withOffline({
       ];
     },
   },
-});
+};
+
+const nextConfig = {};
+
+module.exports = withPlugins(
+  [[withOffline, offlineConfig]],
+  nextConfig
+);

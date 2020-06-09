@@ -153,8 +153,8 @@ function RonAndLavender() {
         title="Ron-Lavender"
         main_heading="Ron-Lavender"
         about_heading="The most underrated fanon ship."
-        landscape="/ron_and_lavender/landscape.jpg"
-        portrait="/ron_and_lavender/portrait.jpg"
+        landscape="/ron_and_lavender/landscape.webp"
+        portrait="/ron_and_lavender/portrait.webp"
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
