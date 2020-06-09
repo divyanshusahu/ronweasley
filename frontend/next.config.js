@@ -1,6 +1,5 @@
 const withPlugins = require("next-compose-plugins");
 const withOffline = require("next-offline");
-const withPurgeCss = require("next-purgecss");
 
 const offlineConfig = {
   workboxOpts: {
@@ -35,6 +34,6 @@ const offlineConfig = {
 const nextConfig = {};
 
 module.exports = withPlugins(
-  [withPurgeCss, [withOffline, offlineConfig]],
+  [[withOffline, offlineConfig]],
   nextConfig
 );
