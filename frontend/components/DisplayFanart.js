@@ -2,6 +2,7 @@ import Router from "next/router";
 
 import TimeAgo from "react-timeago";
 import isEmpty from "is-empty";
+import LazyLoad from "react-lazyload";
 
 import { Card, Modal, Input, Alert, Typography, message } from "antd";
 import {
@@ -233,18 +234,25 @@ function DisplayFanart(props) {
             <div>
               {props.post_image.map((img, index) => (
                 <div key={index}>
-                  <img
-                    alt="image"
-                    src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
-                    style={{
-                      maxWidth: "100%",
-                      display: "block",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: "32px",
-                      marginBottom: "32px",
-                    }}
-                  />
+                  <LazyLoad
+                    key={index}
+                    height="100%"
+                    placeholder={<Card loading={true} />}
+                    once
+                  >
+                    <img
+                      alt="image"
+                      src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
+                      style={{
+                        maxWidth: "100%",
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginTop: "32px",
+                        marginBottom: "32px",
+                      }}
+                    />
+                  </LazyLoad>
                 </div>
               ))}
             </div>
