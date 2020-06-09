@@ -1,7 +1,8 @@
 import { Row, Col, Typography, Card, List, Avatar, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import Confetti from "react-confetti";
 
+import Confetti from "react-confetti";
+import LazyLoad from "react-lazyload";
 import { motion } from "framer-motion";
 
 import SecondaryLayout from "../components/SecondaryLayout";
@@ -74,13 +75,15 @@ function Credits() {
             renderItem={(item, index) => (
               <List.Item
                 extra={
-                  <img
-                    src={item.thumbnail}
-                    alt="art"
-                    width={64}
-                    onClick={() => handleImagePreview(item.thumbnail)}
-                    style={{ cursor: "pointer" }}
-                  />
+                  <LazyLoad height={64} once>
+                    <img
+                      src={item.thumbnail}
+                      alt="art"
+                      width={64}
+                      onClick={() => handleImagePreview(item.thumbnail)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </LazyLoad>
                 }
               >
                 <List.Item.Meta
