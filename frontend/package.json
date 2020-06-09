@@ -39,7 +39,6 @@
     "react-timeago": "^4.4.0"
   },
   "devDependencies": {
-    "@zeit/next-css": "^1.0.1",
     "next-purgecss": "^4.0.0",
     "serverless-next.js": "^1.11.5"
   }
