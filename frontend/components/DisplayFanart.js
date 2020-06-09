@@ -233,13 +233,13 @@ function DisplayFanart(props) {
           {props.is_layout ? null : (
             <div>
               {props.post_image.map((img, index) => (
-                <div key={index}>
-                  <LazyLoad
-                    key={index}
-                    height="100%"
-                    placeholder={<Card loading={true} />}
-                    once
-                  >
+                <LazyLoad
+                  key={index}
+                  height="100%"
+                  placeholder={<Card loading={true} />}
+                  once
+                >
+                  <div key={index}>
                     <img
                       alt="image"
                       src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
@@ -252,8 +252,8 @@ function DisplayFanart(props) {
                         marginBottom: "32px",
                       }}
                     />
-                  </LazyLoad>
-                </div>
+                  </div>
+                </LazyLoad>
               ))}
             </div>
           )}
