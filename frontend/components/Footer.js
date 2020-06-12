@@ -11,7 +11,17 @@ import {
 
 const { Paragraph } = Typography;
 
+import { initGA, logPageView } from "../hooks/analytics";
+
 function Footer() {
+  React.useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
+
   return (
     <div className="page_footer">
       <Head>
