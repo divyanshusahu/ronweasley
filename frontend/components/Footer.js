@@ -108,33 +108,28 @@ function Footer() {
           href="https://github.com/divyanshusahu"
           target="_blank"
           rel="noopener noreferrer"
+          style={{ padding: "8px" }}
         >
-          <GithubOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+          <GithubOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
         <a
           href="https://twitter.com/divyan5hu"
           target="_blank"
           rel="noopener noreferrer"
+          style={{ padding: "8px" }}
         >
-          <TwitterOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+          <TwitterOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
-        <a href="mailto:dsahu1997@gmail.com">
-          <GoogleOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+        <a href="mailto:dsahu1997@gmail.com" style={{ padding: "8px" }}>
+          <GoogleOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
         <a
           href="https://instagram.com/_divyanshusahu_"
           target="_blank"
           rel="noopener noreferrer"
+          style={{ padding: "8px" }}
         >
-          <InstagramOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+          <InstagramOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>
       </div>
       <style jsx global>
@@ -156,7 +151,7 @@ function Footer() {
         {`
           .page_footer {
             background-color: #282828;
-            padding: 48px;
+            padding: 48px 8px;
           }
           .contact_admin_div {
             display: flex;
