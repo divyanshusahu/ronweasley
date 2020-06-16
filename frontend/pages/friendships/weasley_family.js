@@ -150,7 +150,7 @@ function WeasleyFamily() {
   return (
     <div>
       <Layout
-        title="Weasley Family"
+        title="Weasley Family: Appreciation and Fanarts"
         main_heading="Weasley Family"
         about_heading="The Weasleys were Harry’s favorite family in the world."
         landscape="/weasley_family/landscape.webp"

@@ -150,7 +150,7 @@ function RonAndLavender() {
   return (
     <div>
       <Layout
-        title="Ron-Lavender"
+        title="Ron-Lavender: Appreciation and Fanarts"
         main_heading="Ron-Lavender"
         about_heading="The most underrated fanon ship."
         landscape="/ron_and_lavender/landscape.webp"

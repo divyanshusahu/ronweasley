@@ -167,7 +167,7 @@ function Index() {
 
   return (
     <Layout
-      title="Ron Weasley"
+      title="Ron Weasley: Appreciation, Defense and Fanarts"
       main_heading="Ron Weasley"
       about_heading="From now on, I don’t care if my tea leaves spell, ‘Die, Ron, die,’ 
       I’m chucking them in the bin where they belong."

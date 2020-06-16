@@ -150,7 +150,7 @@ function RonAndLuna() {
   return (
     <div>
       <Layout
-        title="Ron-Luna"
+        title="Ron-Luna: Appreciation and Fanarts"
         main_heading="Ron-Luna"
         about_heading="'She is great isn't she?' said Ron admiringly. 'Always good value.'"
         landscape="/ron_and_luna/landscape.webp"
