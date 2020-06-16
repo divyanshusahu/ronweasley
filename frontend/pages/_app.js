@@ -1,7 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { NextSeo } from "next-seo";
 import "antd/dist/antd.min.css";
 
 function MyApp({ Component, pageProps }) {
@@ -41,8 +40,25 @@ function MyApp({ Component, pageProps }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:creator" content="divyan5hu" />
+
+        <meta property="og:url" content="https://www.ronweasley.co" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="A place where we love Ron Weasley" />
+        <meta
+          property="og:description"
+          content="A website dedicated to Ron Weasley. Inspired by the amazing work of Ron Weasley Defense Squad."
+        />
+        <meta property="og:image" content="https://www.ronweasley.co/ron_weasley/landscape.webp" />
+        <meta property="og:image:alt" content="Ron Weasley Wall" />
+        <meta property="og:site_name" content="Ron Weasley Appreciation Website" />
+        <meta property="og:locale" content="en_US" />
       </Head>
-      <NextSeo key="default-seo" />
       <Component {...pageProps} key={router.route} />
     </AnimatePresence>
   );
