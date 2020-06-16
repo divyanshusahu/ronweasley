@@ -10,7 +10,7 @@ function HeroHeading(props) {
   const framer_spans = character_array.map((c, i) => (
     <motion.span
       key={i}
-      variants={variants}
+      //variants={variants}
       style={{
         fontFamily: "Karla",
         fontSize: "40px",
@@ -28,11 +28,13 @@ function HeroHeading(props) {
       <div className="box">
         <div className="content">
           <motion.div
-            initial="initial"
-            animate="enter"
-            variants={{ enter: { transition: { staggerChildren: 0.1 } } }}
+            //initial="initial"
+            //animate="enter"
+            //variants={{ enter: { transition: { staggerChildren: 0.1 } } }}
           >
-            <div className="heading">{framer_spans}</div>
+            <div className="heading">
+              <h1 style={{ marginBottom: 0 }}>{framer_spans}</h1>
+            </div>
             <div style={{ padding: "0 16px" }}>
               <motion.p
                 style={{
@@ -41,7 +43,7 @@ function HeroHeading(props) {
                   fontSize: "20px",
                   fontFamily: "Karla",
                 }}
-                variants={variants}
+                //variants={variants}
               >
                 {props.description_text}
               </motion.p>
