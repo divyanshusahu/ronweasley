@@ -23,6 +23,7 @@ CORS(
         r"*": {
             "origins": [
                 "https://ronweasley.co",
+                "https://www.ronweasley.co",
                 "https://vercel.ronweasley.co",
                 "https://aws.ronweasley.co",
                 "https://dev.ronweasley.co",
