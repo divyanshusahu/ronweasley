@@ -36,6 +36,34 @@ allowed_types = [
 suggestions_types = ["bug", "suggestion", "feedback", "reported_post"]
 
 
+@get_post.route("/id_only/<post_type>", methods=["GET"])
+def get_post_ids(post_type):
+    try:
+        result = db.query(
+            TableName=os.environ["POST_TABLE"],
+            ProjectionExpression="post_type, post_id",
+            KeyConditionExpression="post_type = :post_type",
+            ExpressionAttributeValues={":post_type": {"S": post_type}},
+        )
+
+        data = result["Items"]
+
+        while "LastEvaluatedKey" in result:
+            result = db.query(
+                TableName=os.environ["POST_TABLE"],
+                ProjectionExpression="post_type, post_id",
+                KeyConditionExpression="post_type = :post_type",
+                ExpressionAttributeValues={":post_type": {"S": post_type}},
+                ExclusiveStartKey=result["LastEvaluatedKey"],
+            )
+            data.extend(result["Items"])
+
+        return jsonify({"success": True, "post_ids": data}), 200
+
+    except:
+        return jsonify({"success": False, "message": "An error occurred"}), 500
+
+
 @get_post.route("/<post_type>", methods=["GET"])
 def get_post_by_type(post_type):
     if post_type not in allowed_types:
