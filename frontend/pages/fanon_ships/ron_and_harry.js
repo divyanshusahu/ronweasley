@@ -150,7 +150,7 @@ function RonAndHarry() {
   return (
     <div>
       <Layout
-        title="Ron-Harry"
+        title="Ron-Harry: Appreciation and Fanarts"
         main_heading="Ron-Harry"
         about_heading="Harry, you’ve got to come and stay with us. 
         I’ll fix it up with Mum and Dad, then I’ll call you. I know how to use a fellytone now."

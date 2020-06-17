@@ -191,7 +191,7 @@ function DisplayPost(props) {
               <Typography.Paragraph strong style={{ fontSize: 18 }}>
                 {props.post_title}
               </Typography.Paragraph>
-              <Typography.Text type="secondary" style={{ fontSize: 14 }}>
+              <Typography.Text style={{ fontSize: 14 }}>
                 Author:{" "}
                 <a
                   href={props.post_author_link}

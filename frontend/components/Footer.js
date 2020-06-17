@@ -25,31 +25,6 @@ function Footer() {
   return (
     <div className="page_footer">
       <Head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="description"
-          content="Ron Weasley Appreciation, Ron Weasley Defense, Romione Appreciation, Ron and Romione Fanarts"
-        />
-        <meta name="theme-color" content="#ffffff" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
         <link
           rel="preload"
           href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
@@ -133,33 +108,28 @@ function Footer() {
           href="https://github.com/divyanshusahu"
           target="_blank"
           rel="noopener noreferrer"
+          style={{ padding: "8px" }}
         >
-          <GithubOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+          <GithubOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
         <a
           href="https://twitter.com/divyan5hu"
           target="_blank"
           rel="noopener noreferrer"
+          style={{ padding: "8px" }}
         >
-          <TwitterOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+          <TwitterOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
-        <a href="mailto:dsahu1997@gmail.com">
-          <GoogleOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+        <a href="mailto:dsahu1997@gmail.com" style={{ padding: "8px" }}>
+          <GoogleOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
         <a
           href="https://instagram.com/_divyanshusahu_"
           target="_blank"
           rel="noopener noreferrer"
+          style={{ padding: "8px" }}
         >
-          <InstagramOutlined
-            style={{ fontSize: "24px", color: "#f0f0f0", margin: "0 4px" }}
-          />
+          <InstagramOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>
       </div>
       <style jsx global>
@@ -181,7 +151,7 @@ function Footer() {
         {`
           .page_footer {
             background-color: #282828;
-            padding: 48px;
+            padding: 48px 8px;
           }
           .contact_admin_div {
             display: flex;

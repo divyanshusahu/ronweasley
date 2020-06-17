@@ -150,7 +150,7 @@ function GoldenTrio() {
   return (
     <div>
       <Layout
-        title="Golden Trio"
+        title="Golden Trio: Appreciation and Fanarts"
         main_heading="Golden Trio"
         about_heading="There are some things you can't share without ending up liking each other,
          and knocking out a twelve-foot mountain troll is one of them."

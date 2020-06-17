@@ -146,7 +146,7 @@ function Romione() {
 
   return (
     <Layout
-      title="Romione"
+      title="Romione: Appreciation and Fanarts"
       main_heading="Romione"
       about_heading="'No' said Ron seriously, 'I mean we should tell them to get out. We dont want anymore Dobbys, do we? 
       We can't order them to die for us -'"
