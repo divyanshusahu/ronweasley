@@ -5,8 +5,6 @@ import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import queryString from "query-string";
 
-import { Button } from "antd";
-
 import Layout from "../components/Layout";
 import postTabHook from "../hooks/postTabHook";
 
@@ -110,9 +108,7 @@ function Romione() {
 
   const tabBarExtraContent = (
     <Link href="/new_post/[post_type]" as={`/new_post/romione_${selectedTab}`}>
-      <a>
-        <Button>New</Button>
-      </a>
+      <a className="ant-btn">New</a>
     </Link>
   );
 

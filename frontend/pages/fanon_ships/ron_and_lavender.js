@@ -5,8 +5,6 @@ import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import queryString from "query-string";
 
-import { Button } from "antd";
-
 import Layout from "../../components/Layout";
 import postTabHook from "../../hooks/postTabHook";
 
@@ -17,7 +15,7 @@ const BASE_URL =
 
 function RonAndLavender() {
   const router = useRouter();
-  const {query} = queryString.parseUrl(router.asPath);
+  const { query } = queryString.parseUrl(router.asPath);
   const tab_search_list = [
     { key: "1", tab: "appreciation" },
     { key: "2", tab: "fanart" },
@@ -113,9 +111,7 @@ function RonAndLavender() {
       href="/new_post/[post_type]"
       as={`/new_post/ron_and_lavender_${selectedTab}`}
     >
-      <a>
-        <Button>New</Button>
-      </a>
+      <a className="ant-btn">New</a>
     </Link>
   );
 

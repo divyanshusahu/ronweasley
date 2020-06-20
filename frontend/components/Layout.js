@@ -308,9 +308,12 @@ function Layout(props) {
               background-image: url(${props.portrait});
             }
           }
-          @media only screen and (max-width: 600px) {
-            .hero_big_heading {
-              font-size: 2rem;
+          @media only screen and (max-width: 991px) {
+            .main {
+              min-height: 80vh;
+            }
+            .main_overlay {
+              min-height: 80vh;
             }
           }
         `}

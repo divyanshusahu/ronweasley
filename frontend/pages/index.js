@@ -5,8 +5,6 @@ import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import queryString from "query-string";
 
-import { Button } from "antd";
-
 import Layout from "../components/Layout";
 import postTabHook from "../hooks/postTabHook";
 
@@ -131,9 +129,7 @@ function Index() {
       href="/new_post/[post_type]"
       as={`/new_post/ron_weasley_${selectedTab}`}
     >
-      <a>
-        <Button>New</Button>
-      </a>
+      <a className="ant-btn">New</a>
     </Link>
   );
 
