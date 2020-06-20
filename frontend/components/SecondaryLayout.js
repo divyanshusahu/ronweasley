@@ -10,10 +10,18 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function SecondaryLayout(props) {
+  const jsonld_webpage = {
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    name: props.title,
+  };
   return (
     <div>
       <Head>
         <title>{props.title}</title>
+        <script type="application/json">
+          {JSON.stringify(jsonld_webpage)}
+        </script>
       </Head>
       <AntLayout style={{ minHeight: "100vh" }}>
         <AntHeader style={{ padding: 0, zIndex: 10 }}>

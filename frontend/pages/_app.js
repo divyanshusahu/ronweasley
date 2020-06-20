@@ -12,14 +12,15 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
-  const jsonld_data = {
+  const jsonld_website = {
     "@context": "http://schema.org",
     "@type": "WebSite",
     name: "Ron Weasley Appreciation Website",
     url: "https://www.ronweasley.co",
-    creator: "Divyanshu Sahu",
-    keywords:
+    creator: { "@type": "Person", name: "Divyanshu Sahu" },
+    keywords: [
       "harry potter, ron weasley, hermione granger, appreciation, defense, fanarts, fanfiction, checkmated.org",
+    ],
     sameAs: [
       "https://www.facebook.com/divyanshu.sahu1997",
       "https://www.instagram.com/_divyanshusahu_/",
@@ -95,7 +96,9 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
-        <script type="application/ld+json">{JSON.stringify(jsonld_data)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(jsonld_website)}
+        </script>
       </Head>
       <Component {...pageProps} key={router.route} />
     </AnimatePresence>
