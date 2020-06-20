@@ -17,7 +17,7 @@ const BASE_URL =
 
 function RonAndLavender() {
   const router = useRouter();
-  const {query} = queryString.parseUrl(router.asPath);
+  const { query } = queryString.parseUrl(router.asPath);
   const tab_search_list = [
     { key: "1", tab: "appreciation" },
     { key: "2", tab: "fanart" },
@@ -109,14 +109,14 @@ function RonAndLavender() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/ron_and_lavender_${selectedTab}`}
-    >
-      <a>
-        <Button>New</Button>
-      </a>
-    </Link>
+    <Button size="large" shape="round">
+      <Link
+        href="/new_post/[post_type]"
+        as={`/new_post/ron_and_lavender_${selectedTab}`}
+      >
+        <a>New</a>
+      </Link>
+    </Button>
   );
 
   const [searchField, setSearchField] = React.useState("");

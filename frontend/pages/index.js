@@ -127,14 +127,14 @@ function Index() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/ron_weasley_${selectedTab}`}
-    >
-      <a>
-        <Button>New</Button>
-      </a>
-    </Link>
+    <Button size="large" shape="round">
+      <Link
+        href="/new_post/[post_type]"
+        as={`/new_post/ron_weasley_${selectedTab}`}
+      >
+        <a>New</a>
+      </Link>
+    </Button>
   );
 
   const [searchField, setSearchField] = React.useState("");
