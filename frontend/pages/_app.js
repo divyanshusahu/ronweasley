@@ -12,6 +12,22 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
+  const jsonld_website = {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    name: "Ron Weasley Appreciation Website",
+    url: "https://www.ronweasley.co",
+    creator: { "@type": "Person", name: "Divyanshu Sahu" },
+    keywords: [
+      "harry potter, ron weasley, hermione granger, appreciation, defense, fanarts, fanfiction, checkmated.org",
+    ],
+    sameAs: [
+      "https://www.facebook.com/divyanshu.sahu1997",
+      "https://www.instagram.com/_divyanshusahu_/",
+      "https://www.linkedin.com/in/divyanshu-sahu/",
+    ],
+  };
+
   return (
     <AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>
       <Head key="default-head">
@@ -79,6 +95,10 @@ function MyApp({ Component, pageProps }) {
           content="Ron Weasley Appreciation Website"
         />
         <meta property="og:locale" content="en_US" />
+
+        <script type="application/ld+json">
+          {JSON.stringify(jsonld_website)}
+        </script>
       </Head>
       <Component {...pageProps} key={router.route} />
     </AnimatePresence>

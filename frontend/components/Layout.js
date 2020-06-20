@@ -168,10 +168,20 @@ function Layout(props) {
     );
   }
 
+  const jsonld_webpage = {
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    name: props.title,
+    description: props.about_heading,
+  };
+
   return (
     <div>
       <Head>
         <title>{props.title}</title>
+        <script type="application/ld+json">
+          {JSON.stringify(jsonld_webpage)}
+        </script>
       </Head>
       <div>
         <AntLayout>
