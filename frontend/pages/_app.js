@@ -95,7 +95,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
-        <script type="application/ld+json">{jsonld_data}</script>
+        <script type="application/ld+json">{JSON.stringify(jsonld_data)}</script>
       </Head>
       <Component {...pageProps} key={router.route} />
     </AnimatePresence>
