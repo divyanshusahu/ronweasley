@@ -5,8 +5,6 @@ import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import queryString from "query-string";
 
-import { Button } from "antd";
-
 import Layout from "../components/Layout";
 import postTabHook from "../hooks/postTabHook";
 
@@ -127,14 +125,12 @@ function Index() {
   };
 
   const tabBarExtraContent = (
-    <Button size="large" shape="round">
-      <Link
-        href="/new_post/[post_type]"
-        as={`/new_post/ron_weasley_${selectedTab}`}
-      >
-        <a>New</a>
-      </Link>
-    </Button>
+    <Link
+      href="/new_post/[post_type]"
+      as={`/new_post/ron_weasley_${selectedTab}`}
+    >
+      <a className="ant-btn">New</a>
+    </Link>
   );
 
   const [searchField, setSearchField] = React.useState("");
