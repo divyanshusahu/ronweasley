@@ -6,12 +6,12 @@ function WallCarousel(props) {
   React.useEffect(() => {
     const interval = setInterval(() => {
       setIndex((index) => (index + 1) % props.walls);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div>
+    <div className="hero_wall_root">
       <AnimatePresence initial={false} exitBeforeEnter={true}>
         <motion.div
           key={index}
@@ -32,6 +32,10 @@ function WallCarousel(props) {
       </AnimatePresence>
       <style jsx>
         {`
+          .hero_wall_root {
+            display: flex;
+            align-items: center;
+          }
           .hero_wall {
             width: 360px;
             max-width: 100%;
@@ -40,7 +44,6 @@ function WallCarousel(props) {
           @media only screen and (max-width: 1199px) {
             .hero_wall {
               width: 300px;
-              max-width: 100%;
             }
           }
         `}
