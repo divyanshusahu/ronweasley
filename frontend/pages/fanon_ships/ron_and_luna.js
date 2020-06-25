@@ -107,12 +107,23 @@ function RonAndLuna() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/ron_and_luna_${selectedTab}`}
-    >
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/ron_and_luna${selectedTab}`
+            : "/new_post/ron_and_luna_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -147,21 +158,32 @@ function RonAndLuna() {
     <div>
       <Layout
         title="Ron-Luna: Appreciation and Fanarts"
-        main_heading="Ron-Luna"
+        main_heading="RON-LUNA"
         about_heading="'She is great isn't she?' said Ron admiringly. 'Always good value.'"
-        landscape="/ron_and_luna/landscape.webp"
-        portrait="/ron_and_luna/portrait.webp"
+        wall_alt="Ron and Luna Wall"
+        wall_src="/ron_and_luna"
+        wall_items={6}
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
         posts={filteredPosts}
+        addPostLink="ron_and_luna"
         type={selectedTab}
         loading={loading}
         searchbar={(value) => setSearchField(value)}
         searchvalue={searchField}
         paginationpage={page}
       />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

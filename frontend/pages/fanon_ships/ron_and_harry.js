@@ -107,12 +107,23 @@ function RonAndHarry() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/ron_and_harry_${selectedTab}`}
-    >
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/ron_and_harry_${selectedTab}`
+            : "/new_post/ron_and_harry_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -147,22 +158,33 @@ function RonAndHarry() {
     <div>
       <Layout
         title="Ron-Harry: Appreciation and Fanarts"
-        main_heading="Ron-Harry"
+        main_heading="RON-HARRY"
         about_heading="Harry, you’ve got to come and stay with us. 
         I’ll fix it up with Mum and Dad, then I’ll call you. I know how to use a fellytone now."
-        landscape="/ron_and_harry/landscape.webp"
-        portrait="/ron_and_harry/portrait.webp"
+        wall_alt="Ron and Harry Wall"
+        wall_src="/ron_and_harry"
+        wall_items={8}
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
         posts={filteredPosts}
+        addPostLink="ron_and_harry"
         type={selectedTab}
         loading={loading}
         searchbar={(value) => setSearchField(value)}
         searchvalue={searchField}
         paginationpage={page}
       />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

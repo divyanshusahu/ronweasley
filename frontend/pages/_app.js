@@ -29,7 +29,8 @@ function MyApp({ Component, pageProps }) {
   };
 
   return (
-    <AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>
+    <div>
+    {/*<AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>*/}
       <Head key="default-head">
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -96,12 +97,19 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
+        <link rel="canonical" href="https://old.ronweasley.co" />
+        <link rel="canonical" href="https://dev.ronweasley.co" />
+        <link rel="canonical" href="https://vercel.ronweasley.co" />
+        <link rel="canonical" href="https://aws.ronweasley.co" />
+
         <script type="application/ld+json">
           {JSON.stringify(jsonld_website)}
         </script>
       </Head>
-      <Component {...pageProps} key={router.route} />
-    </AnimatePresence>
+      {/*<Component {...pageProps} key={router.route} />*/}
+      <Component {...pageProps} />
+    {/*</AnimatePresence>*/}
+    </div>
   );
 }
 

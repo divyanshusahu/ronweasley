@@ -107,9 +107,23 @@ function Romione() {
   };
 
   const tabBarExtraContent = (
-    <Link href="/new_post/[post_type]" as={`/new_post/romione_${selectedTab}`}>
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/romione_${selectedTab}`
+            : "/new_post/romione_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -141,24 +155,37 @@ function Romione() {
   const page = isEmpty(query.page) ? 1 : query.page;
 
   return (
-    <Layout
-      title="Romione: Appreciation and Fanarts"
-      main_heading="Romione"
-      about_heading="'No' said Ron seriously, 'I mean we should tell them to get out. We dont want anymore Dobbys, do we? 
+    <div>
+      <Layout
+        title="Romione: Appreciation and Fanarts"
+        main_heading="ROMIONE"
+        about_heading="'No' said Ron seriously, 'I mean we should tell them to get out. We dont want anymore Dobbys, do we? 
       We can't order them to die for us -'"
-      landscape="/romione/landscape.webp"
-      portrait="/romione/portrait.webp"
-      tabList={tabList}
-      activeTabKey={activeTabKey}
-      onTabChange={handleOnTabChange}
-      tabBarExtraContent={tabBarExtraContent}
-      posts={filteredPosts}
-      type={selectedTab}
-      loading={loading}
-      searchbar={(value) => setSearchField(value)}
-      searchvalue={searchField}
-      paginationpage={page}
-    />
+        wall_alt="Romione Wall"
+        wall_src="/romione"
+        wall_items={17}
+        tabList={tabList}
+        activeTabKey={activeTabKey}
+        onTabChange={handleOnTabChange}
+        tabBarExtraContent={tabBarExtraContent}
+        posts={filteredPosts}
+        addPostLink="romione"
+        type={selectedTab}
+        loading={loading}
+        searchbar={(value) => setSearchField(value)}
+        searchvalue={searchField}
+        paginationpage={page}
+      />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
+    </div>
   );
 }
 

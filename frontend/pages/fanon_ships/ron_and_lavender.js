@@ -107,12 +107,23 @@ function RonAndLavender() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/ron_and_lavender_${selectedTab}`}
-    >
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/ron_and_lavender${selectedTab}`
+            : "/new_post/ron_and_lavender_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -147,21 +158,35 @@ function RonAndLavender() {
     <div>
       <Layout
         title="Ron-Lavender: Appreciation and Fanarts"
-        main_heading="Ron-Lavender"
-        about_heading="The most underrated fanon ship."
-        landscape="/ron_and_lavender/landscape.webp"
-        portrait="/ron_and_lavender/portrait.webp"
+        main_heading="RON-LAVENDER"
+        about_heading="At first, Lavender had been very annoyed that nobody had thought 
+        to tell her that Ron was in the hospital wing... but unfortunately she had now decided 
+        to forgive Harry this lapse of memory and was keen to have 
+        lots of in-depth chats with him about Ron's feelings"
+        wall_alt="Ron and Lavender Wall"
+        wall_src="/ron_and_lavender"
+        wall_items={4}
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
         posts={filteredPosts}
+        addPostLink="ron_and_lavender"
         type={selectedTab}
         loading={loading}
         searchbar={(value) => setSearchField(value)}
         searchvalue={searchField}
         paginationpage={page}
       />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }
