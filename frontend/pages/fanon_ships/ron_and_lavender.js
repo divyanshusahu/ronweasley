@@ -159,12 +159,14 @@ function RonAndLavender() {
       <Layout
         title="Ron-Lavender: Appreciation and Fanarts"
         main_heading="RON-LAVENDER"
-        about_heading="At first, Lavender had been very annoyed that nobody had thought 
-        to tell her that Ron was in the hospital wing... but unfortunately she had now decided 
-        to forgive Harry this lapse of memory and was keen to have 
+        about_heading="At first, Lavender had been very annoyed that nobody had thought
+        to tell her that Ron was in the hospital wing... but unfortunately she had now decided
+        to forgive Harry this lapse of memory and was keen to have
         lots of in-depth chats with him about Ron's feelings"
+        meta_description="A website to celebrate the relationship between Ron Weasley and Lavender Brown
+        from the Harry Potter series. Find appreciation posts along with beautiful fan arts."
         wall_alt="Ron and Lavender Wall"
-        wall_src="/ron_and_lavender"
+        wall_src="/assets/ron_and_lavender"
         wall_items={4}
         tabList={tabList}
         activeTabKey={activeTabKey}

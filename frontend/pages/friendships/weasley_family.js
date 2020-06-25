@@ -160,8 +160,10 @@ function WeasleyFamily() {
         title="Weasley Family: Appreciation and Fanarts"
         main_heading="WEASLEY FAMILY"
         about_heading="The Weasleys were Harry’s favorite family in the world."
+        meta_description="A website to celebrate the dynamics of the Weasley Family from the Harry Potter series.
+        Find appreciation posts along with beautiful fan arts."
         wall_alt="Weasley Family Wall"
-        wall_src="/weasley_family"
+        wall_src="/assets/weasley_family"
         wall_items={8}
         tabList={tabList}
         activeTabKey={activeTabKey}

@@ -166,6 +166,9 @@ function Layout(props) {
     <div>
       <Head>
         <title>{props.title}</title>
+        {isEmpty(props["meta_description"]) ? null : (
+          <meta name="description" content={props["meta_description"]} />
+        )}
         <script type="application/ld+json">
           {JSON.stringify(jsonld_webpage)}
         </script>
@@ -323,7 +326,6 @@ function Layout(props) {
             height: 80vh;
             display: flex;
             justify-content: flex-end;
-            align-items: center;
             overflow: hidden;
           }
           .page_content {

@@ -159,10 +159,12 @@ function RonAndHarry() {
       <Layout
         title="Ron-Harry: Appreciation and Fanarts"
         main_heading="RON-HARRY"
-        about_heading="Harry, you’ve got to come and stay with us. 
+        about_heading="Harry, you’ve got to come and stay with us.
         I’ll fix it up with Mum and Dad, then I’ll call you. I know how to use a fellytone now."
+        meta_description="A website to celebrate the friendship between Ron Weasley and Harry Potter
+        from the Harry Potter series. Find appreciation posts along with beautiful fan arts."
         wall_alt="Ron and Harry Wall"
-        wall_src="/ron_and_harry"
+        wall_src="/assets/ron_and_harry"
         wall_items={8}
         tabList={tabList}
         activeTabKey={activeTabKey}

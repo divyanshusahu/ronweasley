@@ -19,7 +19,16 @@ function MyApp({ Component, pageProps }) {
     url: "https://www.ronweasley.co",
     creator: { "@type": "Person", name: "Divyanshu Sahu" },
     keywords: [
-      "harry potter, ron weasley, hermione granger, appreciation, defense, fanarts, fanfiction, checkmated.org",
+      "harry potter",
+      "ron weasley",
+      "hermione granger",
+      "romione",
+      "golden trio",
+      "appreciation",
+      "defense",
+      "fanarts",
+      "fanfiction",
+      "checkmated.org",
     ],
     sameAs: [
       "https://www.facebook.com/divyanshu.sahu1997",
@@ -30,13 +39,14 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <div>
-    {/*<AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>*/}
+      {/*<AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>*/}
       <Head key="default-head">
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="A website dedicated to Ron Weasley. Inspired by the awesome work of Ron Weasley Defense Squad."
+          content="A Ron Weasley appreciation website. Find Ron's appreciation and defense post written
+          by passionate Ron stans along with beautiful fan arts by many talented artists."
         />
         <meta name="theme-color" content="#ffffff" />
         <link
@@ -67,28 +77,33 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:url" content="https://www.ronweasley.co" />
         <meta
           name="twitter:title"
-          content="A place where we love Ron Weasley"
+          content="A Ron Weasley Appreciation Website"
         />
         <meta
           name="twitter:description"
-          content="A website dedicated to Ron Weasley. Inspired by the amazing work of Ron Weasley Defense Squad."
+          content="Find Ron's appreciation and defense post written
+          by passionate Ron stans along with beautiful fan arts by many talented artists."
         />
         <meta
           name="twitter:image"
-          content="https://www.ronweasley.co/ron_weasley/landscape.webp"
+          content="https://www.ronweasley.co/assets/ron_weasley/0.png"
         />
         <meta name="twitter:image:alt" content="Ron Weasley Wall" />
 
         <meta property="og:url" content="https://www.ronweasley.co" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="A place where we love Ron Weasley" />
+        <meta
+          property="og:title"
+          content="A Ron Weasley Appreciation Website"
+        />
         <meta
           property="og:description"
-          content="A website dedicated to Ron Weasley. Inspired by the amazing work of Ron Weasley Defense Squad."
+          content="Find Ron's appreciation and defense post written
+          by passionate Ron stans along with beautiful fan arts by many talented artists."
         />
         <meta
           property="og:image"
-          content="https://www.ronweasley.co/ron_weasley/landscape.webp"
+          content="https://www.ronweasley.co/assets/ron_weasley/0.png"
         />
         <meta property="og:image:alt" content="Ron Weasley Wall" />
         <meta
@@ -97,10 +112,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
-        <link rel="canonical" href="https://old.ronweasley.co" />
-        <link rel="canonical" href="https://dev.ronweasley.co" />
-        <link rel="canonical" href="https://vercel.ronweasley.co" />
-        <link rel="canonical" href="https://aws.ronweasley.co" />
+        <link rel="canonical" href="https://www.ronweasley.co" />
 
         <script type="application/ld+json">
           {JSON.stringify(jsonld_website)}
@@ -108,7 +120,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       {/*<Component {...pageProps} key={router.route} />*/}
       <Component {...pageProps} />
-    {/*</AnimatePresence>*/}
+      {/*</AnimatePresence>*/}
     </div>
   );
 }

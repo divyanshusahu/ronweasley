@@ -161,8 +161,10 @@ function GoldenTrio() {
         main_heading="GOLDEN TRIO"
         about_heading="There are some things you can't share without ending up liking each other,
          and knocking out a twelve-foot mountain troll is one of them."
+        meta_description="A website to celebrate the friendship between Harry Potter, Ron Weasley,
+        and Hermione Granger from the Harry Potter series. Find appreciation posts along with beautiful fan arts."
         wall_alt="Golden Trio Wall"
-        wall_src="/golden_trio"
+        wall_src="/assets/golden_trio"
         wall_items={15}
         tabList={tabList}
         activeTabKey={activeTabKey}

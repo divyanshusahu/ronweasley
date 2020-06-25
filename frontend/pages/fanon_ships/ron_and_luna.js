@@ -160,8 +160,10 @@ function RonAndLuna() {
         title="Ron-Luna: Appreciation and Fanarts"
         main_heading="RON-LUNA"
         about_heading="'She is great isn't she?' said Ron admiringly. 'Always good value.'"
+        meta_description="A website to celebrate the friendship between Ron Weasley and Luna Lovegood
+        from the Harry Potter series. Find appreciation posts along with beautiful fan arts."
         wall_alt="Ron and Luna Wall"
-        wall_src="/ron_and_luna"
+        wall_src="/assets/ron_and_luna"
         wall_items={6}
         tabList={tabList}
         activeTabKey={activeTabKey}

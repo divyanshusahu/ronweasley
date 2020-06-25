@@ -159,10 +159,12 @@ function Romione() {
       <Layout
         title="Romione: Appreciation and Fanarts"
         main_heading="ROMIONE"
-        about_heading="'No' said Ron seriously, 'I mean we should tell them to get out. We dont want anymore Dobbys, do we? 
+        about_heading="'No' said Ron seriously, 'I mean we should tell them to get out. We dont want anymore Dobbys, do we?
       We can't order them to die for us -'"
+        meta_description="A website to celebrate the relationship between Ron Weasley and Hermione Granger from the Harry Potter series.
+        Find appreciation posts along with beautiful fan arts."
         wall_alt="Romione Wall"
-        wall_src="/romione"
+        wall_src="/assets/romione"
         wall_items={17}
         tabList={tabList}
         activeTabKey={activeTabKey}

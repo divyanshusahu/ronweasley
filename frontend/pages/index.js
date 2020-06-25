@@ -177,13 +177,13 @@ function Index() {
       <Layout
         title="Ron Weasley: Appreciation, Defense and Fanarts"
         main_heading="RON WEASLEY"
-        about_heading="I'm the sixth in our family to go to Hogwarts. 
-      You could say I got a lot to live up to. Bill and Charlie have already left — 
-      Bill was Head Boy and Charlie was captain of Quidditch. Now Percy's a prefect. 
-      Fred and George mess around a lot, but they still get really good marks and everyone thinks they're really funny. 
+        about_heading="I'm the sixth in our family to go to Hogwarts.
+      You could say I got a lot to live up to. Bill and Charlie have already left —
+      Bill was Head Boy and Charlie was captain of Quidditch. Now Percy's a prefect.
+      Fred and George mess around a lot, but they still get really good marks and everyone thinks they're really funny.
       Everyone expects me to do as well as the others, but if I do, it's no big deal, because they did it first."
         wall_alt="Ron Weasley Wall"
-        wall_src="/ron_weasley"
+        wall_src="/assets/ron_weasley"
         wall_items={6}
         tabList={tabList}
         activeTabKey={activeTabKey}
