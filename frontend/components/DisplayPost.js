@@ -188,9 +188,9 @@ function DisplayPost(props) {
           type={props.inner ? "inner" : null}
           title={
             <span>
-              <Typography.Paragraph strong style={{ fontSize: 18 }}>
+              <Typography.Title style={{fontSize: 18}}>
                 {props.post_title}
-              </Typography.Paragraph>
+              </Typography.Title>
               <Typography.Text style={{ fontSize: 14 }}>
                 Author:{" "}
                 <a

@@ -1,8 +1,3 @@
-import fetch from "isomorphic-unfetch";
-import isEmpty from "is-empty";
-import TimeAgo from "react-timeago";
-import ReCAPTCHA from "react-google-recaptcha";
-
 import {
   Row,
   Col,
@@ -23,7 +18,10 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
-import { motion } from "framer-motion";
+import fetch from "isomorphic-unfetch";
+import isEmpty from "is-empty";
+import TimeAgo from "react-timeago";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import SecondaryLayout from "../components/SecondaryLayout";
 
@@ -108,25 +106,10 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
     }
   };
 
-  const variants = {
-    initial: { x: 30, scale: 0.9, opacity: 0 },
-    enter: { x: 0, scale: 1, opacity: 1, transition: { duration: 0.5 } },
-    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.2 } },
-  };
-
   return (
     <div>
       <SecondaryLayout title="Report Bugs, Suggestions and Feedabck">
-        <motion.div
-          initial="initial"
-          animate="enter"
-          exit="exit"
-          variants={{
-            enter: { transition: { staggerChildren: 0.1 } },
-            exit: { transition: { staggerChildren: 0.1 } },
-          }}
-        >
-          {/*<div className="display_suggestions">
+        {/*<div className="display_suggestions">
           <Row gutter={[0, 32]}>
             <Col xs={{ span: 22, offset: 1 }} md={{ span: 9, offset: 2 }}>
               <Card
@@ -191,218 +174,201 @@ function Suggestions({ pageLoadBugs, pageLoadSuggestions, pageLoadFeedbacks }) {
             </Col>
           </Row>
         </div>*/}
-          <div className="user_feedback">
-            <Row gutter={[0, 32]}>
-              <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 2 }}>
-                <motion.div variants={variants}>
-                  <Card
-                    title={
-                      <span>
-                        <Typography.Title level={4}>
-                          Report Bugs
-                        </Typography.Title>
-                        <Typography.Text type="secondary">
-                          Please report any bugs here
-                        </Typography.Text>
-                      </span>
-                    }
-                    extra={<BugOutlined style={{ fontSize: 20 }} />}
-                    actions={[
-                      <Input
-                        id="input-bug"
-                        placeholder="Report Bug here"
-                        addonAfter={
-                          <EnterOutlined
-                            onClick={() => {
-                              post_type = "bug";
-                              executeCaptcha();
-                            }}
-                          />
-                        }
-                        onPressEnter={() => {
+        <div className="user_feedback">
+          <Row gutter={[0, 32]}>
+            <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 2 }}>
+              <Card
+                title={
+                  <span>
+                    <Typography.Title level={4}>Report Bugs</Typography.Title>
+                    <Typography.Text type="secondary">
+                      Please report any bugs here
+                    </Typography.Text>
+                  </span>
+                }
+                extra={<BugOutlined style={{ fontSize: 20 }} />}
+                actions={[
+                  <Input
+                    id="input-bug"
+                    placeholder="Report Bug here"
+                    addonAfter={
+                      <EnterOutlined
+                        onClick={() => {
                           post_type = "bug";
                           executeCaptcha();
                         }}
-                        value={bugInputValue}
-                        onChange={(e) => setBugInputValue(e.target.value)}
-                      />,
-                    ]}
-                    style={{
-                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
-                    }}
-                  >
-                    <div className="user_feedback_card_content">
-                      {isEmpty(bugs) ? (
-                        <Empty />
-                      ) : (
-                        bugs.map((b) => (
-                          <Comment
-                            content={b.post_content["S"]}
-                            datetime={<TimeAgo date={b.post_date["S"]} />}
-                            key={b.post_id["S"]}
-                            author="Anon"
-                            avatar={<Avatar icon={<BugOutlined />} />}
-                          >
-                            {isEmpty(b.post_reply) ? null : (
-                              <Comment
-                                content={b.post_reply["S"]}
-                                author="Admin"
-                                datetime={
-                                  <TimeAgo date={b.post_reply_time["S"]} />
-                                }
-                                avatar={
-                                  <Avatar
-                                    icon={<UserOutlined />}
-                                    style={{ backgroundColor: "#52c41a" }}
-                                  />
-                                }
-                              />
-                            )}
-                          </Comment>
-                        ))
-                      )}
-                    </div>
-                  </Card>
-                </motion.div>
-              </Col>
-              <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 1 }}>
-                <motion.div variants={variants}>
-                  <Card
-                    title={
-                      <span>
-                        <Typography.Title level={4}>
-                          Suggestions
-                        </Typography.Title>
-                        <Typography.Text type="secondary">
-                          Enter suggestions for website here.
-                        </Typography.Text>
-                      </span>
+                      />
                     }
-                    extra={<QuestionCircleOutlined style={{ fontSize: 20 }} />}
-                    actions={[
-                      <Input
-                        id="input-suggestion"
-                        placeholder="Enter suggestions here"
-                        addonAfter={
-                          <EnterOutlined
-                            onClick={() => {
-                              post_type = "suggestion";
-                              executeCaptcha();
-                            }}
-                          />
-                        }
-                        onPressEnter={() => {
-                          post_type = "suggestion";
-                          executeCaptcha();
-                        }}
-                        value={suggestionInputValue}
-                        onChange={(e) =>
-                          setSuggestionInputValue(e.target.value)
-                        }
-                      />,
-                    ]}
-                    style={{
-                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
+                    onPressEnter={() => {
+                      post_type = "bug";
+                      executeCaptcha();
                     }}
-                  >
-                    <div className="user_feedback_card_content">
-                      {isEmpty(suggestions) ? (
-                        <Empty />
-                      ) : (
-                        suggestions.map((sug) => (
+                    value={bugInputValue}
+                    onChange={(e) => setBugInputValue(e.target.value)}
+                  />,
+                ]}
+                style={{
+                  boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
+                }}
+              >
+                <div className="user_feedback_card_content">
+                  {isEmpty(bugs) ? (
+                    <Empty />
+                  ) : (
+                    bugs.map((b) => (
+                      <Comment
+                        content={b.post_content["S"]}
+                        datetime={<TimeAgo date={b.post_date["S"]} />}
+                        key={b.post_id["S"]}
+                        author="Anon"
+                        avatar={<Avatar icon={<BugOutlined />} />}
+                      >
+                        {isEmpty(b.post_reply) ? null : (
                           <Comment
-                            content={sug.post_content["S"]}
-                            datetime={<TimeAgo date={sug.post_date["S"]} />}
-                            key={sug.post_id["S"]}
-                            author="Anon"
+                            content={b.post_reply["S"]}
+                            author="Admin"
+                            datetime={<TimeAgo date={b.post_reply_time["S"]} />}
                             avatar={
                               <Avatar
                                 icon={<UserOutlined />}
                                 style={{ backgroundColor: "#52c41a" }}
                               />
                             }
-                          >
-                            {isEmpty(sug.post_reply) ? null : (
-                              <Comment
-                                content={sug.post_reply["S"]}
-                                author="Admin"
-                                datetime={
-                                  <TimeAgo date={sug.post_reply_time["S"]} />
-                                }
-                                avatar={
-                                  <Avatar
-                                    icon={<UserOutlined />}
-                                    style={{ backgroundColor: "#52c41a" }}
-                                  />
-                                }
-                              />
-                            )}
-                          </Comment>
-                        ))
-                      )}
-                    </div>
-                  </Card>
-                </motion.div>
-              </Col>
-              <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 1 }}>
-                <motion.div variants={variants}>
-                  <Card
-                    title={
-                      <span>
-                        <Typography.Title level={4}>Feedbacks</Typography.Title>
-                        <Typography.Text type="secondary">
-                          Like it? Hate it? Please leave a Feedabck.
-                        </Typography.Text>
-                      </span>
+                          />
+                        )}
+                      </Comment>
+                    ))
+                  )}
+                </div>
+              </Card>
+            </Col>
+            <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 1 }}>
+              <Card
+                title={
+                  <span>
+                    <Typography.Title level={4}>Suggestions</Typography.Title>
+                    <Typography.Text type="secondary">
+                      Enter suggestions for website here.
+                    </Typography.Text>
+                  </span>
+                }
+                extra={<QuestionCircleOutlined style={{ fontSize: 20 }} />}
+                actions={[
+                  <Input
+                    id="input-suggestion"
+                    placeholder="Enter suggestions here"
+                    addonAfter={
+                      <EnterOutlined
+                        onClick={() => {
+                          post_type = "suggestion";
+                          executeCaptcha();
+                        }}
+                      />
                     }
-                    extra={
-                      <ExclamationCircleOutlined style={{ fontSize: 20 }} />
-                    }
-                    actions={[
-                      <Input
-                        id="input-feedback"
-                        placeholder="Leave feedback here"
-                        addonAfter={
-                          <EnterOutlined
-                            onClick={() => {
-                              post_type = "feedback";
-                              executeCaptcha();
-                            }}
+                    onPressEnter={() => {
+                      post_type = "suggestion";
+                      executeCaptcha();
+                    }}
+                    value={suggestionInputValue}
+                    onChange={(e) => setSuggestionInputValue(e.target.value)}
+                  />,
+                ]}
+                style={{
+                  boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
+                }}
+              >
+                <div className="user_feedback_card_content">
+                  {isEmpty(suggestions) ? (
+                    <Empty />
+                  ) : (
+                    suggestions.map((sug) => (
+                      <Comment
+                        content={sug.post_content["S"]}
+                        datetime={<TimeAgo date={sug.post_date["S"]} />}
+                        key={sug.post_id["S"]}
+                        author="Anon"
+                        avatar={
+                          <Avatar
+                            icon={<UserOutlined />}
+                            style={{ backgroundColor: "#52c41a" }}
                           />
                         }
-                        onPressEnter={() => {
+                      >
+                        {isEmpty(sug.post_reply) ? null : (
+                          <Comment
+                            content={sug.post_reply["S"]}
+                            author="Admin"
+                            datetime={
+                              <TimeAgo date={sug.post_reply_time["S"]} />
+                            }
+                            avatar={
+                              <Avatar
+                                icon={<UserOutlined />}
+                                style={{ backgroundColor: "#52c41a" }}
+                              />
+                            }
+                          />
+                        )}
+                      </Comment>
+                    ))
+                  )}
+                </div>
+              </Card>
+            </Col>
+            <Col xs={{ span: 22, offset: 1 }} md={{ span: 6, offset: 1 }}>
+              <Card
+                title={
+                  <span>
+                    <Typography.Title level={4}>Feedbacks</Typography.Title>
+                    <Typography.Text type="secondary">
+                      Like it? Hate it? Please leave a Feedabck.
+                    </Typography.Text>
+                  </span>
+                }
+                extra={<ExclamationCircleOutlined style={{ fontSize: 20 }} />}
+                actions={[
+                  <Input
+                    id="input-feedback"
+                    placeholder="Leave feedback here"
+                    addonAfter={
+                      <EnterOutlined
+                        onClick={() => {
                           post_type = "feedback";
                           executeCaptcha();
                         }}
-                        value={feedbackInputValue}
-                        onChange={(e) => setFeedbackInputValue(e.target.value)}
-                      />,
-                    ]}
-                    style={{
-                      boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
+                      />
+                    }
+                    onPressEnter={() => {
+                      post_type = "feedback";
+                      executeCaptcha();
                     }}
-                  >
-                    <div className="user_feedback_card_content">
-                      {isEmpty(feedbacks) ? (
-                        <Empty />
-                      ) : (
-                        feedbacks.map((fed) => (
-                          <Comment
-                            content={fed.post_content["S"]}
-                            datetime={<TimeAgo date={fed.post_date["S"]} />}
-                            key={fed.post_id["S"]}
-                            author="Anon"
-                            avatar={<Avatar icon={<UserOutlined />} />}
-                          />
-                        ))
-                      )}
-                    </div>
-                  </Card>
-                </motion.div>
-              </Col>
-            </Row>
-          </div>
-        </motion.div>
+                    value={feedbackInputValue}
+                    onChange={(e) => setFeedbackInputValue(e.target.value)}
+                  />,
+                ]}
+                style={{
+                  boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)",
+                }}
+              >
+                <div className="user_feedback_card_content">
+                  {isEmpty(feedbacks) ? (
+                    <Empty />
+                  ) : (
+                    feedbacks.map((fed) => (
+                      <Comment
+                        content={fed.post_content["S"]}
+                        datetime={<TimeAgo date={fed.post_date["S"]} />}
+                        key={fed.post_id["S"]}
+                        author="Anon"
+                        avatar={<Avatar icon={<UserOutlined />} />}
+                      />
+                    ))
+                  )}
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
         <ReCAPTCHA
           ref={recaptchaInstance}
           sitekey="6LeWVukUAAAAAK0uVPEuSOXo16450MgzzrhM9HDt"

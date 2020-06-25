@@ -1,9 +1,17 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { Row, Col, Descriptions, Card, Table, Button, Tag } from "antd";
+import {
+  Row,
+  Col,
+  Descriptions,
+  Card,
+  Table,
+  Button,
+  Tag,
+  Typography,
+} from "antd";
 
-import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
 
 import SecondaryLayout from "../../../../components/SecondaryLayout";
@@ -77,71 +85,63 @@ function Story(props) {
 
   return (
     <div>
-      <SecondaryLayout title={props.story.post_title["S"]}>
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1, transition: { duration: 0.5 } }}
-          exit={{ scale: 0.6, opacity: 0, transition: { duration: 0.2 } }}
-        >
-          <div className="page_root">
-            <Row>
-              <Col
-                xs={{ span: 22, offset: 1 }}
-                md={{ span: 20, offset: 2 }}
-                lg={{ span: 14, offset: 5 }}
-                xxl={{ span: 12, offset: 6 }}
+      <SecondaryLayout title={`Fanfiction: ${props.story.post_title["S"]}`}>
+        <div className="page_root">
+          <Row>
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 20, offset: 2 }}
+              lg={{ span: 14, offset: 5 }}
+              xxl={{ span: 12, offset: 6 }}
+            >
+              <Card
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
+                bodyStyle={{ padding: 0 }}
               >
-                <Card
-                  style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
-                  bodyStyle={{ padding: 0 }}
-                >
-                  <div className="story_description">
-                    <Descriptions
-                      title={
-                        props.story.post_type["S"].toUpperCase() + " ARCHIEVE"
-                      }
-                    >
-                      <Descriptions.Item label="Name">
-                        {props.story.post_title["S"]}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Author">
-                        {props.story.post_author["S"]}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Type">
-                        {props.story.story_type["S"]}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Status">
-                        <Tag
-                          color={
-                            props.story.story_status["S"] === "Complete"
-                              ? "success"
-                              : "error"
-                          }
-                        >
-                          {props.story.story_status["S"]}
-                        </Tag>
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Download">
-                        <a
-                          href={props.story.story_url["S"]}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Full Story
-                        </a>
-                      </Descriptions.Item>
-                    </Descriptions>
-                  </div>
-                  <Table
-                    columns={columns}
-                    dataSource={data}
-                    pagination={false}
-                  />
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </motion.div>
+                <div className="story_description">
+                  <Descriptions
+                    title={
+                      <Typography.Title level={4}>
+                        {props.story.post_type["S"].toUpperCase() + " ARCHIEVE"}
+                      </Typography.Title>
+                    }
+                  >
+                    <Descriptions.Item label="Name">
+                      {props.story.post_title["S"]}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Author">
+                      {props.story.post_author["S"]}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Type">
+                      {props.story.story_type["S"]}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Status">
+                      <Tag
+                        color={
+                          props.story.story_status["S"] === "Complete"
+                            ? "success"
+                            : "error"
+                        }
+                      >
+                        {props.story.story_status["S"]}
+                      </Tag>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Download">
+                      <a
+                        href={props.story.story_url["S"]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Full Story
+                      </a>
+                    </Descriptions.Item>
+                  </Descriptions>
+                </div>
+                <Table columns={columns} dataSource={data} pagination={false} />
+              </Card>
+            </Col>
+          </Row>
+        </div>
       </SecondaryLayout>
       <style jsx>
         {`

@@ -4,7 +4,6 @@ import { Row, Col, Card, Form, Input, Select, Button, message } from "antd";
 
 import cookies from "next-cookies";
 import fetch from "isomorphic-unfetch";
-import { motion } from "framer-motion";
 
 import ErrorLayout from "../../components/ErrorLayout";
 import SecondaryLayout from "../../components/SecondaryLayout";
@@ -82,122 +81,112 @@ function AddStory(props) {
   return (
     <div>
       <SecondaryLayout title="Add Story">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1, transition: { duration: 0.5 } }}
-          exit={{ scale: 0.6, opacity: 0, transition: { duration: 0.2 } }}
-        >
-          <div className="page_root">
-            <Row>
-              <Col
-                xs={{ span: 22, offset: 1 }}
-                md={{ xs: 20, offset: 2 }}
-                lg={{ span: 16, offset: 4 }}
-                xxl={{ span: 14, offset: 5 }}
-              >
-                <Card title="Add Story">
-                  <Form
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 16 }}
-                    name="add_story"
-                    onFinish={handleFormSubmit}
+        <div className="page_root">
+          <Row>
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ xs: 20, offset: 2 }}
+              lg={{ span: 16, offset: 4 }}
+              xxl={{ span: 14, offset: 5 }}
+            >
+              <Card title="Add Story">
+                <Form
+                  labelCol={{ span: 4 }}
+                  wrapperCol={{ span: 16 }}
+                  name="add_story"
+                  onFinish={handleFormSubmit}
+                >
+                  <Form.Item
+                    label="Story Name"
+                    name="story_name"
+                    rules={[{ required: true, message: "Enter story name" }]}
                   >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Story Author"
+                    name="story_author"
+                    rules={[{ required: true, message: "Enter author name" }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Story Domain"
+                    name="story_domain"
+                    rules={[{ required: true, message: "Select story domain" }]}
+                  >
+                    <Select>
+                      <Select.Option value="checkmated">
+                        Checkmated
+                      </Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Story Type"
+                    name="story_type"
+                    rules={[{ required: true, message: "Select story type" }]}
+                  >
+                    <Select>
+                      <Select.Option value="Oneshot">Oneshot</Select.Option>
+                      <Select.Option value="Multi-Chapter">
+                        Multi-Chapter
+                      </Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="No. of Chapters"
+                    name="no_of_chapters"
+                    rules={[
+                      { required: true, message: "Enter no. of chapters" },
+                    ]}
+                  >
+                    <Input
+                      type="number"
+                      onChange={(e) => setNoOfChapters(e.target.value)}
+                    />
+                  </Form.Item>
+                  {urlArray.map((item) => (
                     <Form.Item
-                      label="Story Name"
-                      name="story_name"
-                      rules={[{ required: true, message: "Enter story name" }]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
-                      label="Story Author"
-                      name="story_author"
-                      rules={[{ required: true, message: "Enter author name" }]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
-                      label="Story Domain"
-                      name="story_domain"
-                      rules={[
-                        { required: true, message: "Select story domain" },
-                      ]}
-                    >
-                      <Select>
-                        <Select.Option value="checkmated">
-                          Checkmated
-                        </Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      label="Story Type"
-                      name="story_type"
-                      rules={[{ required: true, message: "Select story type" }]}
-                    >
-                      <Select>
-                        <Select.Option value="Oneshot">Oneshot</Select.Option>
-                        <Select.Option value="Multi-Chapter">
-                          Multi-Chapter
-                        </Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      label="No. of Chapters"
-                      name="no_of_chapters"
-                      rules={[
-                        { required: true, message: "Enter no. of chapters" },
-                      ]}
-                    >
-                      <Input
-                        type="number"
-                        onChange={(e) => setNoOfChapters(e.target.value)}
-                      />
-                    </Form.Item>
-                    {urlArray.map((item) => (
-                      <Form.Item
-                        key={item}
-                        label={`Chapter ${item} URL`}
-                        name={`chapter_${item}`}
-                        rules={[{ required: true, message: "Enter valid URL" }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    ))}
-                    <Form.Item
-                      label="Full Story URL"
-                      name="full_story_url"
+                      key={item}
+                      label={`Chapter ${item} URL`}
+                      name={`chapter_${item}`}
                       rules={[{ required: true, message: "Enter valid URL" }]}
                     >
-                      <Input type="url" />
+                      <Input />
                     </Form.Item>
-                    <Form.Item
-                      label="Story Status"
-                      name="story_status"
-                      rules={[
-                        { required: true, message: "Select story status" },
-                      ]}
-                    >
-                      <Select>
-                        <Select.Option value="Complete">Complete</Select.Option>
-                        <Select.Option value="Incomplete">
-                          Incomplete
-                        </Select.Option>
-                        <Select.Option value="Chapters Missing">
-                          Chapters Missing
-                        </Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </motion.div>
+                  ))}
+                  <Form.Item
+                    label="Full Story URL"
+                    name="full_story_url"
+                    rules={[{ required: true, message: "Enter valid URL" }]}
+                  >
+                    <Input type="url" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Story Status"
+                    name="story_status"
+                    rules={[{ required: true, message: "Select story status" }]}
+                  >
+                    <Select>
+                      <Select.Option value="Complete">Complete</Select.Option>
+                      <Select.Option value="Incomplete">
+                        Incomplete
+                      </Select.Option>
+                      <Select.Option value="Chapters Missing">
+                        Chapters Missing
+                      </Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </Col>
+          </Row>
+        </div>
       </SecondaryLayout>
       <style jsx>
         {`

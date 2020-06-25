@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { Row, Col, Button } from "antd";
 
-import { motion } from "framer-motion";
 import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 
@@ -41,59 +40,43 @@ function Fanart(props) {
   return (
     <div>
       <SecondaryLayout title={`Fanart: ${props.post.post_title["S"]}`}>
-        <motion.div
-          initial={{ scale: 0.9, y: 50, opacity: 0 }}
-          animate={{
-            scale: 1,
-            y: 0,
-            opacity: 1,
-            transition: { duration: 0.5 },
-          }}
-          exit={{
-            scale: 0.6,
-            y: 50,
-            opacity: 0,
-            transition: { duration: 0.2 },
-          }}
-        >
-          <div className="page_root">
-            <Row>
-              <Col
-                xs={{ span: 22, offset: 1 }}
-                md={{ span: 20, offset: 2 }}
-                lg={{ span: 18, offset: 3 }}
-                xxl={{ span: 16, offset: 4 }}
-              >
-                <div className="display_card">
-                  <DisplayFanart
-                    inner={false}
-                    bordered={true}
-                    showActions={true}
-                    is_layout={false}
-                    post_reported={
-                      isEmpty(props.post.post_reported)
-                        ? false
-                        : props.post.post_reported["BOOL"]
-                    }
-                    key={props.post.post_id["S"]}
-                    post_type={props.post.post_type["S"]}
-                    post_id={props.post.post_id["S"]}
-                    post_title={props.post.post_title["S"]}
-                    post_author={props.post.post_author["S"]}
-                    post_author_link={props.post.post_author_link["S"]}
-                    post_date={props.post.post_date["S"]}
-                    post_image={props.post.post_image["L"]}
-                    post_description={
-                      isEmpty(props.post.post_description)
-                        ? null
-                        : props.post.post_description["S"]
-                    }
-                  />
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </motion.div>
+        <div className="page_root">
+          <Row>
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 20, offset: 2 }}
+              lg={{ span: 18, offset: 3 }}
+              xxl={{ span: 16, offset: 4 }}
+            >
+              <div className="display_card">
+                <DisplayFanart
+                  inner={false}
+                  bordered={true}
+                  showActions={true}
+                  is_layout={false}
+                  post_reported={
+                    isEmpty(props.post.post_reported)
+                      ? false
+                      : props.post.post_reported["BOOL"]
+                  }
+                  key={props.post.post_id["S"]}
+                  post_type={props.post.post_type["S"]}
+                  post_id={props.post.post_id["S"]}
+                  post_title={props.post.post_title["S"]}
+                  post_author={props.post.post_author["S"]}
+                  post_author_link={props.post.post_author_link["S"]}
+                  post_date={props.post.post_date["S"]}
+                  post_image={props.post.post_image["L"]}
+                  post_description={
+                    isEmpty(props.post.post_description)
+                      ? null
+                      : props.post.post_description["S"]
+                  }
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
       </SecondaryLayout>
       <style jsx>
         {`

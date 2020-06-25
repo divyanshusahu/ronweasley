@@ -2,8 +2,6 @@ import Link from "next/link";
 
 import { Row, Col, Card, List, Typography } from "antd";
 
-import { motion } from "framer-motion";
-
 import SecondaryLayout from "../../components/SecondaryLayout";
 
 const list_data = [
@@ -38,50 +36,49 @@ const list_data = [
 function FanFiction() {
   return (
     <div>
-      <SecondaryLayout title="Fanfictions">
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1, transition: { duration: 0.5 } }}
-          exit={{ scale: 0.6, opacity: 0, transition: { duration: 0.2 } }}
-        >
-          <Row>
-            <Col
-              xs={{ span: 22, offset: 1 }}
-              md={{ span: 20, offset: 2 }}
-              lg={{ span: 14, offset: 5 }}
-              xxl={{ span: 12, offset: 6 }}
-            >
-              <div className="page_root">
-                <Card
-                  style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
-                >
-                  <List
-                    split={true}
-                    dataSource={list_data}
-                    renderItem={(item) => (
-                      <List.Item>
-                        <List.Item.Meta
-                          title={
-                            <Typography.Text style={{ fontSize: 16 }}>
-                              <Link href={item.href} as={item.as}>
-                                <a>{item.title}</a>
-                              </Link>
-                            </Typography.Text>
-                          }
-                        />
-                      </List.Item>
-                    )}
-                  ></List>
-                </Card>
-              </div>
-            </Col>
-          </Row>
-        </motion.div>
+      <SecondaryLayout title="Fanfictions: Ron Weasley and Romione masterlist">
+        <Row>
+          <Col
+            xs={{ span: 22, offset: 1 }}
+            md={{ span: 20, offset: 2 }}
+            lg={{ span: 14, offset: 5 }}
+            xxl={{ span: 12, offset: 6 }}
+          >
+            <div className="page_root">
+              <Card
+                title={
+                  <Typography.Title level={3} style={{ marginBottom: 0 }}>
+                    FANFICTION ARCHIVE
+                  </Typography.Title>
+                }
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
+              >
+                <List
+                  split={true}
+                  dataSource={list_data}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        title={
+                          <Typography.Text style={{ fontSize: 16 }}>
+                            <Link href={item.href} as={item.as}>
+                              <a>{item.title}</a>
+                            </Link>
+                          </Typography.Text>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                ></List>
+              </Card>
+            </div>
+          </Col>
+        </Row>
       </SecondaryLayout>
       <style jsx>
         {`
           .page_root {
-            margin-top: 64px;
+            margin: 64px 0;
           }
         `}
       </style>
