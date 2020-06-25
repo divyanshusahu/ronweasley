@@ -24,6 +24,7 @@ CORS(
             "origins": [
                 "https://ronweasley.co",
                 "https://www.ronweasley.co",
+                "https://old.ronweasley.co",
                 "https://vercel.ronweasley.co",
                 "https://aws.ronweasley.co",
                 "https://dev.ronweasley.co",
