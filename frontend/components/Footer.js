@@ -63,7 +63,11 @@ function Footer() {
         />
       </Head>
       <Row>
-        <Col sm={{ span: 20, offset: 2 }} md={{ span: 12, offset: 6 }}>
+        <Col
+          sm={{ span: 20, offset: 2 }}
+          md={{ span: 18, offset: 3 }}
+          lg={{ span: 12, offset: 6 }}
+        >
           <Paragraph
             style={{
               textAlign: "center",
@@ -78,16 +82,21 @@ function Footer() {
           </Paragraph>
           <Paragraph
             style={{
-              textAlign: "center",
               fontSize: "16px",
-              color: "#f0f0f0",
               fontWeight: "400",
               fontFamily: "Karla",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
-            Important Links:{" "}
+            <Link href="/suggestions">
+              <a className="footer_links">Suggestions</a>
+            </Link>
+            <Link href="/credits">
+              <a className="footer_links">Credits</a>
+            </Link>
             <Link href="/timeline">
-              <a>Timeline</a>
+              <a className="footer_links">Timeline</a>
             </Link>
           </Paragraph>
           <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
@@ -157,6 +166,10 @@ function Footer() {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+          .footer_links {
+            padding: 12px;
+            margin: 0 8px;
           }
         `}
       </style>

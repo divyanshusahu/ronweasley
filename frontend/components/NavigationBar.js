@@ -127,12 +127,7 @@ function NavigationBar(props) {
   );
 
   return (
-    <div
-      className={clsx({
-        dark: props.dark,
-        light: props.light,
-      })}
-    >
+    <div className={props.dark ? "dark" : "light"}>
       <div>
         <Row>
           <Col xs={{ span: 22, offset: 1 }}>
@@ -145,7 +140,7 @@ function NavigationBar(props) {
                 </Link>
               </div>
               <div>
-                <div className="xl_up">
+                <div className="lg_up">
                   <ul className="navigation_links">
                     <li className="navigation_item">
                       <Dropdown
@@ -187,23 +182,9 @@ function NavigationBar(props) {
                         </a>
                       </Link>
                     </li>
-                    <li className="navigation_item">
-                      <Link href="/suggestions">
-                        <a>
-                          <p className="navigation_text">Suggestions</p>
-                        </a>
-                      </Link>
-                    </li>
-                    <li className="navigation_item">
-                      <Link href="/credits">
-                        <a>
-                          <p className="navigation_text">Credits</p>
-                        </a>
-                      </Link>
-                    </li>
                   </ul>
                 </div>
-                <div className="xl_down">
+                <div className="lg_down">
                   <MenuOutlined
                     style={{ fontSize: "20px" }}
                     onClick={handleDrawerOpen}
@@ -291,19 +272,19 @@ function NavigationBar(props) {
       </div>
       <style jsx>
         {`
-          @media only screen and (max-width: 1199px) {
-            .xl_down {
+          @media only screen and (max-width: 991px) {
+            .lg_down {
               display: block;
             }
-            .xl_up {
+            .lg_up {
               display: none;
             }
           }
-          @media only screen and (min-width: 1200px) {
-            .xl_down {
+          @media only screen and (min-width: 992px) {
+            .lg_down {
               display: none;
             }
-            .xl_up {
+            .lg_up {
               display: block;
             }
           }
