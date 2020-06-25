@@ -6,7 +6,7 @@ import {
   GithubOutlined,
   TwitterOutlined,
   GoogleOutlined,
-  InstagramOutlined,
+  LinkedinOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
@@ -27,15 +27,6 @@ function Footer() {
       <Head>
         <link
           rel="preload"
-          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-          as="style"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-        />
-        <link
-          rel="preload"
           href="https://fonts.googleapis.com/css?family=Karla&display=swap"
           as="style"
         />
@@ -45,25 +36,28 @@ function Footer() {
         />
         <link
           rel="preload"
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-          as="style"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="preload"
           href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
           as="style"
         />
         <link
           href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
           rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
         />
       </Head>
       <Row>
-        <Col sm={{ span: 20, offset: 2 }} md={{ span: 12, offset: 6 }}>
+        <Col
+          sm={{ span: 20, offset: 2 }}
+          md={{ span: 18, offset: 3 }}
+          lg={{ span: 12, offset: 6 }}
+        >
           <Paragraph
             style={{
               textAlign: "center",
@@ -76,20 +70,30 @@ function Footer() {
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
           </Paragraph>
-          <Paragraph
-            style={{
-              textAlign: "center",
-              fontSize: "16px",
-              color: "#f0f0f0",
-              fontWeight: "400",
-              fontFamily: "Karla",
-            }}
-          >
-            Important Links:{" "}
-            <Link href="/timeline">
-              <a>Timeline</a>
-            </Link>
-          </Paragraph>
+          <div className="link_paragraph">
+            <Paragraph
+              style={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontFamily: "Karla",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Link href="/suggestions">
+                <a className="footer_links">Suggestions</a>
+              </Link>
+              <Link href="/credits">
+                <a className="footer_links">Credits</a>
+              </Link>
+              <Link href="/timeline">
+                <a className="footer_links">Timeline</a>
+              </Link>
+              <a href="https://old.ronweasley.co" className="footer_links">
+                Old Design
+              </a>
+            </Paragraph>
+          </div>
           <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
         </Col>
       </Row>
@@ -124,12 +128,12 @@ function Footer() {
           <GoogleOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
         <a
-          href="https://instagram.com/_divyanshusahu_"
+          href="https://www.linkedin.com/in/divyanshu-sahu/"
           target="_blank"
           rel="noopener noreferrer"
           style={{ padding: "8px" }}
         >
-          <InstagramOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
+          <LinkedinOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>
       </div>
       <style jsx global>
@@ -157,6 +161,15 @@ function Footer() {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+          .footer_links {
+            padding: 12px;
+            margin: 0 8px;
+          }
+          @media screen and (max-width: 991px) {
+            .link_paragraph {
+              display: none;
+            }
           }
         `}
       </style>

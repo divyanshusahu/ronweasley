@@ -125,12 +125,23 @@ function Index() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/ron_weasley_${selectedTab}`}
-    >
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/ron_weasley_${selectedTab}`
+            : "/new_post/ron_weasley_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -162,24 +173,40 @@ function Index() {
   const page = isEmpty(query.page) ? 1 : query.page;
 
   return (
-    <Layout
-      title="Ron Weasley: Appreciation, Defense and Fanarts"
-      main_heading="Ron Weasley"
-      about_heading="From now on, I don’t care if my tea leaves spell, ‘Die, Ron, die,’ 
-      I’m chucking them in the bin where they belong."
-      landscape="/ron_weasley/landscape.webp"
-      portrait="/ron_weasley/portrait.webp"
-      tabList={tabList}
-      activeTabKey={activeTabKey}
-      onTabChange={handleOnTabChange}
-      tabBarExtraContent={tabBarExtraContent}
-      posts={filteredPosts}
-      type={selectedTab}
-      loading={loading}
-      searchbar={(value) => setSearchField(value)}
-      searchvalue={searchField}
-      paginationpage={page}
-    />
+    <div>
+      <Layout
+        title="Ron Weasley: Appreciation, Defense and Fanarts"
+        main_heading="RON WEASLEY"
+        about_heading="I'm the sixth in our family to go to Hogwarts.
+      You could say I got a lot to live up to. Bill and Charlie have already left —
+      Bill was Head Boy and Charlie was captain of Quidditch. Now Percy's a prefect.
+      Fred and George mess around a lot, but they still get really good marks and everyone thinks they're really funny.
+      Everyone expects me to do as well as the others, but if I do, it's no big deal, because they did it first."
+        wall_alt="Ron Weasley Wall"
+        wall_src="/assets/ron_weasley"
+        wall_items={6}
+        tabList={tabList}
+        activeTabKey={activeTabKey}
+        onTabChange={handleOnTabChange}
+        tabBarExtraContent={tabBarExtraContent}
+        posts={filteredPosts}
+        addPostLink="ron_weasley"
+        type={selectedTab}
+        loading={loading}
+        searchbar={(value) => setSearchField(value)}
+        searchvalue={searchField}
+        paginationpage={page}
+      />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
+    </div>
   );
 }
 

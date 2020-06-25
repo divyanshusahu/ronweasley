@@ -1,8 +1,7 @@
 import Link from "next/link";
 
-import { Row, Col, Tag, Table, Button } from "antd";
+import { Row, Col, Tag, Table, Button, Typography } from "antd";
 
-import { motion } from "framer-motion";
 import isEmpty from "is-empty";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";
@@ -107,45 +106,53 @@ function StoryDomain(props) {
   return (
     <div>
       <SecondaryLayout title={props.post_type.toUpperCase() + " ARCHIVE"}>
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1, transition: { duration: 0.5 } }}
-          exit={{ scale: 0.6, opacity: 0, transition: { duration: 0.2 } }}
-        >
-          <div className="page_root">
-            <Row>
-              <Col
-                xs={{ span: 22, offset: 1 }}
-                md={{ span: 20, offset: 2 }}
-                lg={{ span: 14, offset: 5 }}
-                xxl={{ span: 12, offset: 6 }}
-              >
-                <Table
-                  columns={columns}
-                  dataSource={tableData}
-                  loading={isLoading}
-                  scroll={{ x: true }}
-                  pagination={false}
-                />
-                {showLoadMore ? (
-                  <Button
-                    size="small"
-                    type="ghost"
-                    style={{ float: "right" }}
-                    onClick={handleLoadMore}
-                  >
-                    Load More
-                  </Button>
-                ) : null}
-              </Col>
-            </Row>
-          </div>
-        </motion.div>
+        <div className="page_root">
+          <Row>
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 20, offset: 2 }}
+              lg={{ span: 14, offset: 5 }}
+              xxl={{ span: 12, offset: 6 }}
+            >
+              <div className="custom_header">
+                <Typography.Title level={2}>
+                  {props.post_type.toUpperCase() + " ARCHIVE"}
+                </Typography.Title>
+                <Typography.Paragraph strong underline>{`Total ${
+                  isEmpty(tableData) ? 0 : tableData.length
+                } are archived till date.`}</Typography.Paragraph>
+                <Typography.Paragraph mark>
+                  More stories will be added soon.
+                </Typography.Paragraph>
+              </div>
+              <Table
+                columns={columns}
+                dataSource={tableData}
+                loading={isLoading}
+                scroll={{ x: true }}
+                pagination={false}
+              />
+              {showLoadMore ? (
+                <Button
+                  size="small"
+                  type="ghost"
+                  style={{ float: "right" }}
+                  onClick={handleLoadMore}
+                >
+                  Load More
+                </Button>
+              ) : null}
+            </Col>
+          </Row>
+        </div>
       </SecondaryLayout>
       <style jsx>
         {`
           .page_root {
             margin: 64px 0;
+          }
+          .custom_header {
+            margin-bottom: 32px;
           }
         `}
       </style>

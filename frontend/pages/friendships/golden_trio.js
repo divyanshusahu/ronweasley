@@ -107,12 +107,23 @@ function GoldenTrio() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/golden_trio_${selectedTab}`}
-    >
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/golden_trio_${selectedTab}`
+            : "/new_post/golden_trio_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -147,22 +158,35 @@ function GoldenTrio() {
     <div>
       <Layout
         title="Golden Trio: Appreciation and Fanarts"
-        main_heading="Golden Trio"
+        main_heading="GOLDEN TRIO"
         about_heading="There are some things you can't share without ending up liking each other,
          and knocking out a twelve-foot mountain troll is one of them."
-        landscape="/golden_trio/landscape.webp"
-        portrait="/golden_trio/portrait.webp"
+        meta_description="A website to celebrate the friendship between Harry Potter, Ron Weasley,
+        and Hermione Granger from the Harry Potter series. Find appreciation posts along with beautiful fan arts."
+        wall_alt="Golden Trio Wall"
+        wall_src="/assets/golden_trio"
+        wall_items={15}
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
         posts={filteredPosts}
+        addPostLink="golden_trio"
         type={selectedTab}
         loading={loading}
         searchbar={(value) => setSearchField(value)}
         searchvalue={searchField}
         paginationpage={page}
       />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

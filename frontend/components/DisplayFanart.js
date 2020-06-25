@@ -200,9 +200,9 @@ function DisplayFanart(props) {
           title={
             props.is_layout ? null : (
               <span>
-                <Typography.Paragraph strong style={{ fontSize: 18 }}>
+                <Typography.Title style={{ fontSize: 18 }}>
                   {props.post_title}
-                </Typography.Paragraph>
+                </Typography.Title>
                 <Typography.Text type="secondary" style={{ fontSize: 14 }}>
                   Artist:{" "}
                   <a

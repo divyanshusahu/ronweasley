@@ -1,17 +1,10 @@
 import { Row, Col, Card } from "antd";
 
-import { motion } from "framer-motion";
-
 import SecondaryLayout from "./SecondaryLayout";
 
 function LoadingComponent() {
   return (
     <SecondaryLayout title="Loading...">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
         <div className="page_root">
           <Row>
             <Col
@@ -24,7 +17,6 @@ function LoadingComponent() {
             </Col>
           </Row>
         </div>
-      </motion.div>
       <style jsx>
         {`
           .page_root {

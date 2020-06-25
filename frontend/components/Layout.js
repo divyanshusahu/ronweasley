@@ -9,7 +9,7 @@ import LazyLoad from "react-lazyload";
 import { Row, Col, Card, Layout as AntLayout, List, Input } from "antd";
 
 import NavigationBar from "./NavigationBar";
-import HeroHeading from "./HeroHeading";
+import WallCarousel from "./WallCarousel";
 import DisplayPost from "./DisplayPost";
 import DisplayFanart from "./DisplayFanart";
 import Footer from "./Footer";
@@ -22,149 +22,134 @@ function Layout(props) {
   const router = useRouter();
   let display;
 
-  const variants = {
-    initial: { scale: 0.9, opacity: 0 },
-    enter: { scale: 1, opacity: 1, transition: { duration: 0.1 } },
-    exit: { scale: 0.6, opacity: 0, transition: { duration: 0.1 } },
-  };
-
   if (props.type === "fanart") {
     display = (
-      <motion.div initial="initial" animate="enter" exit="exit">
-        <List
-          loading={props.loading}
-          pagination={{
-            current: parseInt(props.paginationpage)
-              ? parseInt(props.paginationpage)
-              : 1,
-            pageSize: 24,
-            hideOnSinglePage: true,
-            showSizeChanger: false,
-            onChange: (page) => {
-              router.push({
-                pathname: router.pathname,
-                query: { tab: props.type, page: page },
-              });
-            },
-          }}
-          grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 3 }}
-          dataSource={props.posts}
-          renderItem={(p) => (
-            <List.Item>
-              <LazyLoad height={400} placeholder={<Card loading={true} />} once>
-                <Link
-                  href="/fanart/[post_type]/[post_id]"
-                  as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
-                  scroll={false}
-                >
-                  <a>
-                    <motion.div
-                      whileHover={{
-                        scale: 1.005,
-                        boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
+      <List
+        loading={props.loading}
+        pagination={{
+          current: parseInt(props.paginationpage)
+            ? parseInt(props.paginationpage)
+            : 1,
+          pageSize: 24,
+          hideOnSinglePage: true,
+          showSizeChanger: false,
+          onChange: (page) => {
+            router.push({
+              pathname: router.pathname,
+              query: { tab: props.type, page: page },
+            });
+          },
+        }}
+        grid={{ gutter: 48, xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 3 }}
+        dataSource={props.posts}
+        renderItem={(p) => (
+          <List.Item>
+            <LazyLoad height={400} placeholder={<Card loading={true} />} once>
+              <Link
+                href="/fanart/[post_type]/[post_id]"
+                as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
+              >
+                <a>
+                  <motion.div
+                    whileHover={{
+                      scale: 1.01,
+                    }}
+                  >
+                    <div
+                      style={{
+                        boxShadow: "0 5px 20px rgba(185, 185, 185, 0.5)",
                       }}
-                      variants={variants}
                     >
-                      <div
-                        style={{
-                          boxShadow: "0 6px 15px rgba(36, 37, 38, 0.08)",
-                        }}
-                      >
-                        <DisplayFanart
-                          inner={false}
-                          bordered={true}
-                          showActions={false}
-                          is_layout={true}
-                          key={p.post_id["S"]}
-                          post_type={p.post_type["S"]}
-                          post_id={p.post_id["S"]}
-                          post_title={p.post_title["S"]}
-                          post_author={p.post_author["S"]}
-                          post_author_link={p.post_author_link["S"]}
-                          post_date={p.post_date["S"]}
-                          post_image={
-                            isEmpty(p.post_image) ? null : p.post_image["L"]
-                          }
-                        />
-                      </div>
-                    </motion.div>
-                  </a>
-                </Link>
-              </LazyLoad>
-            </List.Item>
-          )}
-        />
-      </motion.div>
+                      <DisplayFanart
+                        inner={false}
+                        bordered={true}
+                        showActions={false}
+                        is_layout={true}
+                        key={p.post_id["S"]}
+                        post_type={p.post_type["S"]}
+                        post_id={p.post_id["S"]}
+                        post_title={p.post_title["S"]}
+                        post_author={p.post_author["S"]}
+                        post_author_link={p.post_author_link["S"]}
+                        post_date={p.post_date["S"]}
+                        post_image={
+                          isEmpty(p.post_image) ? null : p.post_image["L"]
+                        }
+                      />
+                    </div>
+                  </motion.div>
+                </a>
+              </Link>
+            </LazyLoad>
+          </List.Item>
+        )}
+      />
     );
   } else {
     display = (
-      <motion.div initial="initial" animate="enter" exit="exit">
-        <List
-          loading={props.loading}
-          pagination={{
-            current: parseInt(props.paginationpage)
-              ? parseInt(props.paginationpage)
-              : 1,
-            pageSize: 10,
-            hideOnSinglePage: true,
-            showSizeChanger: false,
-            onChange: (page) => {
-              router.push({
-                pathname: router.pathname,
-                query: { tab: props.type, page: page },
-              });
-            },
-          }}
-          itemLayout="vertical"
-          split={false}
-          dataSource={props.posts}
-          renderItem={(p) => (
-            <List.Item>
-              <LazyLoad height={320} placeholder={<Card loading={true} />} once>
-                <Link
-                  href="/post/[post_type]/[post_id]"
-                  as={`/post/${p.post_type["S"]}/${p.post_id["S"]}`}
-                  scroll={false}
-                >
-                  <a>
-                    <motion.div
-                      variants={variants}
-                      whileHover={{
-                        scale: 1.005,
-                        boxShadow: "8px 14px 38px rgba(40, 40, 40, 0.2)",
+      <List
+        loading={props.loading}
+        pagination={{
+          current: parseInt(props.paginationpage)
+            ? parseInt(props.paginationpage)
+            : 1,
+          pageSize: 10,
+          hideOnSinglePage: true,
+          showSizeChanger: false,
+          onChange: (page) => {
+            router.push({
+              pathname: router.pathname,
+              query: { tab: props.type, page: page },
+            });
+          },
+        }}
+        itemLayout="vertical"
+        split={false}
+        dataSource={props.posts}
+        renderItem={(p) => (
+          <List.Item>
+            <LazyLoad height={320} placeholder={<Card loading={true} />} once>
+              <Link
+                href="/post/[post_type]/[post_id]"
+                as={`/post/${p.post_type["S"]}/${p.post_id["S"]}`}
+              >
+                <a>
+                  <motion.div
+                    whileHover={{
+                      scale: 1.005,
+                    }}
+                  >
+                    <div
+                      style={{
+                        maxHeight: 320,
+                        overflow: "hidden",
+                        marginBottom: 36,
+                        backgroundColor: "#fff",
+                        boxShadow: "0 5px 20px rgba(185, 185, 185, 0.5)",
+                        borderRadius: "8px",
                       }}
                     >
-                      <div
-                        style={{
-                          maxHeight: 320,
-                          overflow: "hidden",
-                          marginBottom: 36,
-                          backgroundColor: "#fff",
-                          boxShadow: "0 6px 15px rgba(36, 37,38, 0.08)",
-                        }}
-                      >
-                        <DisplayPost
-                          inner={false}
-                          bordered={false}
-                          showActions={false}
-                          key={p.post_id["S"]}
-                          post_type={p.post_type["S"]}
-                          post_id={p.post_id["S"]}
-                          post_title={p.post_title["S"]}
-                          post_author={p.post_author["S"]}
-                          post_author_link={p.post_author_link["S"]}
-                          post_date={p.post_date["S"]}
-                          post_content={p.post_content["S"]}
-                        />
-                      </div>
-                    </motion.div>
-                  </a>
-                </Link>
-              </LazyLoad>
-            </List.Item>
-          )}
-        />
-      </motion.div>
+                      <DisplayPost
+                        inner={false}
+                        bordered={false}
+                        showActions={false}
+                        key={p.post_id["S"]}
+                        post_type={p.post_type["S"]}
+                        post_id={p.post_id["S"]}
+                        post_title={p.post_title["S"]}
+                        post_author={p.post_author["S"]}
+                        post_author_link={p.post_author_link["S"]}
+                        post_date={p.post_date["S"]}
+                        post_content={p.post_content["S"]}
+                      />
+                    </div>
+                  </motion.div>
+                </a>
+              </Link>
+            </LazyLoad>
+          </List.Item>
+        )}
+      />
     );
   }
 
@@ -179,6 +164,9 @@ function Layout(props) {
     <div>
       <Head>
         <title>{props.title}</title>
+        {isEmpty(props["meta_description"]) ? null : (
+          <meta name="description" content={props["meta_description"]} />
+        )}
         <script type="application/ld+json">
           {JSON.stringify(jsonld_webpage)}
         </script>
@@ -196,14 +184,40 @@ function Layout(props) {
           </AntHeader>
           <AntContent>
             <div className="main">
-              <div className="main_overlay">
-                <div className="hero">
-                  <HeroHeading
-                    heading_text={props.main_heading}
-                    description_text={props.about_heading}
-                  />
-                </div>
-              </div>
+              <Row>
+                <Col
+                  xs={{ span: 24, offset: 0 }}
+                  //md={{ span: 8, offset: 0 }}
+                  lg={{ span: 8, offset: 0 }}
+                >
+                  <div className="hero">
+                    <WallCarousel
+                      alt={props.wall_alt}
+                      src={props.wall_src}
+                      walls={props.wall_items}
+                    />
+                  </div>
+                </Col>
+                <Col
+                  xs={{ span: 24, offset: 0 }}
+                  //md={{ span: 16, offset: 0 }}
+                  lg={{ span: 16, offset: 0 }}
+                >
+                  <Row>
+                    <Col
+                      xs={{ span: 22, offset: 1 }}
+                      md={{ span: 20, offset: 2 }}
+                      lg={{ span: 18, offset: 2 }}
+                      xxl={{ span: 16, offset: 2 }}
+                    >
+                      <div className="heading_div">
+                        <h1 className="main_heading">{props.main_heading}</h1>
+                        <h3 className="about_heading">{props.about_heading}</h3>
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </div>
             <div className="page_content">
               <Row>
@@ -232,6 +246,23 @@ function Layout(props) {
                     }}
                     bordered={false}
                   >
+                    <div className="layout_add_post">
+                      <Link
+                        href="/new_post/[post_type]"
+                        as={
+                          props.type
+                            ? `/new_post/${props.addPostLink}_${props.type}`
+                            : `/new_post/${props.addPostLink}_appreciation`
+                        }
+                      >
+                        <a
+                          className="ant-btn ant-btn-lg ant-btn-round"
+                          style={{ lineHeight: "25px" }}
+                        >
+                          Add Post
+                        </a>
+                      </Link>
+                    </div>
                     <div className="searchbar">
                       <Row>
                         <Col
@@ -251,6 +282,7 @@ function Layout(props) {
                         </Col>
                       </Row>
                     </div>
+
                     <div className="page_posts">{display}</div>
                   </Card>
                 </Col>
@@ -265,26 +297,34 @@ function Layout(props) {
       <style jsx>
         {`
           .main {
-            min-height: 60vh;
+            min-height: 80vh;
             height: 100%;
             width: 100%;
-            background-image: url(${props.landscape});
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
             margin-top: -64px;
+            background-image: linear-gradient(to top, #b224ef 0%, #7579ff 100%);
           }
-          .main_overlay {
-            width: 100%;
-            height: 60vh;
-            background-color: rgba(32, 32, 32, 0.75);
-          }
-          .hero {
-            height: 100%;
-            width: 100%;
+          .heading_div {
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            font-family: "Karla";
+          }
+          .main_heading {
+            font-size: 60px;
+            color: #fff;
+            font-weight: bolder;
+          }
+          .about_heading {
+            font-size: 20px;
+            color: #fff;
+          }
+          .hero {
+            height: 80vh;
+            display: flex;
+            justify-content: flex-end;
+            overflow: hidden;
           }
           .page_content {
             padding: 64px 0 40px 0;
@@ -301,19 +341,33 @@ function Layout(props) {
             min-height: 160px;
           }
           .searchbar {
-            margin-bottom: 16px;
+            margin-bottom: 32px;
           }
-          @media only screen and (orientation: portrait) {
-            .main {
-              background-image: url(${props.portrait});
-            }
+          .layout_add_post {
+            display: none;
           }
           @media only screen and (max-width: 991px) {
-            .main {
-              min-height: 80vh;
+            .hero {
+              height: 100vh;
+              max-height: 720px;
+              justify-content: center;
             }
-            .main_overlay {
-              min-height: 80vh;
+            .heading_div {
+              height: 100%;
+              align-items: center;
+              justify-content: flex-start;
+              padding-bottom: 32px;
+            }
+            .main_heading {
+              font-size: 44px;
+            }
+          }
+          @media only screen and (max-width: 575px) {
+            .layout_add_post {
+              display: block;
+              display: flex;
+              justify-content: flex-end;
+              padding-bottom: 16px;
             }
           }
         `}

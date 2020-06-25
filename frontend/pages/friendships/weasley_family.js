@@ -107,12 +107,23 @@ function WeasleyFamily() {
   };
 
   const tabBarExtraContent = (
-    <Link
-      href="/new_post/[post_type]"
-      as={`/new_post/weasley_family_${selectedTab}`}
-    >
-      <a className="ant-btn">New</a>
-    </Link>
+    <div className="add_post">
+      <Link
+        href="/new_post/[post_type]"
+        as={
+          selectedTab
+            ? `/new_post/weasley_family_${selectedTab}`
+            : "/new_post/weasley_family_appreciation"
+        }
+      >
+        <a
+          className="ant-btn ant-btn-round ant-btn-lg"
+          style={{ lineHeight: "25px" }}
+        >
+          Add Post
+        </a>
+      </Link>
+    </div>
   );
 
   const [searchField, setSearchField] = React.useState("");
@@ -147,21 +158,34 @@ function WeasleyFamily() {
     <div>
       <Layout
         title="Weasley Family: Appreciation and Fanarts"
-        main_heading="Weasley Family"
+        main_heading="WEASLEY FAMILY"
         about_heading="The Weasleys were Harry’s favorite family in the world."
-        landscape="/weasley_family/landscape.webp"
-        portrait="/weasley_family/portrait.webp"
+        meta_description="A website to celebrate the dynamics of the Weasley Family from the Harry Potter series.
+        Find appreciation posts along with beautiful fan arts."
+        wall_alt="Weasley Family Wall"
+        wall_src="/assets/weasley_family"
+        wall_items={8}
         tabList={tabList}
         activeTabKey={activeTabKey}
         onTabChange={handleOnTabChange}
         tabBarExtraContent={tabBarExtraContent}
         posts={filteredPosts}
+        addPostLink="weasley_family"
         type={selectedTab}
         loading={loading}
         searchbar={(value) => setSearchField(value)}
         searchvalue={searchField}
         paginationpage={page}
       />
+      <style jsx global>
+        {`
+          @media only screen and (max-width: 575px) {
+            .add_post {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

@@ -3,7 +3,6 @@ import Router from "next/router";
 
 import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
-import { motion } from "framer-motion";
 
 import { Button, Row, Col, Card, Input, Typography, message } from "antd";
 import {
@@ -59,7 +58,9 @@ function EditPost(props) {
 
   const post = props.post;
 
-  const [editorContent, setEditorContent] = React.useState(post.post_content["S"]);
+  const [editorContent, setEditorContent] = React.useState(
+    post.post_content["S"]
+  );
   const handleEditorContent = (content) => {
     setEditorContent(content);
   };
@@ -112,104 +113,84 @@ function EditPost(props) {
   return (
     <div>
       <SecondaryLayout title={`Edit Post: ${post.post_title["S"]}`}>
-        <motion.div
-          initial={{ scale: 0.9, y: 50, opacity: 0 }}
-          animate={{
-            scale: 1,
-            y: 0,
-            opacity: 1,
-            transition: { duration: 0.5 },
-          }}
-          exit={{
-            scale: 0.6,
-            y: 50,
-            opacity: 0,
-            transition: { duration: 0.2 },
-          }}
-        >
-          <div className="edit_post">
-            <Row>
-              <Col
-                xs={{ span: 22, offset: 1 }}
-                md={{ span: 20, offset: 2 }}
-                lg={{ span: 18, offset: 3 }}
-                xxl={{ span: 16, offset: 4 }}
+        <div className="edit_post">
+          <Row>
+            <Col
+              xs={{ span: 22, offset: 1 }}
+              md={{ span: 20, offset: 2 }}
+              lg={{ span: 18, offset: 3 }}
+              xxl={{ span: 16, offset: 4 }}
+            >
+              <Card
+                title="Edit Post"
+                extra={post.post_type["S"].replace(/_/g, " ")}
+                style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
               >
-                <Card
-                  title="Edit Post"
-                  extra={post.post_type["S"].replace(/_/g, " ")}
-                  style={{ boxShadow: "8px 14px 38px 0px rgba(40,40,40,0.1)" }}
-                >
-                  <Row gutter={[16, 16]}>
-                    <Col xs={24} lg={12}>
-                      <Input
-                        id="post_title"
-                        placeholder="Post Title"
-                        suffix={<SolutionOutlined />}
-                        defaultValue={post.post_title["S"]}
-                      />
-                      <Typography.Text type="secondary">
-                        *required. (min length = 3)
-                      </Typography.Text>
-                    </Col>
-                    <Col xs={24} lg={12}>
-                      <Input
-                        id="post_author"
-                        placeholder="Author's Name"
-                        suffix={<UserOutlined />}
-                        defaultValue={
-                          post.post_author["S"] !== "Anonymous"
-                            ? post.post_author["S"]
-                            : ""
-                        }
-                      />
-                      <Typography.Text type="secondary">
-                        optional
-                      </Typography.Text>
-                    </Col>
-                    <Col xs={24} lg={12}>
-                      <Input
-                        id="post_author_link"
-                        placeholder="Author's Profile Link"
-                        suffix={<LinkOutlined />}
-                        defaultValue={
-                          post.post_author_link["S"] !== "/anonymous/anon.jpg"
-                            ? post.post_author_link["S"]
-                            : ""
-                        }
-                      />
-                      <Typography.Text type="secondary">
-                        optional
-                      </Typography.Text>
-                    </Col>
-                    <Col xs={24} lg={12}>
-                      <Input.Password
-                        id="post_secret"
-                        placeholder="Post Secret"
-                      />
-                      <Typography.Text type="secondary">
-                        New post secret will overwrite the previously saved one.
-                        Leave this field empty to keep the old one.
-                      </Typography.Text>
-                    </Col>
-                  </Row>
-                  <div className="editor_area">
-                    <Card
-                      extra={updateButton}
-                      bordered={false}
-                      bodyStyle={{ padding: 0 }}
-                    >
-                      <TinyMCEEditor
-                        initialContent={post.post_content["S"]}
-                        handleEditorContent={handleEditorContent}
-                      />
-                    </Card>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </motion.div>
+                <Row gutter={[16, 16]}>
+                  <Col xs={24} lg={12}>
+                    <Input
+                      id="post_title"
+                      placeholder="Post Title"
+                      suffix={<SolutionOutlined />}
+                      defaultValue={post.post_title["S"]}
+                    />
+                    <Typography.Text type="secondary">
+                      *required. (min length = 3)
+                    </Typography.Text>
+                  </Col>
+                  <Col xs={24} lg={12}>
+                    <Input
+                      id="post_author"
+                      placeholder="Author's Name"
+                      suffix={<UserOutlined />}
+                      defaultValue={
+                        post.post_author["S"] !== "Anonymous"
+                          ? post.post_author["S"]
+                          : ""
+                      }
+                    />
+                    <Typography.Text type="secondary">optional</Typography.Text>
+                  </Col>
+                  <Col xs={24} lg={12}>
+                    <Input
+                      id="post_author_link"
+                      placeholder="Author's Profile Link"
+                      suffix={<LinkOutlined />}
+                      defaultValue={
+                        post.post_author_link["S"] !== "/anonymous/anon.jpg"
+                          ? post.post_author_link["S"]
+                          : ""
+                      }
+                    />
+                    <Typography.Text type="secondary">optional</Typography.Text>
+                  </Col>
+                  <Col xs={24} lg={12}>
+                    <Input.Password
+                      id="post_secret"
+                      placeholder="Post Secret"
+                    />
+                    <Typography.Text type="secondary">
+                      New post secret will overwrite the previously saved one.
+                      Leave this field empty to keep the old one.
+                    </Typography.Text>
+                  </Col>
+                </Row>
+                <div className="editor_area">
+                  <Card
+                    extra={updateButton}
+                    bordered={false}
+                    bodyStyle={{ padding: 0 }}
+                  >
+                    <TinyMCEEditor
+                      initialContent={post.post_content["S"]}
+                      handleEditorContent={handleEditorContent}
+                    />
+                  </Card>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
       </SecondaryLayout>
       <style jsx>
         {`
