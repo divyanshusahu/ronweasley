@@ -27,15 +27,6 @@ function Footer() {
       <Head>
         <link
           rel="preload"
-          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-          as="style"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-        />
-        <link
-          rel="preload"
           href="https://fonts.googleapis.com/css?family=Karla&display=swap"
           as="style"
         />
@@ -45,21 +36,20 @@ function Footer() {
         />
         <link
           rel="preload"
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-          as="style"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="preload"
           href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
           as="style"
         />
         <link
           href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
           rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
         />
       </Head>
       <Row>
