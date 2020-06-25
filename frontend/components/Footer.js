@@ -89,6 +89,9 @@ function Footer() {
               <Link href="/timeline">
                 <a className="footer_links">Timeline</a>
               </Link>
+              <a href="https://old.ronweasley.co" className="footer_links">
+                Old Design
+              </a>
             </Paragraph>
           </div>
           <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
