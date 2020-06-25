@@ -48,7 +48,6 @@ function Layout(props) {
               <Link
                 href="/fanart/[post_type]/[post_id]"
                 as={`/fanart/${p.post_type["S"]}/${p.post_id["S"]}`}
-                scroll={false}
               >
                 <a>
                   <motion.div
@@ -113,7 +112,6 @@ function Layout(props) {
               <Link
                 href="/post/[post_type]/[post_id]"
                 as={`/post/${p.post_type["S"]}/${p.post_id["S"]}`}
-                scroll={false}
               >
                 <a>
                   <motion.div
