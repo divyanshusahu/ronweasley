@@ -1,16 +1,16 @@
-import { AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
+//import { AnimatePresence } from "framer-motion";
+//import { useRouter } from "next/router";
 import Head from "next/head";
 import "antd/dist/antd.min.css";
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
+  //const router = useRouter();
 
-  const handleExitComplete = () => {
+  /*const handleExitComplete = () => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0 });
     }
-  };
+  };*/
 
   const jsonld_website = {
     "@context": "http://schema.org",
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           name="description"
           content="A Ron Weasley appreciation website. Find Ron's appreciation and defense post written
-          by passionate Ron stans along with beautiful fan arts by many talented artists."
+          by passionate Ron stans along with beautiful fan arts by talented artists."
         />
         <meta name="theme-color" content="#ffffff" />
         <link
@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           name="twitter:description"
           content="Find Ron's appreciation and defense post written
-          by passionate Ron stans along with beautiful fan arts by many talented artists."
+          by passionate Ron stans along with beautiful fan arts by talented artists."
         />
         <meta
           name="twitter:image"
@@ -99,7 +99,7 @@ function MyApp({ Component, pageProps }) {
         <meta
           property="og:description"
           content="Find Ron's appreciation and defense post written
-          by passionate Ron stans along with beautiful fan arts by many talented artists."
+          by passionate Ron stans along with beautiful fan arts by talented artists."
         />
         <meta
           property="og:image"

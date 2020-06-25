@@ -6,7 +6,7 @@ import {
   GithubOutlined,
   TwitterOutlined,
   GoogleOutlined,
-  InstagramOutlined,
+  LinkedinOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
@@ -128,12 +128,12 @@ function Footer() {
           <GoogleOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>{" "}
         <a
-          href="https://instagram.com/_divyanshusahu_"
+          href="https://www.linkedin.com/in/divyanshu-sahu/"
           target="_blank"
           rel="noopener noreferrer"
           style={{ padding: "8px" }}
         >
-          <InstagramOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
+          <LinkedinOutlined style={{ fontSize: "32px", color: "#f0f0f0" }} />
         </a>
       </div>
       <style jsx global>
