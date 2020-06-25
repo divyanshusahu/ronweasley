@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import clsx from "clsx";
-
 import { Row, Col, Drawer, Menu, Dropdown } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
@@ -261,6 +259,14 @@ function NavigationBar(props) {
                         <Link href="/credits">
                           <a>Credits</a>
                         </Link>
+                      </Item>
+                      <Item>
+                        <Link href="/timeline">
+                          <a>Timeline</a>
+                        </Link>
+                      </Item>
+                      <Item>
+                        <a href="https://old.ronweasley.co">Old Design</a>
                       </Item>
                     </Menu>
                   </Drawer>

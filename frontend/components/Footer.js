@@ -70,25 +70,27 @@ function Footer() {
             A website inspired by the excellent work of Ron Weasley Defense
             Squad.
           </Paragraph>
-          <Paragraph
-            style={{
-              fontSize: "16px",
-              fontWeight: "400",
-              fontFamily: "Karla",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Link href="/suggestions">
-              <a className="footer_links">Suggestions</a>
-            </Link>
-            <Link href="/credits">
-              <a className="footer_links">Credits</a>
-            </Link>
-            <Link href="/timeline">
-              <a className="footer_links">Timeline</a>
-            </Link>
-          </Paragraph>
+          <div className="link_paragraph">
+            <Paragraph
+              style={{
+                fontSize: "16px",
+                fontWeight: "400",
+                fontFamily: "Karla",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Link href="/suggestions">
+                <a className="footer_links">Suggestions</a>
+              </Link>
+              <Link href="/credits">
+                <a className="footer_links">Credits</a>
+              </Link>
+              <Link href="/timeline">
+                <a className="footer_links">Timeline</a>
+              </Link>
+            </Paragraph>
+          </div>
           <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
         </Col>
       </Row>
@@ -160,6 +162,11 @@ function Footer() {
           .footer_links {
             padding: 12px;
             margin: 0 8px;
+          }
+          @media screen and (max-width: 991px) {
+            .link_paragraph {
+              display: none;
+            }
           }
         `}
       </style>
