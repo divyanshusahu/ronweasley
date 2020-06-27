@@ -112,8 +112,6 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
-        <link rel="canonical" href="https://www.ronweasley.co" />
-
         <script type="application/ld+json">
           {JSON.stringify(jsonld_website)}
         </script>
