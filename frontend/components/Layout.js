@@ -167,6 +167,10 @@ function Layout(props) {
         {isEmpty(props["meta_description"]) ? null : (
           <meta name="description" content={props["meta_description"]} />
         )}
+        <link
+          rel="canonical"
+          href={`https://www.ronweasley.co${router.pathname}`}
+        />
         <script type="application/ld+json">
           {JSON.stringify(jsonld_webpage)}
         </script>

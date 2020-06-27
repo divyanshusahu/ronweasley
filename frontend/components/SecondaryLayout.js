@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import { Layout as AntLayout } from "antd";
 
@@ -10,15 +11,21 @@ const AntContent = AntLayout.Content;
 const AntFooter = AntLayout.Footer;
 
 function SecondaryLayout(props) {
+  const router = useRouter();
   const jsonld_webpage = {
     "@context": "http://schema.org",
     "@type": "WebPage",
     name: props.title,
   };
+
   return (
     <div>
       <Head>
         <title>{props.title}</title>
+        <link
+          rel="canonical"
+          href={`https://www.ronweasley.co${router.pathname}`}
+        />
         <script type="application/json">
           {JSON.stringify(jsonld_webpage)}
         </script>
