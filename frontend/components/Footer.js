@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 
 import { Row, Col, Typography, Divider } from "antd";
@@ -11,47 +10,9 @@ import {
 
 const { Paragraph } = Typography;
 
-import { initGA, logPageView } from "../hooks/analytics";
-
 function Footer() {
-  React.useEffect(() => {
-    if (!window.GA_INITIALIZED) {
-      initGA();
-      window.GA_INITIALIZED = true;
-    }
-    logPageView();
-  }, []);
-
   return (
     <div className="page_footer">
-      <Head>
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css?family=Karla&display=swap"
-          as="style"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Karla&display=swap"
-        />
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
-          as="style"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-        />
-      </Head>
       <Row>
         <Col
           sm={{ span: 20, offset: 2 }}

@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 import isEmpty from "is-empty";
@@ -10,9 +11,10 @@ import { Row, Col, Card, Layout as AntLayout, List, Input } from "antd";
 
 import NavigationBar from "./NavigationBar";
 import WallCarousel from "./WallCarousel";
-import DisplayPost from "./DisplayPost";
-import DisplayFanart from "./DisplayFanart";
 import Footer from "./Footer";
+
+const DisplayPost = dynamic(() => import("./DisplayPost"));
+const DisplayFanart = dynamic(() => import("./DisplayFanart"));
 
 const AntHeader = AntLayout.Header;
 const AntContent = AntLayout.Content;
