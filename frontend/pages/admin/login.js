@@ -2,9 +2,8 @@ import { useRouter } from "next/router";
 
 import { Row, Col, Card, Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import ReCAPTCHA from "react-google-recaptcha";
 
-import fetch from "isomorphic-unfetch";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 

@@ -12,8 +12,6 @@ import {
   Typography,
 } from "antd";
 
-import fetch from "isomorphic-unfetch";
-
 import SecondaryLayout from "../../../../components/SecondaryLayout";
 import LoadingComponent from "../../../../components/LoadingComponent";
 import ErrorLayout from "../../../../components/ErrorLayout";

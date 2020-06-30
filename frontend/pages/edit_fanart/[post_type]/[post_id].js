@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Router from "next/router";
 
-import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
 import isEmpty from "is-empty";
 

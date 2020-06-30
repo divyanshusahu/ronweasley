@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Row, Col, Card, Form, Input, Select, Button, message } from "antd";
 
 import cookies from "next-cookies";
-import fetch from "isomorphic-unfetch";
 
 import ErrorLayout from "../../components/ErrorLayout";
 import SecondaryLayout from "../../components/SecondaryLayout";

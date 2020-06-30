@@ -1,4 +1,3 @@
-import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 
 const BASE_URL =

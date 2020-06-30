@@ -1,6 +1,5 @@
 import Link from "next/link";
 import cookies from "next-cookies";
-import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 
 import {
