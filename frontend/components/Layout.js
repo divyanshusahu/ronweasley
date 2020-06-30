@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
 import isEmpty from "is-empty";
@@ -7,12 +8,14 @@ import { motion } from "framer-motion";
 import LazyLoad from "react-lazyload";
 
 import { Row, Col, Card, Layout as AntLayout, List, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 import NavigationBar from "./NavigationBar";
 import WallCarousel from "./WallCarousel";
-import DisplayPost from "./DisplayPost";
-import DisplayFanart from "./DisplayFanart";
 import Footer from "./Footer";
+
+const DisplayPost = dynamic(() => import("./DisplayPost"));
+const DisplayFanart = dynamic(() => import("./DisplayFanart"));
 
 const AntHeader = AntLayout.Header;
 const AntContent = AntLayout.Content;
@@ -25,7 +28,7 @@ function Layout(props) {
   if (props.type === "fanart") {
     display = (
       <List
-        loading={props.loading}
+        loading={false}
         pagination={{
           current: parseInt(props.paginationpage)
             ? parseInt(props.paginationpage)
@@ -105,6 +108,7 @@ function Layout(props) {
         }}
         itemLayout="vertical"
         split={false}
+        grid={{ column: 1 }}
         dataSource={props.posts}
         renderItem={(p) => (
           <List.Item>
@@ -123,7 +127,7 @@ function Layout(props) {
                       style={{
                         maxHeight: 320,
                         overflow: "hidden",
-                        marginBottom: 36,
+                        marginBottom: 60,
                         backgroundColor: "#fff",
                         boxShadow: "0 5px 20px rgba(185, 185, 185, 0.5)",
                         borderRadius: "8px",
@@ -189,11 +193,7 @@ function Layout(props) {
           <AntContent>
             <div className="main">
               <Row>
-                <Col
-                  xs={{ span: 24, offset: 0 }}
-                  //md={{ span: 8, offset: 0 }}
-                  lg={{ span: 8, offset: 0 }}
-                >
+                <Col xs={{ span: 24, offset: 0 }} lg={{ span: 8, offset: 0 }}>
                   <div className="hero">
                     <WallCarousel
                       alt={props.wall_alt}
@@ -202,11 +202,7 @@ function Layout(props) {
                     />
                   </div>
                 </Col>
-                <Col
-                  xs={{ span: 24, offset: 0 }}
-                  //md={{ span: 16, offset: 0 }}
-                  lg={{ span: 16, offset: 0 }}
-                >
+                <Col xs={{ span: 24, offset: 0 }} lg={{ span: 16, offset: 0 }}>
                   <Row>
                     <Col
                       xs={{ span: 22, offset: 1 }}
@@ -275,7 +271,8 @@ function Layout(props) {
                           lg={{ span: 8, offset: 16 }}
                           xxl={{ span: 6, offset: 18 }}
                         >
-                          <Input.Search
+                          <Input
+                            prefix={<SearchOutlined />}
                             placeholder="Search"
                             size="large"
                             value={props.searchvalue}

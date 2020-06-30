@@ -18,7 +18,6 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
-import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import TimeAgo from "react-timeago";
 import ReCAPTCHA from "react-google-recaptcha";

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 import queryString from "query-string";
 

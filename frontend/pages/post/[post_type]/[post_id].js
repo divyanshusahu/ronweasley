@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { Row, Col, Button } from "antd";
 
-import fetch from "isomorphic-unfetch";
 import isEmpty from "is-empty";
 
 import SecondaryLayout from "../../../components/SecondaryLayout";

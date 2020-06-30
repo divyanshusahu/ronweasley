@@ -7,9 +7,8 @@ import {
   UserOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
-import ReCAPTCHA from "react-google-recaptcha";
 
-import fetch from "isomorphic-unfetch";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import SecondaryLayout from "../../components/SecondaryLayout";
 import TinyMCEEditor from "../../components/TinyMCEEditor";

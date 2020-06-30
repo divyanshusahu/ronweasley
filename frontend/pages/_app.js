@@ -1,16 +1,16 @@
-//import { AnimatePresence } from "framer-motion";
-//import { useRouter } from "next/router";
 import Head from "next/head";
 import "antd/dist/antd.min.css";
 
-function MyApp({ Component, pageProps }) {
-  //const router = useRouter();
+import { initGA, logPageView } from "../hooks/analytics";
 
-  /*const handleExitComplete = () => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0 });
+function MyApp({ Component, pageProps }) {
+  React.useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
     }
-  };*/
+    logPageView();
+  }, []);
 
   const jsonld_website = {
     "@context": "http://schema.org",
@@ -39,7 +39,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <div>
-      {/*<AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>*/}
       <Head key="default-head">
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -115,10 +114,35 @@ function MyApp({ Component, pageProps }) {
         <script type="application/ld+json">
           {JSON.stringify(jsonld_website)}
         </script>
+
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css?family=Karla&display=swap"
+          as="style"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Karla&display=swap"
+        />
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
+          as="style"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Proza+Libre&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+        />
       </Head>
-      {/*<Component {...pageProps} key={router.route} />*/}
       <Component {...pageProps} />
-      {/*</AnimatePresence>*/}
     </div>
   );
 }

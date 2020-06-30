@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Router from "next/router";
 
-import fetch from "isomorphic-unfetch";
 import cookies from "next-cookies";
 
 import { Button, Row, Col, Card, Input, Typography, message } from "antd";
