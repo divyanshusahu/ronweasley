@@ -55,7 +55,7 @@ function Footer() {
               </a>
             </Paragraph>
           </div>
-          <Divider style={{ backgroundColor: "rgba(240,240,240,0.25)" }} />
+          <Divider style={{ borderTopColor: "rgba(240,240,240,0.25)" }} />
         </Col>
       </Row>
       <div className="contact_admin_div">
