@@ -68,7 +68,7 @@ function Index() {
         <Link href="?tab=appreciation" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 1 ? "inherit" : "rgba(0,0,0,0.65)",
+              color: activeTabKey == 1 ? "#096dd9" : "rgba(0,0,0,0.65)",
               padding: "19px 0",
             }}
           >
@@ -83,7 +83,7 @@ function Index() {
         <Link href="?tab=defense" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 2 ? "inherit" : "rgba(0,0,0,0.65)",
+              color: activeTabKey == 2 ? "#096dd9" : "rgba(0,0,0,0.65)",
               padding: "19px 0",
             }}
           >
@@ -98,7 +98,7 @@ function Index() {
         <Link href="?tab=fanart" scroll={false}>
           <a
             style={{
-              color: activeTabKey == 3 ? "inherit" : "rgba(0,0,0,0.65)",
+              color: activeTabKey == 3 ? "#096dd9" : "rgba(0,0,0,0.65)",
               padding: "19px 0",
             }}
           >

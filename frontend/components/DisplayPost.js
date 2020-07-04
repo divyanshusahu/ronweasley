@@ -197,6 +197,7 @@ function DisplayPost(props) {
                   href={props.post_author_link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{color: "#096dd9"}}
                 >
                   {props.post_author}
                 </a>
