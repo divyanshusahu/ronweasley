@@ -175,9 +175,10 @@ function Layout(props) {
           rel="canonical"
           href={`https://www.ronweasley.co${router.pathname}`}
         />
-        <script type="application/ld+json">
-          {JSON.stringify(jsonld_webpage)}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld_webpage) }}
+        />
       </Head>
       <div>
         <AntLayout>

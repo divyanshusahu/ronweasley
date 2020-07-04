@@ -1,17 +1,7 @@
 import Head from "next/head";
 import "antd/dist/antd.min.css";
 
-import { initGA, logPageView } from "../hooks/analytics";
-
 function MyApp({ Component, pageProps }) {
-  React.useEffect(() => {
-    if (!window.GA_INITIALIZED) {
-      initGA();
-      window.GA_INITIALIZED = true;
-    }
-    logPageView();
-  }, []);
-
   const jsonld_website = {
     "@context": "http://schema.org",
     "@type": "WebSite",
@@ -111,9 +101,10 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
-        <script type="application/ld+json">
-          {JSON.stringify(jsonld_website)}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld_website) }}
+        />
 
         <link
           rel="preload"
@@ -140,6 +131,19 @@ function MyApp({ Component, pageProps }) {
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+        />
+
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=UA-169266417-1"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: ` window.dataLayer = window.dataLayer || [];
+                      function gtag(){dataLayer.push(arguments);}
+                      gtag('js', new Date());
+                      gtag('config', 'UA-169266417-1');`,
+          }}
         />
       </Head>
       <Component {...pageProps} />

@@ -32,7 +32,6 @@
     "react": "^16.13.1",
     "react-confetti": "^5.1.0",
     "react-dom": "^16.13.1",
-    "react-ga": "^3.0.0",
     "react-google-recaptcha": "^2.1.0",
     "react-html-parser": "^2.0.2",
     "react-lazyload": "^2.6.8",
