@@ -55,7 +55,7 @@ function Layout(props) {
                 <a>
                   <motion.div
                     whileHover={{
-                      scale: 1.01,
+                      scale: 1.05,
                     }}
                   >
                     <div
@@ -120,7 +120,7 @@ function Layout(props) {
                 <a>
                   <motion.div
                     whileHover={{
-                      scale: 1.005,
+                      scale: 1.025,
                     }}
                   >
                     <div
