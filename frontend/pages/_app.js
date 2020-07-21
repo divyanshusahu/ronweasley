@@ -56,6 +56,7 @@ function MyApp({ Component, pageProps }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
+        <link rel="canonical" href={`https://www.ronweasley.co${router.asPath}`} />
 
         <meta name="robots" content="index,follow" />
         <meta name="googlebot" content="index,follow" />
