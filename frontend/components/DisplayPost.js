@@ -187,22 +187,31 @@ function DisplayPost(props) {
           bordered={props.bordered}
           type={props.inner ? "inner" : null}
           title={
-            <span>
-              <Typography.Title style={{fontSize: 18}}>
+            <>
+              <Typography.Title style={{ fontSize: 18, overflowX: "auto" }}>
                 {props.post_title}
               </Typography.Title>
-              <Typography.Text style={{ fontSize: 14 }}>
+              <Typography.Title
+                level={2}
+                style={{
+                  fontSize: 14,
+                  marginBottom: "0",
+                  marginTop: "0",
+                  fontWeight: "500",
+                  color: "rgba(0,0,0,0.65)",
+                }}
+              >
                 Author:{" "}
                 <a
                   href={props.post_author_link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{color: "#096dd9"}}
+                  style={{ color: "#096dd9" }}
                 >
                   {props.post_author}
                 </a>
-              </Typography.Text>
-            </span>
+              </Typography.Title>
+            </>
           }
           extra={<TimeAgo date={props.post_date} />}
           actions={props.showActions ? actions : null}
