@@ -173,7 +173,7 @@ function Layout(props) {
         )}
         <link
           rel="canonical"
-          href={`https://www.ronweasley.co${router.pathname}`}
+          href={`https://www.ronweasley.co${router.asPath}`}
         />
         <script
           type="application/ld+json"
