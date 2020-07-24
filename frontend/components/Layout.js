@@ -28,7 +28,7 @@ function Layout(props) {
   if (props.type === "fanart") {
     display = (
       <List
-        loading={false}
+        loading={props.loading}
         pagination={{
           current: parseInt(props.paginationpage)
             ? parseInt(props.paginationpage)
