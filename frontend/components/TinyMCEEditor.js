@@ -26,7 +26,7 @@ function TinyMCEEditor(props) {
         ],
         toolbar:
           "undo redo | formatselect | bold italic underline strikethrough blockquote | \
-        forecolor backcolor forecolorpicker backcolorpicker | \
+        forecolor backcolor | \
         alignleft aligncenter alignright alignjustify outdent indent | \
         bullist numlist link image hr | \
         charmap emoticons searchreplace  \
