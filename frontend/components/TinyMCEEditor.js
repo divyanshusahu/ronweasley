@@ -25,10 +25,11 @@ function TinyMCEEditor(props) {
           "searchreplace spellchecker wordcount",
         ],
         toolbar:
-          "undo redo | formatselect | bold italic backcolor | \
+          "undo redo | formatselect | bold italic underline strikethrough blockquote | \
+        forecolor backcolor forecolorpicker backcolorpicker | \
         alignleft aligncenter alignright alignjustify outdent indent | \
         bullist numlist link image hr | \
-        charmap emoticons searchreplace spellchecker \
+        charmap emoticons searchreplace  \
         preview fullscreen | \
         removeformat | \
         help",
