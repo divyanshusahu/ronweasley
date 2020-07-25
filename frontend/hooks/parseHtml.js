@@ -2,7 +2,7 @@ import ReactHtmlParser from "react-html-parser";
 import isEmpty from "is-empty";
 
 function parseHtml(str) {
-  const transform = (node) => {
+  const transform = (node, index) => {
     if (node.type === "tag" && node.name === "img") {
       if (isEmpty(node.attribs.style)) {
         node.attribs["style"] = "max-width: 100%; height: auto;";
@@ -13,10 +13,18 @@ function parseHtml(str) {
       node.type === "tag" &&
       (node.name === "ol" || node.name === "ul")
     ) {
-      node.attribs["style"] = "padding-left: 48px;";
+      node.attribs["style"] = "margin-left: 36px;";
     } else if (node.type === "tag" && node.name === "hr") {
+      return (
+        <div
+          className="ant-divider ant-divider-horizontal"
+          role="separator"
+          key={index}
+        />
+      );
+    } else if (node.type === "tag" && node.name === "blockquote") {
       node.attribs["style"] =
-        "border-color: rgb(204, 204, 204); border-style: solid; border-width: 1px 0 0 0; margin-bottom: 16px;";
+        "padding-left: 14px; border-left: 4px solid rgba(0,0,0,0.2)";
     }
   };
   return ReactHtmlParser(str, { transform: transform });
