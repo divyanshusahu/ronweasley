@@ -179,9 +179,10 @@ function Layout(props) {
     <div>
       <Head>
         <title>{props.title}</title>
-        <script type="application/ld+json">
-          {JSON.stringify(jsonld_webpage)}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld_webpage) }}
+        />
       </Head>
       <div>
         <AntLayout>

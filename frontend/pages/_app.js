@@ -56,7 +56,10 @@ function MyApp({ Component, pageProps }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="canonical" href={`https://www.ronweasley.co${router.asPath}`} />
+        <link
+          rel="canonical"
+          href={`https://www.ronweasley.co${router.asPath}`}
+        />
 
         <meta name="robots" content="index,follow" />
         <meta name="googlebot" content="index,follow" />
@@ -97,9 +100,10 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:locale" content="en_US" />
 
-        <script type="application/ld+json">
-          {JSON.stringify(jsonld_website)}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld_website) }}
+        />
       </Head>
       <Component {...pageProps} key={router.route} />
     </AnimatePresence>
