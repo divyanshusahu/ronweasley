@@ -19,21 +19,16 @@ const offlineConfig = {
       },
     ],
   },
-  experimental: {
-    async rewrites() {
-      return [
-        {
-          source: "/service-worker.js",
-          destination: "/_next/static/service-worker.js",
-        },
-      ];
-    },
+  async rewrites() {
+    return [
+      {
+        source: "/service-worker.js",
+        destination: "/_next/static/service-worker.js",
+      },
+    ];
   },
 };
 
 const nextConfig = {};
 
-module.exports = withPlugins(
-  [[withOffline, offlineConfig]],
-  nextConfig
-);
+module.exports = withPlugins([[withOffline, offlineConfig]], nextConfig);
