@@ -178,9 +178,9 @@ export async function getStaticProps(context) {
   const r1 = await fetch(`${BASE_URL}/get_story/${post_type}/${post_id}`);
   const d1 = await r1.json();
   if (!d1.success) {
-    return { unstable_revalidate: 1, props: { success: false } };
+    return { revalidate: 1, props: d1 };
   }
-  return { unstable_revalidate: 1, props: d1 };
+  return { props: d1 };
 }
 
 export default Story;
