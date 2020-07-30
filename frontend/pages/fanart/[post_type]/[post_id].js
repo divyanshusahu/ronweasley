@@ -122,9 +122,9 @@ export async function getStaticProps(context) {
   const r2 = await fetch(`${BASE_URL}/get_post/${post_type}/${post_id}`);
   const d2 = await r2.json();
   if (!d2.success) {
-    return { unstable_revalidate: 1, props: { success: false } };
+    return { revalidate: 1, props: d2 };
   }
-  return { unstable_revalidate: 1, props: d2 };
+  return { revalidate: 1, props: d2 };
 }
 
 export default Fanart;
