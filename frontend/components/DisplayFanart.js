@@ -251,7 +251,7 @@ function DisplayFanart(props) {
                 >
                   <div key={index}>
                     <img
-                      alt="image"
+                      alt={`${props.post_title} by ${props.post_author}`}
                       src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
                       style={{
                         maxWidth: "100%",
