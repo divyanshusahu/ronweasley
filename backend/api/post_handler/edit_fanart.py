@@ -54,10 +54,13 @@ def update_post(post_type, post_id):
 
     post_description = request.json.get("post_description", "")
 
+    post_nsfw = request.json.get("post_nsfw", False)
+
     post_secret = request.json.get("post_secret", "")
 
     update_expression = "SET post_title = :post_title, post_author = :post_author, \
-    post_author_link = :post_author_link"
+    post_author_link = :post_author_link, post_description = :post_description, \
+    post_nsfw = :post_nsfw"
 
     expression_attribute_values = {}
     expression_attribute_values[":post_type"] = {"S": post_type}
@@ -65,10 +68,8 @@ def update_post(post_type, post_id):
     expression_attribute_values[":post_title"] = {"S": post_title}
     expression_attribute_values[":post_author"] = {"S": post_author}
     expression_attribute_values[":post_author_link"] = {"S": post_author_link}
-
-    if len(post_description):
-        update_expression += ", post_description = :post_description"
-        expression_attribute_values[":post_description"] = {"S": post_description}
+    expression_attribute_values[":post_description"] = {"S": post_description}
+    expression_attribute_values[":post_nsfw"] = {"BOOL": post_nsfw}
 
     try:
         db.update_item(

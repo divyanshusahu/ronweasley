@@ -109,7 +109,7 @@ def get_post_by_id(post_type, post_id):
         return jsonify({"success": False, "message": "Invalid Request"}), 400
 
     projectionExpression = """post_type, post_id, post_title, post_author, post_author_link, 
-    post_date, post_content, post_description, post_image, post_reported"""
+    post_date, post_content, post_description, post_image, post_nsfw, post_reported"""
 
     try:
         result = db.get_item(
