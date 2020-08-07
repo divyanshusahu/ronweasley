@@ -75,6 +75,9 @@ function Layout(props) {
                         post_author={p.post_author["S"]}
                         post_author_link={p.post_author_link["S"]}
                         post_date={p.post_date["S"]}
+                        post_nsfw={
+                          isEmpty(p.post_nsfw) ? null : p.post_nsfw["BOOL"]
+                        }
                         post_image={
                           isEmpty(p.post_image) ? null : p.post_image["L"]
                         }
