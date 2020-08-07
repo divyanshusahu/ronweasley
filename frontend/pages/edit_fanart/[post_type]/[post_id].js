@@ -74,7 +74,9 @@ function EditPost(props) {
     setEditorContent(content);
   };
 
-  const [isNSFW, setNSFW] = React.useState(post.post_nsfw["BOOL"]);
+  const [isNSFW, setNSFW] = React.useState(
+    isEmpty(post.post_nsfw) ? false : post.post_nsfw["BOOL"]
+  );
   const nsfwSwitch = (checked) => {
     setNSFW(checked);
   };
