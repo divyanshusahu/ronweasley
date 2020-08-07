@@ -28,7 +28,7 @@ function WebsiteTimeline() {
               <Steps
                 direction="vertical"
                 progressDot={false}
-                current={8}
+                current={9}
                 status="finish"
               >
                 <Steps.Step
@@ -66,6 +66,10 @@ function WebsiteTimeline() {
                 <Steps.Step
                   title="June 25, 2020"
                   description="Design changed and page transition animations removed."
+                />
+                <Steps.Step
+                  title="August 7, 2020"
+                  description="NSFW filter added for fanarts and fanart description bug fixed."
                 />
               </Steps>
             </Card>
