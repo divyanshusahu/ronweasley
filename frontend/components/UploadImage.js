@@ -7,12 +7,12 @@ function UploadImage(props) {
   const [previewVisible, setPreviewVisible] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState(null);
 
-  const getBase64 = file => {
+  const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
+      reader.onerror = (error) => reject(error);
     });
   };
 
@@ -22,13 +22,13 @@ function UploadImage(props) {
 
   const upload_element_props = {
     accept: "image/*",
-    beforeUpload: file => {
+    beforeUpload: (file) => {
       setUploadImageList([...uploadImageList, file]);
       return false;
     },
     listType: "picture-card",
     multiple: false,
-    onPreview: async file => {
+    onPreview: async (file) => {
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj);
       }
@@ -36,12 +36,12 @@ function UploadImage(props) {
       setPreviewImage(img);
       setPreviewVisible(true);
     },
-    onRemove: file => {
+    onRemove: (file) => {
       let index = uploadImageList.indexOf(file);
       let newUploadImageList = uploadImageList.slice();
       newUploadImageList.splice(index, 1);
       setUploadImageList(newUploadImageList);
-    }
+    },
   };
 
   if (true) {
