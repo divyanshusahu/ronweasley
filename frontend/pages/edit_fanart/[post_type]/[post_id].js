@@ -4,7 +4,16 @@ import Router from "next/router";
 import cookies from "next-cookies";
 import isEmpty from "is-empty";
 
-import { Button, Row, Col, Card, Input, Typography, message } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Card,
+  Input,
+  Typography,
+  Switch,
+  message,
+} from "antd";
 import {
   SolutionOutlined,
   UserOutlined,
@@ -65,6 +74,13 @@ function EditPost(props) {
     setEditorContent(content);
   };
 
+  const [isNSFW, setNSFW] = React.useState(
+    isEmpty(post.post_nsfw) ? false : post.post_nsfw["BOOL"]
+  );
+  const nsfwSwitch = (checked) => {
+    setNSFW(checked);
+  };
+
   const handlePostUpdate = () => {
     message.loading({
       content: "Action in progress",
@@ -76,6 +92,7 @@ function EditPost(props) {
       post_author: document.getElementById("post_author").value,
       post_author_link: document.getElementById("post_author_link").value,
       post_secret: document.getElementById("post_secret").value,
+      post_nsfw: isNSFW,
       post_description: editorContent,
     };
     fetch(
@@ -179,8 +196,19 @@ function EditPost(props) {
                   <Card
                     extra={updateButton}
                     bordered={false}
-                    bodyStyle={{ padding: 0 }}
+                    bodyStyle={{
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                      paddingTop: "16px",
+                    }}
                   >
+                    <Switch
+                      style={{ marginBottom: "16px" }}
+                      unCheckedChildren="Safe"
+                      checkedChildren="NSFW"
+                      onChange={nsfwSwitch}
+                      defaultChecked={isNSFW}
+                    />
                     <TinyMCEEditor
                       initialContent={
                         isEmpty(post.post_description)

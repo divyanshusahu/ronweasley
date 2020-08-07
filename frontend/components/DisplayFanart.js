@@ -228,7 +228,12 @@ function DisplayFanart(props) {
           }
           cover={
             props.is_layout ? (
-              <div className="show_image_background"></div>
+              <div
+                className={
+                  "show_image_background" +
+                  (props.post_nsfw ? " nsfw_filter" : "")
+                }
+              ></div>
             ) : null
           }
           extra={<TimeAgo date={props.post_date} />}
@@ -298,6 +303,10 @@ function DisplayFanart(props) {
             height: 400px;
             background-image: url(${cover_url});
             background-size: cover;
+          }
+          .nsfw_filter {
+            filter: blur(32px);
+            opacity: 0.4;
           }
         `}
       </style>

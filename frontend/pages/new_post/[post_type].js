@@ -1,6 +1,15 @@
 import { useRouter } from "next/router";
 
-import { Button, Row, Col, Card, Input, Typography, message } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Card,
+  Input,
+  Typography,
+  Switch,
+  message,
+} from "antd";
 import {
   SaveOutlined,
   SolutionOutlined,
@@ -61,10 +70,21 @@ function NewPost(props) {
     setImageList(list);
   };
 
+  const [isNSFW, setNSFW] = React.useState(false);
+  const nsfwSwitch = (checked) => {
+    setNSFW(checked);
+  };
+
   const display =
     props.post_type.indexOf("fanart") > 0 ? (
       <div style={{ paddingTop: 16 }}>
         <UploadImage handleImageList={handleImageList} />
+        <Switch
+          style={{ marginBottom: "16px" }}
+          unCheckedChildren="Safe"
+          checkedChildren="NSFW"
+          onChange={nsfwSwitch}
+        />
         <TinyMCEEditor
           initialContent=""
           handleEditorContent={handleEditorContent}
@@ -136,6 +156,7 @@ function NewPost(props) {
       document.getElementById("post_secret").value
     );
     post_data.append("post_description", editorContent);
+    post_data.append("post_nsfw", isNSFW);
     post_data.append("g-recaptcha-response", response);
 
     fetch(`${BASE_URL}/new_fanart/${props.post_type}`, {

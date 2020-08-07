@@ -97,6 +97,8 @@ def upload_fanart(post_type):
         request.form["post_description"] if "post_description" in request.form else ""
     )
 
+    post_nsfw = request.form["post_nsfw"]
+
     post_id = uuid.uuid1().hex
     post_date = datetime.now(timezone.utc).isoformat()
     image_data_list = request.files.getlist("files")
@@ -133,6 +135,8 @@ def upload_fanart(post_type):
     put_item["post_image"] = {"L": image_key_list}
     if len(post_description):
         put_item["post_description"] = {"S": post_description}
+    if post_nsfw == "true":
+        put_item["post_nsfw"] = {"BOOL": True}
 
     try:
         db.put_item(

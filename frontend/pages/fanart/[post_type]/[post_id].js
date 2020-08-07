@@ -38,7 +38,9 @@ function Fanart(props) {
 
   return (
     <div>
-      <SecondaryLayout title={`Fanart: ${props.post.post_title["S"]}`}>
+      <SecondaryLayout
+        title={`Fanart: ${props.post.post_title["S"]} by ${props.post.post_author["S"]}`}
+      >
         <div className="page_root">
           <Row>
             <Col
