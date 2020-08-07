@@ -70,9 +70,9 @@ function NewPost(props) {
     setImageList(list);
   };
 
-  let isNSFW = false;
+  const [isNSFW, setNSFW] = React.useState(false);
   const nsfwSwitch = (checked) => {
-    isNSFW = checked;
+    setNSFW(checked);
   };
 
   const display =
