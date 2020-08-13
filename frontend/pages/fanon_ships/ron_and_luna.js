@@ -111,7 +111,7 @@ function RonAndLuna() {
         href="/new_post/[post_type]"
         as={
           selectedTab
-            ? `/new_post/ron_and_luna${selectedTab}`
+            ? `/new_post/ron_and_luna_${selectedTab}`
             : "/new_post/ron_and_luna_appreciation"
         }
       >
