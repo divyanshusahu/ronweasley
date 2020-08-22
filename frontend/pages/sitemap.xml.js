@@ -56,20 +56,42 @@ export async function getServerSideProps({ res }) {
 
   let urls = createSitemap(post_ids);
 
+  let new_posts_urls = [];
+  for (let i = 0; i < post_types.length - 1; i++) {
+    let u = `<url><loc>https://www.ronweasley.co/new_post/${post_types[i]}</loc><priority>0.5</priority></url>`;
+    new_posts_urls.push(u);
+  }
+
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url><loc>https://www.ronweasley.co</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co?tab=defense</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/romione</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/romione?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/romione?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/friendships/golden_trio</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/friendships/golden_trio?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/friendships/golden_trio?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/friendships/weasley_family</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/friendships/weasley_family?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/friendships/weasley_family?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_harry</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_harry?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_harry?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_lavender</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_lavender?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_lavender?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_luna</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_luna?tab=appreciation</loc><priority>1</priority></url>
+      <url><loc>https://www.ronweasley.co/fanon_ships/ron_and_luna?tab=fanart</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/fanfiction</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/fanfiction/checkmated</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/credits</loc><priority>1</priority></url>
       <url><loc>https://www.ronweasley.co/suggestions</loc><priority>0.25</priority></url>
       <url><loc>https://www.ronweasley.co/timeline</loc><priority>0.25</priority></url>
+      ${new_posts_urls.map((x) => x)}
       ${urls.map((x) => x)}
     </urlset>
     `;
