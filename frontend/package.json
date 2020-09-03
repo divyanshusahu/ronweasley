@@ -22,12 +22,12 @@
     "webpack": "^5.0.0-beta.22"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.2.1",
+    "@ant-design/icons": "^4.2.2",
     "@tinymce/tinymce-react": "^3.6.0",
-    "antd": "^4.4.3",
-    "framer-motion": "^2.3.0",
+    "antd": "^4.6.2",
+    "framer-motion": "^2.6.6",
     "is-empty": "^1.2.0",
-    "next": "^9.5.1",
+    "next": "^9.5.3",
     "next-compose-plugins": "^2.2.0",
     "next-cookies": "^2.0.3",
     "next-offline": "^5.0.2",
