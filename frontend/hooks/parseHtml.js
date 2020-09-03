@@ -1,14 +1,19 @@
 import ReactHtmlParser from "react-html-parser";
-import isEmpty from "is-empty";
+import { Image } from "antd";
 
 function parseHtml(str) {
   const transform = (node, index) => {
     if (node.type === "tag" && node.name === "img") {
-      if (isEmpty(node.attribs.style)) {
-        node.attribs["style"] = "max-width: 100%; height: auto;";
-      } else {
-        node.attribs.style += " max-width: 100%; height: auto;";
-      }
+      return (
+        <Image
+          src={node.attribs.src}
+          alt={node.attribs.alt}
+          width={node.attribs.width}
+          height={node.attribs.height}
+          placeholder={true}
+          key={node.attribs.src}
+        />
+      );
     } else if (
       node.type === "tag" &&
       (node.name === "ol" || node.name === "ul")

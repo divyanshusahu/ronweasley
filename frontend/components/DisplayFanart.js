@@ -4,7 +4,7 @@ import TimeAgo from "react-timeago";
 import isEmpty from "is-empty";
 import LazyLoad from "react-lazyload";
 
-import { Card, Modal, Input, Alert, Typography, message } from "antd";
+import { Card, Modal, Input, Alert, Typography, Image, message } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -255,17 +255,14 @@ function DisplayFanart(props) {
                   once
                 >
                   <div key={index}>
-                    <img
+                    <Image
                       alt={`${props.post_title} by ${props.post_author}`}
                       src={`${img_url}/${props.post_type}/${props.post_id}/${img["S"]}`}
                       style={{
-                        maxWidth: "100%",
                         display: "block",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        marginTop: "32px",
-                        marginBottom: "32px",
+                        margin: "32px 0 32px 0",
                       }}
+                      placeholder={true}
                     />
                   </div>
                 </LazyLoad>
