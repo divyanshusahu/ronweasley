@@ -6,9 +6,9 @@
 
 ![Smartphone Screen Layers Mockup](./readme_assets/smartphone_screen_layers.png)
 
-## Pagespeed Insight Score
+## Lighthouse Score
 
-![Pagespeed insight score](./readme_assets/pagespeed_insights.svg)
+![Lighthouse score](./readme_assets/lighthouse.png)
 
 ### Technologies used
 
